@@ -21,6 +21,9 @@ public class ToolsEditorGrid : EditorWindow
     private bool placementMode = false;
     private Vector3Int previewGridPosition;
     private bool isValidPlacement = false;
+    
+    private GameObject gameObjectSelected;
+    private bool snappingGameobjectSelected = false;
 
     #endregion
 
@@ -72,10 +75,7 @@ public class ToolsEditorGrid : EditorWindow
         
         EditorGUILayout.LabelField("Placement", EditorStyles.boldLabel);
         placementMode = EditorGUILayout.Toggle("Placement Mode", placementMode);
-        
-        EditorGUILayout.Space(10);
-        
-        DrawPrefabPalette();
+        snappingGameobjectSelected = EditorGUILayout.Toggle("Snapping Mode", snappingGameobjectSelected);
         
         EditorGUILayout.Space(10);
         
@@ -84,6 +84,9 @@ public class ToolsEditorGrid : EditorWindow
         gridLineCount = EditorGUILayout.IntField("Grid Extent", gridLineCount);
         floorCount = EditorGUILayout.IntField("Grid Floor", floorCount);
         
+        EditorGUILayout.Space(10);
+        
+        DrawPrefabPalette();
         
     }
     
@@ -207,8 +210,12 @@ public class ToolsEditorGrid : EditorWindow
         if (groundPlane.Raycast(ray, out float distance))
         {
             Vector3 worldPos = ray.GetPoint(distance);
+            
+            worldPos = new Vector3(worldPos.x, floorCount * gridCellSize, worldPos.z);
+            
             previewGridPosition = GridHelper.WorldToGrid(worldPos,gridCellSize);
             isValidPlacement = true;
+            Debug.Log(previewGridPosition);
             
             DrawPlacementPreview();
             
@@ -244,5 +251,22 @@ public class ToolsEditorGrid : EditorWindow
         instance.transform.position = worldPos;
         
         Undo.RegisterCreatedObjectUndo(instance, "Place Prefab");
+    }
+    
+    private void EditSelectedGameObject()
+    {
+        if (gameObjectSelected == null) return;
+        
+        if (GUILayout.Button("Rotate 90°", GUILayout.Height(25)))
+        {
+            //rotate it
+        }
+
+        if (!snappingGameobjectSelected) return;
+        
+        //code catch and snap
+        Selection.activeObject = gameObjectSelected;
+        
+        
     }
 }
