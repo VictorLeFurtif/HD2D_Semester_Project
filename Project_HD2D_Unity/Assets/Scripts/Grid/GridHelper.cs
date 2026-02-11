@@ -20,14 +20,14 @@ namespace Grid
 
         public static Vector3 GridToWorld(Vector3Int gridPosition, float cellSize)
         {
-            Vector3 wordPosition = new Vector3
+            Vector3 worldPosition = new Vector3
             (
                 (gridPosition.x * cellSize) + (cellSize * 0.5f),
                 (gridPosition.y * cellSize) /* + (cellSize * 0.5f)*/ ,
                 (gridPosition.z * cellSize) + (cellSize * 0.5f)
             );
             
-            return wordPosition;
+            return worldPosition;
         }
 
         #endregion

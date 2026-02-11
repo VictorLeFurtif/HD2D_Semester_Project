@@ -95,7 +95,7 @@ namespace Grid
             return dictionnaryGridObjects.TryGetValue(gridPosition, out gridObject);
         }
 
-        public  bool IsPositionOccupied(Vector3Int gridPosition)
+        public bool IsPositionOccupied(Vector3Int gridPosition)
         {
             return dictionnaryGridObjects.ContainsKey(gridPosition);
         }
