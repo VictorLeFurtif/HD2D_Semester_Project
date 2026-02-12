@@ -29,6 +29,8 @@ public class ToolsEditorGrid : EditorWindow
     
     private Vector3 lastKnownPosition;
 
+    private float gridOpacity = 1f;
+
     #endregion
 
     #region Window Management
@@ -54,57 +56,35 @@ public class ToolsEditorGrid : EditorWindow
 
     #region GUI
 
-    /// <summary>
-    /// -Alors dans l'ordre création d'un label (title).
-    /// -Puis mise en place d'un bouton permettant de refresh le contenu de la palette de prefabs au cas où
-    /// on rajoute un élément dans le dossier.
-    /// - On affiche la palette que je vais un peu plus préciser en dessous.
-    /// - Mise en place de la grid settings comportant un floatField et un intField qui nous permettent
-    /// de récupérer ainsi depuis l'inspecteur unity des valeurs et de les réinjecter dans mes deux
-    /// variables.
-    /// </summary>
     private void OnGUI()
     {
+        EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField("Placement", EditorStyles.boldLabel);
+        placementMode = EditorGUILayout.Toggle("Placement Mode", placementMode);
+        
+        
         EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Grid Settings", EditorStyles.boldLabel);
+        gridCellSize = EditorGUILayout.FloatField("Cell Size", gridCellSize);
+        gridLineCount = EditorGUILayout.IntField("Grid Extent", gridLineCount);
+        floorCount = EditorGUILayout.IntField("Grid Floor", floorCount);
+        gridOpacity = EditorGUILayout.Slider(gridOpacity, 0f, 1f);
+
+        EditorGUILayout.Space(10);
+        EditSelectedGameObject();
         
-        EditorGUILayout.LabelField("Prefab Palette", EditorStyles.boldLabel);
-        
+        EditorGUILayout.Space(10);
         if (GUILayout.Button("Refresh Prefabs", GUILayout.Height(25)))
         {
             LoadPrefabs();
         }
         
         EditorGUILayout.Space(5);
-        
-        
-        EditorGUILayout.LabelField("Placement", EditorStyles.boldLabel);
-        placementMode = EditorGUILayout.Toggle("Placement Mode", placementMode);
-        
-        
-        EditorGUILayout.Space(10);
-        
-        EditorGUILayout.LabelField("Grid Settings", EditorStyles.boldLabel);
-        gridCellSize = EditorGUILayout.FloatField("Cell Size", gridCellSize);
-        gridLineCount = EditorGUILayout.IntField("Grid Extent", gridLineCount);
-        floorCount = EditorGUILayout.IntField("Grid Floor", floorCount);
-        
-        EditorGUILayout.Space(10);
-        Debug.Log("pipi");
-        EditSelectedGameObject();
+        EditorGUILayout.LabelField("Prefab Palette", EditorStyles.boldLabel);
         DrawPrefabPalette();
         
     }
     
-    /// <summary>
-    /// -Dans l'ordre si pas de prefabs ou array vide on utilise HelpBox qui est une petite fenêtre en bas de
-    /// notre tools qui permet de notifier l'utilisateur.
-    /// -Puis utilisation de BeginScrollView qui concrètement nous permet de scroll dans la palette.
-    /// -Par la suite on itère sur tous les prefabs disponibles en créant 3 boutons par ligne (avec BeginHorizontal
-    /// tous les 3 éléments).
-    /// -Enfin on vérifie si l'index est bien supérieur à -1 ce qui correspond qu'on a bien sélectionné un
-    /// item puis si l'index est bien inférieur au nombre de prefabs disponibles puis on affiche le nom de
-    /// l'asset sélectionné.
-    /// </summary>
     private void DrawPrefabPalette()
     {
         if (availablePrefabs == null || availablePrefabs.Length == 0)
@@ -136,12 +116,6 @@ public class ToolsEditorGrid : EditorWindow
         
     }
     
-    /// <summary>
-    /// On récupère le gameobject puis créons une texture 2D comprenant le visuel de l'asset.
-    /// Puis on dessine le bouton avec le nom du prefab (entre crochets si sélectionné).
-    /// Le isSelected est vérifié en comparant l'index de l'objet sélectionné et celui sur lequel on itère.
-    /// </summary>
-    /// <param name="index"></param>
     private void DrawPrefabButton(int index)
     {
         GameObject prefab = availablePrefabs[index];
@@ -170,6 +144,12 @@ public class ToolsEditorGrid : EditorWindow
             HandlePlacement(sceneView);
         }
 
+        SnappingGameObjectSelected(sceneView);
+        
+    }
+
+    private void SnappingGameObjectSelected(SceneView sceneView)
+    {
         if (snappingGameobjectSelected && gameObjectSelected != null)
         {
             Vector3 actualPositionSelectedObject = gameObjectSelected.transform.position;
@@ -189,12 +169,11 @@ public class ToolsEditorGrid : EditorWindow
                 lastKnownPosition = newPosition;
             }
         }
-        
     }
 
     private void DrawGrid()
     {
-        Handles.color = Color.green;
+        Handles.color = new Color(0.0f, 1f, 0.0f, gridOpacity);
         float extent = gridLineCount * gridCellSize;
 
         for (int i = -gridLineCount; i <= gridLineCount; i++)
@@ -243,6 +222,8 @@ public class ToolsEditorGrid : EditorWindow
             worldPos = new Vector3(worldPos.x, floorCount * gridCellSize, worldPos.z);
             
             previewGridPosition = GridHelper.WorldToGrid(worldPos,gridCellSize);
+            
+            //TODO ADD CHECK IF VALID PLACEMENT LIKE IF THERE IS ALREADY A CELL PLACED HERE
             isValidPlacement = true;
             
             DrawPlacementPreview();
@@ -283,8 +264,6 @@ public class ToolsEditorGrid : EditorWindow
     
     private void EditSelectedGameObject()
     {
-        Debug.Log("caca");
-        
         gameObjectSelected = Selection.activeGameObject;
     
         if (gameObjectSelected == null) return;
@@ -301,4 +280,5 @@ public class ToolsEditorGrid : EditorWindow
     {
         Repaint();
     }
+    
 }
