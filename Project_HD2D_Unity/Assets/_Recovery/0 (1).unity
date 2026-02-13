@@ -282,7 +282,6 @@ MonoBehaviour:
   rb: {fileID: 417000998}
   cam: {fileID: 961739753}
   playerDataRaw: {fileID: 11400000, guid: 6e73603580fe6a74d86f03fe582124ee, type: 2}
-  playerHeight: 0.6
 --- !u!54 &417000998
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -397,7 +396,7 @@ Transform:
   m_GameObject: {fileID: 417000996}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.6, y: -0.494, z: -0.2}
+  m_LocalPosition: {x: 6.6, y: -0, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
