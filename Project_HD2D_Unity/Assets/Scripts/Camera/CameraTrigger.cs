@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CameraTrigger : MonoBehaviour
 {
-    [SerializeField] private Vector3 newCameraPosition;
-    [SerializeField] private Vector3 newCameraRotation;
+    [SerializeField] private CameraSettings newCameraSettings;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -16,7 +15,7 @@ public class CameraTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EventManager.TriggerCamera(newCameraPosition, newCameraRotation);
+            EventManager.TriggerCamera(newCameraSettings);
         }
     }
 }

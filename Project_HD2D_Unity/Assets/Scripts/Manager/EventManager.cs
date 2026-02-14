@@ -10,7 +10,7 @@ namespace Manager
         
         public static event Action<GridObject, Vector3Int> OnObjectUnregister;
 
-        public static event Action<Vector3, Vector3> OnCameraTrigger; 
+        public static event Action<CameraSettings> OnCameraTrigger; 
         
         /// <summary>
         /// Vector3Int => from
@@ -33,9 +33,9 @@ namespace Manager
             OnObjectMoved?.Invoke(gridObject, fromPosition, toPosition);
         }
 
-        public static void TriggerCamera(Vector3 newPosition, Vector3 newRotation)
+        public static void TriggerCamera(CameraSettings cameraSettings)
         {
-            OnCameraTrigger?.Invoke(newPosition, newRotation);
+            OnCameraTrigger?.Invoke(cameraSettings);
         }
     }
 }

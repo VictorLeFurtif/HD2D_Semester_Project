@@ -545,7 +545,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   cameraTransform: {fileID: 961739753}
+  playerTransform: {fileID: 417001002}
   travelDuration: 1
+  offsetCamera: {x: -5.5, y: 0, z: -5}
+  smoothTime: 0.3
 --- !u!4 &698868108
 Transform:
   m_ObjectHideFlags: 0
@@ -692,7 +695,7 @@ Transform:
   m_GameObject: {fileID: 961739749}
   serializedVersion: 2
   m_LocalRotation: {x: 0.31598538, y: 0.3596048, z: -0.13088542, w: 0.8681629}
-  m_LocalPosition: {x: 0.82, y: 5.55, z: -5.58}
+  m_LocalPosition: {x: 2.32, y: 5.55, z: -5.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -707,15 +710,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1110755882}
-  - component: {fileID: 1110755881}
   - component: {fileID: 1110755883}
+  - component: {fileID: 1110755881}
   m_Layer: 0
   m_Name: Trigger Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1110755881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,8 +731,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659c7015ef619524aaea57d273ebb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraTrigger
-  newCameraPosition: {x: 0, y: 0, z: 0}
-  newCameraRotation: {x: 0, y: 0, z: 0}
+  newCameraSettings:
+    cameraPosition: {x: -6, y: -5}
+    cameraSize: 0
+    cameraFOV: 0
 --- !u!4 &1110755882
 Transform:
   m_ObjectHideFlags: 0
