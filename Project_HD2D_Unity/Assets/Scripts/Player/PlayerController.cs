@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform cam;
     [SerializeField] private PlayerData playerDataRaw;
     [SerializeField] private float playerHeight = 2f;
+
+    #endregion
+
+    #region Link
+    
+    [Header("Sprite Render")]
+    public SpriteRenderer Renderer;
+    
+    public Sprite Front;
+    public Sprite Back;
+    public Sprite Side;
+
+    [Header("UI")] public TMP_Text UiText;
 
     #endregion
 
@@ -76,6 +90,9 @@ public class PlayerController : MonoBehaviour
     private void ReceiveMove(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
+        
+        ChangeSprite(moveInput);
+        ChangeLookingUI(moveInput);
     }
 
     #endregion
@@ -154,6 +171,69 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = isGrounded ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
         Gizmos.DrawSphere(rayEnd, 0.15f);
     }
+
+    #endregion
+
+    #region HandleSprite
+
+    private void ChangeSprite(Vector2 direction)
+    {
+        if (direction.sqrMagnitude < 0.01f) return;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        //TODO : Changer pour le blend tree
+        if (angle > -45 && angle <= 45)
+        {
+            Renderer.sprite = Side;
+            Renderer.flipX = true;
+        }
+        else if (angle > 45 && angle <= 135)
+        {
+            Renderer.sprite = Back;
+            Renderer.flipX = false;
+        }
+        else if (angle > 135 || angle <= -135)
+        {
+            Renderer.sprite = Side;
+            Renderer.flipX = false;
+        }
+        else
+        {
+            Renderer.sprite = Front;
+            Renderer.flipX = false;
+        }
+    }
+
+    #endregion
+
+    #region Looking
+    
+        //Changer pour 8 direction ???
+        
+        private void ChangeLookingUI(Vector2 direction)
+        {
+            if (direction.sqrMagnitude < 0.01f) return;
+
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            if (angle > -45 && angle <= 45)
+            {
+                UiText.text = "East";
+            }
+            else if (angle > 45 && angle <= 135)
+            {
+                UiText.text = "North";
+            }
+            else if (angle > 135 || angle <= -135)
+            {
+                UiText.text = "West";
+            }
+            else
+            {
+                UiText.text = "South";
+            }
+        }
 
     #endregion
 }
