@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerData playerDataRaw;
     [SerializeField] private float playerHeight = 2f;
     [SerializeField] private float rotationSpeed = 0.1f;
+    [SerializeField] private Animator animator;
 
     #endregion
 
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
         CalculateMoveDirection();
         CheckGround();
         HandleRotation();
+        HandleAnimator();
     }
 
     private void FixedUpdate()
@@ -263,4 +265,15 @@ public class PlayerController : MonoBehaviour
         }
 
     #endregion
+
+    #region Animation
+
+    private void HandleAnimator()
+    {
+        animator.SetFloat("Velocity", rb.linearVelocity.magnitude);
+    }
+
+    #endregion
+    
+    
 }
