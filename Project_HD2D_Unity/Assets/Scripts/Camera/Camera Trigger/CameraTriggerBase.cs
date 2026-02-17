@@ -1,14 +1,11 @@
-using System;
 using Manager;
 using UnityEngine;
 
-public class CameraTrigger : MonoBehaviour
+public abstract class CameraTriggerBase : MonoBehaviour
 {
-    [SerializeField] private CameraSettings newCameraSettings;
+    private const string PLAYER_TAG = "Player";
     
     private bool hasTriggered = false;
-
-    private const string PLAYER_TAG = "Player";
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,7 +14,7 @@ public class CameraTrigger : MonoBehaviour
         if (other.CompareTag(PLAYER_TAG))
         {
             hasTriggered = true;
-            EventManager.TriggerCamera(newCameraSettings);
+            Trigger();
         }
     }
 
@@ -28,4 +25,6 @@ public class CameraTrigger : MonoBehaviour
             hasTriggered = false;
         }
     }
+    
+    protected abstract void Trigger();
 }

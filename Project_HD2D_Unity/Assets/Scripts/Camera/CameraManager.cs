@@ -6,29 +6,32 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    
     [Header("Components")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform playerTransform;
     
-    [Header("Settings Camera Fix")]
+    [Header("Settings Camera Traveling")]
     [SerializeField] private float travelDuration = 1f;
     
     [Header("Settings Camera Follow")]
     [SerializeField] private Vector3 offsetCamera;
     [SerializeField] private float smoothTime = 0.3f;
     
-    private CameraPlayerState cameraState = CameraPlayerState.Fix;
+    [SerializeField] private CameraPlayerState cameraState = CameraPlayerState.Fix;
     private float cameraPositionY = 0f;
     
     private Coroutine cameraCoroutine;
+    private Vector3 velocity = Vector3.zero;
+
+    #region Unity Lifecycle
 
     private void Awake()
     {
         if (cameraTransform == null)
         {
-            Debug.LogError($"{nameof(CameraManager)} : CameraTransform non assigné !");
+            Debug.LogError($"{nameof(CameraManager)} : CameraTransform non assigne !");
             enabled = false;
+            return;
         }
         
         cameraPositionY = cameraTransform.position.y;
@@ -43,29 +46,41 @@ public class CameraManager : MonoBehaviour
     {
         EventManager.OnCameraTrigger -= OnCameraTrigger;
     }
-    
 
     private void FixedUpdate()
     {
         FollowPlayer();
     }
 
+    #endregion
+
+    #region Camera Trigger
+
     private void OnCameraTrigger(CameraSettings cameraSettings)
+{
+    switch (cameraSettings.CameraPlayerState)
     {
-        switch (cameraSettings.CameraPlayerState)
-        {
-            case CameraPlayerState.Fix:
-                cameraState = CameraPlayerState.Fix;
-                TravelingCamera(cameraSettings);
-                break;
-            case CameraPlayerState.FollowPlayer:
-                cameraState = CameraPlayerState.FollowPlayer;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        case CameraPlayerState.Fix:
+            cameraState = CameraPlayerState.Fix;
+            TravelingCamera(cameraSettings);
+            break;
+        case CameraPlayerState.FollowPlayer:
+            cameraState = CameraPlayerState.FollowPlayer;
+            break;
+        case CameraPlayerState.Cinematic:
+            cameraState = CameraPlayerState.Cinematic;
+            if (cameraCoroutine != null) StopCoroutine(cameraCoroutine);
+            cameraCoroutine = StartCoroutine(CinematicCameraIE(cameraSettings));
+            break;
+        default:
+            throw new ArgumentOutOfRangeException();
     }
-    
+}
+
+    #endregion
+
+    #region Traveling
+
     private void TravelingCamera(CameraSettings cameraSettings)
     {
         if (cameraCoroutine != null)
@@ -77,43 +92,65 @@ public class CameraManager : MonoBehaviour
     private IEnumerator TravelingCameraIE(CameraSettings cameraSettings)
     {
         Vector3 startPosition = cameraTransform.position;
-
         float elapsedTime = 0f;
 
         while (elapsedTime < travelDuration)
         {
             elapsedTime += Time.deltaTime;
-            float ratio = elapsedTime / travelDuration;
+            float ratio = Mathf.SmoothStep(0f, 1f, elapsedTime / travelDuration);
 
-            /*float x = Mathf.Lerp(startPosition.x, cameraSettings.CameraPosition.x, ratio);
-            float z = Mathf.Lerp(startPosition.z, cameraSettings.CameraPosition.y, ratio);*/
             Vector3 newPosition = Vector3.Lerp(startPosition, cameraSettings.CameraPosition, ratio);
-
-
             cameraTransform.position = newPosition;
+            
             yield return null;
         }
 
-        cameraTransform.position = cameraSettings.CameraPosition;
+        Vector3 finalPosition = cameraSettings.CameraPosition;
+        cameraTransform.position = finalPosition;
         
         cameraCoroutine = null;
     }
+
+    #endregion
+
+    #region Follow Player
 
     private void FollowPlayer()
     {
         if (cameraState != CameraPlayerState.FollowPlayer) return;
         
-        Vector3 targetPosition = playerTransform.position +  offsetCamera;
+        Vector3 targetPosition = playerTransform.position + offsetCamera;
         
-        Vector3 newPosition = Vector3.Lerp(
+        Vector3 newPosition = Vector3.SmoothDamp(
             cameraTransform.position,
             targetPosition,
-            Time.deltaTime * smoothTime
-            );
+            ref velocity,
+            smoothTime
+        );
         
-        
-        newPosition = new Vector3(newPosition.x, cameraPositionY, newPosition.z);
-        
+        newPosition.y = cameraPositionY;
         cameraTransform.position = newPosition;
     }
+
+    #endregion
+
+    private IEnumerator CinematicCameraIE(CameraSettings cameraSettings)
+    {
+        yield return StartCoroutine(TravelingCameraIE(cameraSettings));
+        
+        yield return new WaitForSeconds(cameraSettings.holdDuration);
+        
+        CameraSettings returnSettings = new CameraSettings
+        {
+            CameraPosition = playerTransform.position + offsetCamera,
+            CameraPlayerState = CameraPlayerState.FollowPlayer
+        };
+        
+        yield return StartCoroutine(TravelingCameraIE(returnSettings));
+        
+        cameraState = CameraPlayerState.FollowPlayer;
+        cameraCoroutine = null;
+    }
+
+
 }

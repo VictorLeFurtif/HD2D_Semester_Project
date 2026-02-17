@@ -963,6 +963,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trigger Camera Fix 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7385729117159169728, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: newCameraSettings.CameraPosition.x
       value: -4.12
@@ -1349,6 +1353,7 @@ MonoBehaviour:
   travelDuration: 1
   offsetCamera: {x: -5.5, y: 0, z: -5}
   smoothTime: 6.16
+  cameraState: 0
 --- !u!4 &698868108
 Transform:
   m_ObjectHideFlags: 0
@@ -1997,7 +2002,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: m_Name
-      value: Trigger Camera Fix (1)
+      value: Trigger Camera Fix 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7385729117159169728, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: newCameraSettings.CameraPosition.x
@@ -2818,6 +2827,10 @@ PrefabInstance:
     - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: m_Name
       value: Trigger Camera Fix 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7385729117159169728, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: newCameraSettings.CameraPosition.x
@@ -3855,6 +3868,10 @@ PrefabInstance:
     - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: m_Name
       value: Trigger Camera Fix
+      objectReference: {fileID: 0}
+    - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7385729117159169728, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: newCameraSettings.CameraPosition.x
