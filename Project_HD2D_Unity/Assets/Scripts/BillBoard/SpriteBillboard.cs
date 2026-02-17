@@ -26,7 +26,7 @@ public class SpriteBillboard : MonoBehaviour
         originalRotation = cameraTransform.rotation.eulerAngles;
     }
     
-    private void Update()
+    private void LateUpdate()
     {
         DisplaySpriteBillboard();
     }
@@ -37,6 +37,7 @@ public class SpriteBillboard : MonoBehaviour
 
     private void DisplaySpriteBillboard()
     {
+        //pour perpandiculaire après transform.Look at transform.rotation.y = 0 par rapport X
         switch (billboardType)
         {
             case BillboardType.LookAtCamera:
@@ -50,6 +51,8 @@ public class SpriteBillboard : MonoBehaviour
         }
         
         Vector3 rotation = transform.rotation.eulerAngles;
+        
+        transform.rotation = Quaternion.Euler(0, rotation.y, rotation.z);
         
         if (lockX) { rotation.x = originalRotation.x; }
         if (lockY) { rotation.y = originalRotation.y; }

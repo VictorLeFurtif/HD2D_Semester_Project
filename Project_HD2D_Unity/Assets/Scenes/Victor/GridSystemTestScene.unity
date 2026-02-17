@@ -933,7 +933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7385729117159169728, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: newCameraSettings.CameraPosition.x
@@ -1303,7 +1303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &698868107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1317,7 +1317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   cameraTransform: {fileID: 961739753}
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 2636261790364949917}
   travelDuration: 1
   offsetCamera: {x: -5.5, y: 0, z: -5}
   smoothTime: 6.16
@@ -1974,7 +1974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7385729117159169728, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: newCameraSettings.CameraPosition.x
@@ -2798,7 +2798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7385729117159169728, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: newCameraSettings.CameraPosition.x
@@ -3983,7 +3983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee6d94b54ae6de4b92dd852bc8f4dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
-  billboardType: 0
+  billboardType: 1
   cameraTransform: {fileID: 961739753}
   lockX: 0
   lockY: 0
@@ -4025,7 +4025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4165598938127165915, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7385729117159169728, guid: 9f76bbdb7e64e644a94876492042465d, type: 3}
       propertyPath: newCameraSettings.CameraPosition.x
