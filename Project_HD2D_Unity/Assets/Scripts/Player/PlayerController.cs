@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerData playerDataRaw;
     
-    private PlayerDataInstance playerData;
+    [SerializeField] private PlayerDataInstance playerData;
 
     #endregion
 
@@ -111,16 +111,29 @@ public class PlayerController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (rb == null || playerData == null) return;
-        
-        Vector3 rayStart = transform.position - new Vector3(0, playerData.PlayerHeight / 2, 0);
-        Vector3 rayEnd = rayStart - new Vector3(0, playerData.GroundCheckDistance, 0);
-        
-        Gizmos.color = IsGrounded ? Color.green : Color.red;
+        // Allow visualization in the Editor even when runtime-initialized data (playerData) is null.
+        float playerHeight = playerData != null
+            ? playerData.PlayerHeight
+            : (playerDataRaw != null ? playerDataRaw.PlayerHeight : 2f);
+
+        float groundCheckDistance = playerData != null
+            ? playerData.GroundCheckDistance
+            : (playerDataRaw != null ? playerDataRaw.GroundCheckDistance : 0.2f);
+
+        LayerMask groundMask = playerData != null
+            ? playerData.GroundMask
+            : (playerDataRaw != null ? playerDataRaw.GroundMask : (LayerMask)Physics.DefaultRaycastLayers);
+
+        Vector3 rayStart = transform.position - new Vector3(0, playerHeight / 2f, 0);
+        Vector3 rayEnd = rayStart - new Vector3(0, groundCheckDistance, 0);
+
+        bool grounded = Physics.Raycast(rayStart, -Vector3.up, groundCheckDistance, groundMask);
+
+        Gizmos.color = grounded ? Color.green : Color.red;
         Gizmos.DrawLine(rayStart, rayEnd);
         Gizmos.DrawWireSphere(rayStart, 0.1f);
-        
-        Gizmos.color = IsGrounded ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
+
+        Gizmos.color = grounded ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
         Gizmos.DrawSphere(rayEnd, 0.15f);
     }
 
