@@ -1317,7 +1317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   cameraTransform: {fileID: 961739753}
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 2636261790364949917}
   travelDuration: 1
   offsetCamera: {x: -5.5, y: 0, z: -5}
   smoothTime: 6.16
@@ -3855,9 +3855,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3175562424255672052}
   - component: {fileID: 3175562424255672053}
-  - component: {fileID: 3175562424255672055}
   - component: {fileID: 3175562424255672054}
   - component: {fileID: 3175562424255672056}
+  - component: {fileID: 3175562424255672055}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -3906,8 +3906,8 @@ Transform:
   m_GameObject: {fileID: 2352888259206889157}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.6, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2636261790364949917}
@@ -3961,7 +3961,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1626125984, guid: 29f0d1ab4212134418d71e3a7194f831, type: 3}
+  m_Sprite: {fileID: 811866838, guid: 29f0d1ab4212134418d71e3a7194f831, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3980,13 +3980,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2352888259206889157}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e76f58f049b3ffa48af4457fefe334b7, type: 3}
+  m_Script: {fileID: 11500000, guid: cee6d94b54ae6de4b92dd852bc8f4dfb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
-  cam: {fileID: 961739752}
-  mainTransform: {fileID: 2636261790364949917}
-  animator: {fileID: 3175562424255672055}
-  spriteRenderer: {fileID: 3175562424255672053}
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
+  billboardType: 1
+  cameraTransform: {fileID: 961739753}
+  lockX: 0
+  lockY: 0
+  lockZ: 0
 --- !u!95 &3175562424255672055
 Animator:
   serializedVersion: 7
@@ -4018,14 +4019,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2352888259206889157}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cee6d94b54ae6de4b92dd852bc8f4dfb, type: 3}
+  m_Script: {fileID: 11500000, guid: e76f58f049b3ffa48af4457fefe334b7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
-  billboardType: 0
-  cameraTransform: {fileID: 961739753}
-  lockX: 0
-  lockY: 0
-  lockZ: 0
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
+  cam: {fileID: 961739752}
+  mainTransform: {fileID: 2636261790364949917}
+  animator: {fileID: 3175562424255672055}
+  spriteRenderer: {fileID: 3175562424255672053}
 --- !u!136 &4014526366414502124
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4197,7 +4197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   inputManager: {fileID: 7168103510182162540}
   playerController: {fileID: 7168103510182162542}
-  animationManager: {fileID: 3175562424255672054}
+  animationManager: {fileID: 3175562424255672056}
   cameraTransform: {fileID: 961739753}
 --- !u!1 &8021218329615071214
 GameObject:
