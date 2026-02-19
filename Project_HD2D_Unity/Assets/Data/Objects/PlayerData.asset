@@ -18,3 +18,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   <GroundCheckDistance>k__BackingField: 0.4
+  <PlayerHeight>k__BackingField: 2
+  <RotationSpeed>k__BackingField: 10

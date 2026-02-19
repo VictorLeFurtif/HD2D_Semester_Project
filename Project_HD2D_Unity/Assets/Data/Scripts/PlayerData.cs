@@ -8,6 +8,8 @@ public class PlayerData : ScriptableObject
     [field: SerializeField]  public  LayerMask GroundMask {get; private set;}
     
     [field: SerializeField]  public  float GroundCheckDistance  {get; private set;}
+    [field: SerializeField]  public  float PlayerHeight  {get; private set;}
+    [field: SerializeField]  public  float RotationSpeed  {get; private set;}
 
     public PlayerDataInstance Init()
     {
@@ -23,6 +25,8 @@ public class PlayerDataInstance
     public float JumpForce;
     public LayerMask GroundMask;
     public float GroundCheckDistance;
+    public float PlayerHeight;
+    public float RotationSpeed;
 
     public PlayerDataInstance(PlayerData data)
     {
@@ -30,5 +34,7 @@ public class PlayerDataInstance
         JumpForce = data.JumpForce;
         GroundMask = data.GroundMask;
         GroundCheckDistance = data.GroundCheckDistance;
+        PlayerHeight = data.PlayerHeight;
+        RotationSpeed = data.RotationSpeed;
     }
 }

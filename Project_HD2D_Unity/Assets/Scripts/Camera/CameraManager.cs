@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    #region Variables
+
     [Header("Components")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform playerTransform;
@@ -23,6 +25,8 @@ public class CameraManager : MonoBehaviour
     private Coroutine cameraCoroutine;
     private Vector3 velocity = Vector3.zero;
 
+    #endregion
+    
     #region Unity Lifecycle
 
     private void Awake()
@@ -134,6 +138,8 @@ public class CameraManager : MonoBehaviour
 
     #endregion
 
+    #region Cinematic
+
     private IEnumerator CinematicCameraIE(CameraSettings cameraSettings)
     {
         yield return StartCoroutine(TravelingCameraIE(cameraSettings));
@@ -152,5 +158,6 @@ public class CameraManager : MonoBehaviour
         cameraCoroutine = null;
     }
 
-
+    #endregion
+    
 }
