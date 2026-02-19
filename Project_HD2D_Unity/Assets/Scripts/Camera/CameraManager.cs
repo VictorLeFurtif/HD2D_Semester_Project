@@ -51,7 +51,7 @@ public class CameraManager : MonoBehaviour
         EventManager.OnCameraTrigger -= OnCameraTrigger;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         FollowPlayer();
     }
