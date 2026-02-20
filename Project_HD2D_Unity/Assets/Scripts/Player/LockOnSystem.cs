@@ -45,6 +45,8 @@ public class LockOnSystem : MonoBehaviour
             Unlock();
             return;
         }
+
+        
         
         Vector3 directionToTarget = (CurrentTarget.GetLockTransform().position - playerTransform.position).normalized;
         directionToTarget.y = 0; 
@@ -65,11 +67,7 @@ public class LockOnSystem : MonoBehaviour
     {
         lockableTargets = FindLockableTargets();
 
-        print($"Found {lockableTargets.Count} lockable targets.");
-
         if (lockableTargets.Count == 0) return;
-
-        //unrecheable code fucks sake
 
         CurrentTarget = GetBestLockableTarget(lockableTargets);
     }

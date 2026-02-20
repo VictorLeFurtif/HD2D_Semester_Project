@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         inputManager.OnJumpPressed += playerController.TryJump;
-        inputManager.OnLockToggle += lockOnSystem.ToggleLock; 
+        inputManager.OnLockToggle += lockOnSystem.ToggleLock;
     }
 
     private void OnDisable()
@@ -30,15 +30,21 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        lockOnSystem.UpdateLockRotation();
-
-        playerController.SetLockMode(lockOnSystem.IsLocked);
-
         CalculateTargetDirection();
-
+        
+        lockOnSystem.UpdateLockRotation();
+        
+        playerController.SetLockMode(lockOnSystem.IsLocked);
         playerController.UpdatePlayerController(cameraTransform, inputManager.MoveInput);
         
-        animationManager.HandleAnimation(playerController.Rb.linearVelocity.magnitude, inputManager.MoveInput);
+        Vector2 animationInput = lockOnSystem.IsLocked 
+            ? CalculateAnimationInputFromVelocity()
+            : inputManager.MoveInput;
+        
+        animationManager.HandleAnimation(
+            playerController.Rb.linearVelocity.magnitude, 
+            animationInput
+        );
     }
 
     private void FixedUpdate()
@@ -68,6 +74,39 @@ public class PlayerManager : MonoBehaviour
             targetDirection.Normalize();
         }
     }
+    
+    private Vector2 CalculateLocalInput(Vector3 worldDirection)
+    {
+        if (worldDirection.magnitude < 0.1f) 
+            return Vector2.zero;
+        
+        Vector3 localDirection = playerController.transform.InverseTransformDirection(worldDirection);
+        
+        Vector2 localInput = new Vector2(localDirection.x, localDirection.z);
+        
+        if (localInput.magnitude > 1f)
+            localInput.Normalize();
+        
+        return localInput;
+    }
+
+    private Vector2 CalculateAnimationInputFromVelocity()
+{
+    Vector3 velocity = playerController.Rb.linearVelocity;
+    velocity.y = 0;
+    
+    if (velocity.magnitude < 0.1f) 
+        return Vector2.zero;
+    
+    Vector3 localVelocity = playerController.transform.InverseTransformDirection(velocity);
+    
+    Vector2 localInput = new Vector2(localVelocity.x, localVelocity.z);
+    
+    if (localInput.magnitude > 1f)
+        localInput.Normalize();
+    
+    return localInput;
+}
 
     #endregion
 }
