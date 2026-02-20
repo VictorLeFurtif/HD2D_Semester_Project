@@ -36,12 +36,13 @@ public class PlayerManager : MonoBehaviour
         playerController.SetLockMode(lockOnSystem.IsLocked);
         playerController.UpdatePlayerController(cameraTransform, inputManager.MoveInput);
 
-        Vector2 animationInput = inputManager.MoveInput; //CalculateAnimationInput();
+        Vector2 animationInput = inputManager.MoveInput;
     
         animationManager.HandleAnimation(
             playerController.Rb.linearVelocity.magnitude, 
             animationInput
         );
+        
     }
 
     private void FixedUpdate()
@@ -77,7 +78,7 @@ public class PlayerManager : MonoBehaviour
         if (targetDirection.magnitude < 0.1f) 
             return Vector2.zero;
     
-        Vector3 localDir = playerController.transform.InverseTransformDirection(targetDirection);
+        Vector3 localDir = transform.InverseTransformDirection(targetDirection);
     
         return new Vector2(localDir.x, localDir.z);
     }

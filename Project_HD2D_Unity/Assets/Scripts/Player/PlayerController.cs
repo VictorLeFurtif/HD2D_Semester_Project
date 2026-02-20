@@ -74,8 +74,8 @@ public class PlayerController : MonoBehaviour
     {
         if (isInLockMode) return;
 
-        Vector3 targetDirection = cam.forward * moveInput.x;
-        targetDirection += cam.right * -moveInput.y;
+        Vector3 targetDirection = cam.forward * moveInput.y;
+        targetDirection += cam.right * moveInput.x;
         targetDirection.Normalize();
         targetDirection.y = 0;
 

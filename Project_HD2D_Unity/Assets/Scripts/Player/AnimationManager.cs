@@ -18,12 +18,12 @@ public class AnimationManager : MonoBehaviour
 
     public void HandleAnimation(float velocity, Vector2 input)
     {
-        animator.SetFloat(VelocityHash, velocity, 0.05f, Time.deltaTime);
+        animator.SetFloat(VelocityHash, velocity);
 
         if (input.magnitude > 0.1f)
         {
-            animator.SetFloat(MoveXHash, input.x, 0.1f, Time.deltaTime);
-            animator.SetFloat(MoveYHash, input.y, 0.1f, Time.deltaTime);
+            animator.SetFloat(MoveXHash, input.x);
+            animator.SetFloat(MoveYHash, input.y);
         }
     }
     
