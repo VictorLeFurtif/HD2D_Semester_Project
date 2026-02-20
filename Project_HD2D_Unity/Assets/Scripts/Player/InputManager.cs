@@ -7,7 +7,9 @@ public class InputManager : MonoBehaviour
     #region Variables
 
     public Vector2 MoveInput { get; private set; }
+
     public event Action OnJumpPressed;
+    public event Action OnLockToggle;
     
     private PlayerInputAction playerInputAction;
 
@@ -39,6 +41,7 @@ public class InputManager : MonoBehaviour
         playerInputAction.Player.Move.performed += ReceiveMove;
         playerInputAction.Player.Move.canceled += ReceiveMove;
         playerInputAction.Player.Jump.performed += ReceiveJump;
+        playerInputAction.Player.Lock.performed += ReceiveLockToggle;
         playerInputAction.Enable();
     }
 
@@ -47,6 +50,7 @@ public class InputManager : MonoBehaviour
         playerInputAction.Player.Move.performed -= ReceiveMove;
         playerInputAction.Player.Move.canceled -= ReceiveMove;
         playerInputAction.Player.Jump.performed -= ReceiveJump;
+        playerInputAction.Player.Lock.performed -= ReceiveLockToggle;
         playerInputAction.Disable();
     }
 
@@ -62,6 +66,11 @@ public class InputManager : MonoBehaviour
     private void ReceiveJump(InputAction.CallbackContext ctx)
     {
         OnJumpPressed?.Invoke();
+    }
+
+    private void ReceiveLockToggle(InputAction.CallbackContext ctx)
+    {
+        OnLockToggle?.Invoke();
     }
 
     #endregion
