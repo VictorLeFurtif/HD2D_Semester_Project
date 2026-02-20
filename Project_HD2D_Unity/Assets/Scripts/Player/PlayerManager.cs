@@ -36,11 +36,9 @@ public class PlayerManager : MonoBehaviour
         playerController.SetLockMode(lockOnSystem.IsLocked);
         playerController.UpdatePlayerController(cameraTransform, inputManager.MoveInput);
 
-        Vector2 animationInput = inputManager.MoveInput;
-    
         animationManager.HandleAnimation(
             playerController.Rb.linearVelocity.magnitude, 
-            animationInput
+            CalculateAnimationInput()
         );
         
     }
@@ -75,12 +73,17 @@ public class PlayerManager : MonoBehaviour
     
     private Vector2 CalculateAnimationInput()
     {
-        if (targetDirection.magnitude < 0.1f) 
+        if (targetDirection.magnitude < 0.1f)
             return Vector2.zero;
-    
-        Vector3 localDir = transform.InverseTransformDirection(targetDirection);
-    
-        return new Vector2(localDir.x, localDir.z);
+
+        Vector3 camForwardFlat = cameraTransform.forward;
+        camForwardFlat.y = 0;
+        camForwardFlat.Normalize();
+
+        float yaw = Vector3.SignedAngle(camForwardFlat, targetDirection, Vector3.up);
+        float yawRad = yaw * Mathf.Deg2Rad;
+
+        return new Vector2(Mathf.Sin(yawRad), Mathf.Cos(yawRad));
     }
 
     
