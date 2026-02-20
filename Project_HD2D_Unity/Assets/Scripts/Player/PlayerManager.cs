@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private AnimationManager animationManager;
+    [SerializeField] private LockOnSystem lockOnSystem;
     [SerializeField] private Transform cameraTransform;
     
     private Vector3 targetDirection;
@@ -18,17 +19,25 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         inputManager.OnJumpPressed += playerController.TryJump;
+        inputManager.OnLockToggle += lockOnSystem.ToggleLock; 
     }
 
     private void OnDisable()
     {
         inputManager.OnJumpPressed -= playerController.TryJump;
+        inputManager.OnLockToggle -= lockOnSystem.ToggleLock;
     }
 
     private void Update()
     {
+        lockOnSystem.UpdateLockRotation();
+
+        playerController.SetLockMode(lockOnSystem.IsLocked);
+
         CalculateTargetDirection();
+
         playerController.UpdatePlayerController(cameraTransform, inputManager.MoveInput);
+        
         animationManager.HandleAnimation(playerController.Rb.linearVelocity.magnitude, inputManager.MoveInput);
     }
 

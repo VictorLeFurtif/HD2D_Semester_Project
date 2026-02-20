@@ -25,6 +25,7 @@ public class LockOnSystem : MonoBehaviour
 
     public void ToggleLock()
     {
+
         if (IsLocked)
         {
             Unlock();
@@ -64,7 +65,11 @@ public class LockOnSystem : MonoBehaviour
     {
         lockableTargets = FindLockableTargets();
 
+        print($"Found {lockableTargets.Count} lockable targets.");
+
         if (lockableTargets.Count == 0) return;
+
+        //unrecheable code fucks sake
 
         CurrentTarget = GetBestLockableTarget(lockableTargets);
     }
@@ -89,7 +94,8 @@ public class LockOnSystem : MonoBehaviour
                 Vector3 directionToTarget = (lockable.GetLockTransform().position - playerTransform.position).normalized;
                 float angleToTarget = Vector3.Angle(playerTransform.forward, directionToTarget);
 
-                if (angleToTarget <= lockAngle / 2f)
+
+                if (angleToTarget <= lockAngle)
                 {
                     lockableTargets.Add(lockable);
                 }

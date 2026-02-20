@@ -1742,7 +1742,7 @@ GameObject:
   - component: {fileID: 982112399}
   - component: {fileID: 982112398}
   - component: {fileID: 982112397}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: NMI TEST
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1761,6 +1761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d9859ab781079419c412ca1b2c9832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NmiTest
+  lockPoint: {fileID: 982112401}
 --- !u!136 &982112398
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2942,6 +2943,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1637793893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 306448382632177375, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
+  m_PrefabInstance: {fileID: 7863538600632627637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1675332480
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3943,6 +3949,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5059742062778784755, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
   m_PrefabInstance: {fileID: 7863538600632627637}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2636261790364949922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637793893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa75fbe188bc950419a17761096ae4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LockOnSystem
+  playerTransform: {fileID: 2636261790364949917}
+  lockRange: 15
+  lockAngle: 180
+  lockableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  rotationSpeed: 10
 --- !u!1001 &7110213051033238195
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4037,6 +4062,10 @@ PrefabInstance:
       value: Player PlaceHolder
       objectReference: {fileID: 0}
     - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
+      propertyPath: lockOnSystem
+      value: 
+      objectReference: {fileID: 2636261790364949922}
+    - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 961739753}
@@ -4091,7 +4120,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 306448382632177375, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2636261790364949922}
   m_SourcePrefab: {fileID: 100100000, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

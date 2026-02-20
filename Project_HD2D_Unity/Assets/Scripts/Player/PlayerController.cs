@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     private RaycastHit slopeHit;
     private bool exitingSlope;
 
+    private bool isInLockMode = false;
+
     #endregion
 
     #region Unity Lifecycle
@@ -70,6 +72,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation(Transform cam, Vector2 moveInput)
     {
+        if (isInLockMode) return;
+
         Vector3 targetDirection = cam.forward * moveInput.x;
         targetDirection += cam.right * -moveInput.y;
         targetDirection.Normalize();
@@ -119,7 +123,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        // Allow visualization in the Editor even when runtime-initialized data (playerData) is null.
         float playerHeight = playerData != null
             ? playerData.PlayerHeight
             : (playerDataRaw != null ? playerDataRaw.PlayerHeight : 2f);
@@ -163,6 +166,15 @@ public class PlayerController : MonoBehaviour
     private Vector3 GetSlopeMoveDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, slopeHit.normal);
+    }
+
+    #endregion
+
+    #region Lock
+
+    public void SetLockMode(bool locked)
+    {
+        isInLockMode = locked;
     }
 
     #endregion
