@@ -31,16 +31,13 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         CalculateTargetDirection();
-        
         lockOnSystem.UpdateLockRotation();
-        
+    
         playerController.SetLockMode(lockOnSystem.IsLocked);
         playerController.UpdatePlayerController(cameraTransform, inputManager.MoveInput);
 
-        Vector2 animationInput = inputManager.MoveInput;//lockOnSystem.IsLocked 
-        //    ? CalculateLocalInput(targetDirection) 
-         //   : inputManager.MoveInput;
-        
+        Vector2 animationInput = inputManager.MoveInput; //CalculateAnimationInput();
+    
         animationManager.HandleAnimation(
             playerController.Rb.linearVelocity.magnitude, 
             animationInput
@@ -75,19 +72,14 @@ public class PlayerManager : MonoBehaviour
         }
     }
     
-    private Vector2 CalculateLocalInput(Vector3 worldDirection)
+    private Vector2 CalculateAnimationInput()
     {
-        if (worldDirection.magnitude < 0.1f) 
+        if (targetDirection.magnitude < 0.1f) 
             return Vector2.zero;
-        
-        Vector3 localDirection = playerController.transform.InverseTransformDirection(worldDirection);
-        
-        Vector2 localInput = new Vector2(localDirection.x, localDirection.z);
-        
-        if (localInput.magnitude > 1f)
-            localInput.Normalize();
-        
-        return localInput;
+    
+        Vector3 localDir = playerController.transform.InverseTransformDirection(targetDirection);
+    
+        return new Vector2(localDir.x, localDir.z);
     }
 
     
