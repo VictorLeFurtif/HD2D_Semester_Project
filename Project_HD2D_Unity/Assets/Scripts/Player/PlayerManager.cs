@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private AnimationManager animationManager;
     [SerializeField] private LockOnSystem lockOnSystem;
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Transform visualTransform; 
     
     private Vector3 targetDirection;
 
@@ -37,9 +38,12 @@ public class PlayerManager : MonoBehaviour
         playerController.SetLockMode(lockOnSystem.IsLocked);
         playerController.UpdatePlayerController(cameraTransform, inputManager.MoveInput);
 
+        Vector2 blendInput = GetBlendTreeInput();
+        Debug.Log($"moveX: {blendInput.x:F2} | moveY: {blendInput.y:F2} | locked: {lockOnSystem.IsLocked}");
+        
         animationManager.HandleAnimation(
             playerController.Rb.linearVelocity.magnitude, 
-            CalculateAnimationInput()
+            blendInput
         );
         
     }
@@ -72,29 +76,46 @@ public class PlayerManager : MonoBehaviour
         }
     }
     
-    private Vector2 CalculateAnimationInput()
+    
+
+    Vector2 GetBlendTreeInput()
     {
-        //
-        if (targetDirection.magnitude < 0.1f)
-            return Vector2.zero;
+        Vector3 camR = cameraTransform.right;
+        camR.y = 0f; camR.Normalize();
 
-        Vector3 reference = lockOnSystem.IsLocked
-            ? transform.forward
-            : cameraTransform.forward;
+        Vector3 camF = cameraTransform.forward;
+        camF.y = 0f; camF.Normalize();
 
-        Debug.DrawRay(transform.position,targetDirection, Color.red);
-        
-        reference.y = 0;
-        reference.Normalize();
-    
-        float yaw = Vector3.SignedAngle(reference, targetDirection, Vector3.up);
-        float yawRad = yaw * Mathf.Deg2Rad;
+        if (lockOnSystem.IsLocked)
+        {
+            Vector3 enemyDir = lockOnSystem.CurrentTarget.GetLockTransform().position - transform.position;
+            enemyDir.y = 0f; enemyDir.Normalize();
 
-        
-        return new Vector2(Mathf.Sin(yawRad), Mathf.Cos(yawRad));
+            float eX = Vector3.Dot(enemyDir, camR);
+            float eY = Vector3.Dot(enemyDir, camF);
+
+            if (targetDirection.magnitude < 0.1f)
+                return new Vector2(eX, eY);
+
+            Vector3 dir = targetDirection;
+            dir.y = 0f; dir.Normalize();
+
+            return new Vector2(
+                Vector3.Dot(dir, camR),
+                Vector3.Dot(dir, camF)
+            );
+        }
+
+        if (targetDirection.magnitude < 0.1f) return Vector2.zero;
+
+        Vector3 d = targetDirection;
+        d.y = 0f; d.Normalize();
+
+        return new Vector2(
+            Vector3.Dot(d, camR),
+            Vector3.Dot(d, camF)
+        );
     }
-
-    
 
     #endregion
 }

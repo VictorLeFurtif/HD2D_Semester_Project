@@ -4112,6 +4112,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001969576}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2147181138 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4853645424513758346, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
+  m_PrefabInstance: {fileID: 7863538600632627637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2636261790364949917 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5059742062778784755, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
@@ -4237,6 +4242,10 @@ PrefabInstance:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 961739753}
+    - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
+      propertyPath: visualTransform
+      value: 
+      objectReference: {fileID: 2147181138}
     - target: {fileID: 2750060000828546307, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: cam
       value: 

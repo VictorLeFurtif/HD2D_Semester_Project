@@ -22,8 +22,8 @@ public class AnimationManager : MonoBehaviour
 
         if (input.magnitude > 0.1f)
         {
-            animator.SetFloat(MoveXHash, input.x);
-            animator.SetFloat(MoveYHash, input.y);
+            animator.SetFloat(MoveXHash, Mathf.Lerp(animator.GetFloat(MoveXHash), input.x, 15f * Time.deltaTime));
+            animator.SetFloat(MoveYHash, Mathf.Lerp(animator.GetFloat(MoveYHash), input.y, 15f * Time.deltaTime));
         }
     }
     
