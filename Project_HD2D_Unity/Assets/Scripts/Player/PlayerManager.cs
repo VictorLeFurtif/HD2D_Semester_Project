@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
     {
         inputManager.OnJumpPressed += playerController.TryJump;
         inputManager.OnLockToggle += lockOnSystem.ToggleLock;
+        playerController.OnJump += animationManager.Jump;
     }
 
     private void OnDisable()
@@ -43,7 +44,8 @@ public class PlayerManager : MonoBehaviour
         
         animationManager.HandleAnimation(
             playerController.Rb.linearVelocity.magnitude, 
-            blendInput
+            blendInput,
+            playerController.IsGrounded
         );
         
     }
@@ -93,17 +95,8 @@ public class PlayerManager : MonoBehaviour
 
             float eX = Vector3.Dot(enemyDir, camR);
             float eY = Vector3.Dot(enemyDir, camF);
-
-            if (targetDirection.magnitude < 0.1f)
-                return new Vector2(eX, eY);
-
-            Vector3 dir = targetDirection;
-            dir.y = 0f; dir.Normalize();
-
-            return new Vector2(
-                Vector3.Dot(dir, camR),
-                Vector3.Dot(dir, camF)
-            );
+            
+            return new Vector2(eX, eY);
         }
 
         if (targetDirection.magnitude < 0.1f) return Vector2.zero;

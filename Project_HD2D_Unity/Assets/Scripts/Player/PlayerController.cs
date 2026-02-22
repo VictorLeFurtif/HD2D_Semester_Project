@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,6 +8,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGrounded { get; private set; }
     public Rigidbody Rb => rb;
+
+    public event Action OnJump;
 
     [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerData playerDataRaw;
@@ -115,6 +119,8 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         rb.AddForce(Vector3.up * playerData.JumpForce, ForceMode.Impulse);
+        
+        OnJump?.Invoke();
     }
 
     #endregion
