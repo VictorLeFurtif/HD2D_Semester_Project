@@ -22,6 +22,11 @@ public class PlayerManager : MonoBehaviour
     {
         inputManager.OnJumpPressed += playerController.TryJump;
         inputManager.OnLockToggle += lockOnSystem.ToggleLock;
+
+        inputManager.OnAttackMelee += playerController.TryAttack;
+        
+        playerController.OnAttackMelee  += animationManager.AttackMelee;
+        
         playerController.OnJump += animationManager.Jump;
     }
 
@@ -29,6 +34,12 @@ public class PlayerManager : MonoBehaviour
     {
         inputManager.OnJumpPressed -= playerController.TryJump;
         inputManager.OnLockToggle -= lockOnSystem.ToggleLock;
+        
+        inputManager.OnAttackMelee -= playerController.TryAttack;
+        
+        playerController.OnAttackMelee  -= animationManager.AttackMelee;
+        
+        playerController.OnJump -= animationManager.Jump;
     }
 
     private void Update()

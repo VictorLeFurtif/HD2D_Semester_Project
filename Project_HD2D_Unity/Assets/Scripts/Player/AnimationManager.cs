@@ -45,6 +45,11 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetBool(IsGroundedHash, isGrounded);
     }
+
+    public void AttackMelee()
+    {
+        
+    }
     
     #endregion
 }

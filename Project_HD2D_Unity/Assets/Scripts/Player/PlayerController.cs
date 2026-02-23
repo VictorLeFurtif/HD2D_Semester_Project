@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
 
     public event Action OnJump;
+    public event Action OnAttackMelee;
 
     [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerData playerDataRaw;
@@ -189,6 +190,17 @@ public class PlayerController : MonoBehaviour
     {
         isInLockMode = locked;
     }
+
+    #endregion
+
+    #region Attack
+
+    public void TryAttack()
+    {
+        //attack
+        OnAttackMelee?.Invoke();
+    }
+    
 
     #endregion
 }

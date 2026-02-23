@@ -32,6 +32,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AttackMelee",
+                    "type": "Button",
+                    "id": "5a930695-7d81-46cf-8d2a-2a4f6fbcad9b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -186,6 +195,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Lock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a85e179-2693-459f-b4e3-18c37e2135ec",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AttackMelee",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

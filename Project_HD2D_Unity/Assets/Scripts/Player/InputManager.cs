@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
 
     public event Action OnJumpPressed;
     public event Action OnLockToggle;
+    public event Action OnAttackMelee;
     
     private PlayerInputAction playerInputAction;
 
@@ -42,6 +43,7 @@ public class InputManager : MonoBehaviour
         playerInputAction.Player.Move.canceled += ReceiveMove;
         playerInputAction.Player.Jump.performed += ReceiveJump;
         playerInputAction.Player.Lock.performed += ReceiveLockToggle;
+        playerInputAction.Player.AttackMelee.performed += ReceiveAttackMelee;
         playerInputAction.Enable();
     }
 
@@ -51,6 +53,7 @@ public class InputManager : MonoBehaviour
         playerInputAction.Player.Move.canceled -= ReceiveMove;
         playerInputAction.Player.Jump.performed -= ReceiveJump;
         playerInputAction.Player.Lock.performed -= ReceiveLockToggle;
+        playerInputAction.Player.AttackMelee.performed -= ReceiveAttackMelee;
         playerInputAction.Disable();
     }
 
@@ -73,5 +76,10 @@ public class InputManager : MonoBehaviour
         OnLockToggle?.Invoke();
     }
 
+    private void ReceiveAttackMelee(InputAction.CallbackContext ctx)
+    {
+        OnAttackMelee?.Invoke();
+    }
+    
     #endregion
 }

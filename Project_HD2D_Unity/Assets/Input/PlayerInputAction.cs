@@ -118,6 +118,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AttackMelee"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a930695-7d81-46cf-8d2a-2a4f6fbcad9b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -274,6 +283,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Lock"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a85e179-2693-459f-b4e3-18c37e2135ec"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackMelee"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -285,6 +305,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Lock = m_Player.FindAction("Lock", throwIfNotFound: true);
+        m_Player_AttackMelee = m_Player.FindAction("AttackMelee", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -368,6 +389,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Lock;
+    private readonly InputAction m_Player_AttackMelee;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -391,6 +413,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Lock".
         /// </summary>
         public InputAction @Lock => m_Wrapper.m_Player_Lock;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/AttackMelee".
+        /// </summary>
+        public InputAction @AttackMelee => m_Wrapper.m_Player_AttackMelee;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -426,6 +452,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Lock.started += instance.OnLock;
             @Lock.performed += instance.OnLock;
             @Lock.canceled += instance.OnLock;
+            @AttackMelee.started += instance.OnAttackMelee;
+            @AttackMelee.performed += instance.OnAttackMelee;
+            @AttackMelee.canceled += instance.OnAttackMelee;
         }
 
         /// <summary>
@@ -446,6 +475,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Lock.started -= instance.OnLock;
             @Lock.performed -= instance.OnLock;
             @Lock.canceled -= instance.OnLock;
+            @AttackMelee.started -= instance.OnAttackMelee;
+            @AttackMelee.performed -= instance.OnAttackMelee;
+            @AttackMelee.canceled -= instance.OnAttackMelee;
         }
 
         /// <summary>
@@ -507,5 +539,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLock(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "AttackMelee" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttackMelee(InputAction.CallbackContext context);
     }
 }
