@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::Character.Data.PlayerData
   <MoveSpeed>k__BackingField: 5
-  <JumpForce>k__BackingField: 20
+  <JumpForce>k__BackingField: 5
   <RotationSpeed>k__BackingField: 10
   <GroundMask>k__BackingField:
     serializedVersion: 2
