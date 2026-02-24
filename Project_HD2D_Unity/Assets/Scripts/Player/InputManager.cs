@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour
     public event Action OnJumpPressed;
     public event Action OnLockToggle;
     public event Action OnAttackMelee;
+
+    public event Action<InputAction.CallbackContext> OnShoot;
     
     private PlayerInputAction playerInputAction;
 
@@ -41,9 +43,16 @@ public class InputManager : MonoBehaviour
     {
         playerInputAction.Player.Move.performed += ReceiveMove;
         playerInputAction.Player.Move.canceled += ReceiveMove;
+        
         playerInputAction.Player.Jump.performed += ReceiveJump;
+        
         playerInputAction.Player.Lock.performed += ReceiveLockToggle;
+        
         playerInputAction.Player.AttackMelee.performed += ReceiveAttackMelee;
+
+        playerInputAction.Player.Shoot.started += ReceiveShoot;
+        playerInputAction.Player.Shoot.canceled += ReceiveShoot;
+        
         playerInputAction.Enable();
     }
 
@@ -51,9 +60,16 @@ public class InputManager : MonoBehaviour
     {
         playerInputAction.Player.Move.performed -= ReceiveMove;
         playerInputAction.Player.Move.canceled -= ReceiveMove;
+        
         playerInputAction.Player.Jump.performed -= ReceiveJump;
+        
         playerInputAction.Player.Lock.performed -= ReceiveLockToggle;
+        
         playerInputAction.Player.AttackMelee.performed -= ReceiveAttackMelee;
+        
+        playerInputAction.Player.Shoot.started -= ReceiveShoot;
+        playerInputAction.Player.Shoot.canceled -= ReceiveShoot;
+        
         playerInputAction.Disable();
     }
 
@@ -80,6 +96,13 @@ public class InputManager : MonoBehaviour
     {
         OnAttackMelee?.Invoke();
     }
+
+    private void ReceiveShoot(InputAction.CallbackContext ctx)
+    {
+        OnShoot?.Invoke(ctx);
+    }
+
+    
     
     #endregion
 }

@@ -14,6 +14,7 @@ public class AnimationManager : MonoBehaviour
     private static readonly int JumpHash = Animator.StringToHash("Jump");
     private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
     private static readonly int MeleeAttack = Animator.StringToHash("MeleeAttack");
+    private static readonly int IsChargingHash = Animator.StringToHash("IsCharging");
 
     #endregion
 
@@ -32,8 +33,12 @@ public class AnimationManager : MonoBehaviour
 
         if (input.magnitude > 0.1f)
         {
-            animator.SetFloat(MoveXHash, Mathf.Lerp(animator.GetFloat(MoveXHash), input.x, 15f * Time.deltaTime));
-            animator.SetFloat(MoveYHash, Mathf.Lerp(animator.GetFloat(MoveYHash), input.y, 15f * Time.deltaTime));
+            animator.SetFloat(
+                MoveXHash, 
+                Mathf.Lerp(animator.GetFloat(MoveXHash), input.x, 15f * Time.deltaTime));
+            animator.SetFloat(
+                MoveYHash, 
+                Mathf.Lerp(animator.GetFloat(MoveYHash), input.y, 15f * Time.deltaTime));
         }
     }
 
@@ -50,6 +55,16 @@ public class AnimationManager : MonoBehaviour
     public void AttackMelee()
     {
         animator.SetTrigger(MeleeAttack);
+    }
+
+    public void StartShoot()
+    {
+        animator.SetBool(IsChargingHash, true);
+    }
+
+    public void EndShoot()
+    {
+        animator.SetBool(IsChargingHash, false);
     }
     
     #endregion

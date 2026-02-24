@@ -21,26 +21,36 @@ public class PlayerManager : MonoBehaviour
 
     private void OnEnable()
     {
-        inputManager.OnJumpPressed += playerController.TryJump;
         inputManager.OnLockToggle += lockOnSystem.ToggleLock;
 
-        inputManager.OnAttackMelee += playerController.TryAttack;
+        inputManager.OnAttackMelee += playerController.TryAttackMelee;
         
         playerController.OnAttackMelee  += animationManager.AttackMelee;
         
-        playerController.OnJump += animationManager.Jump;
+        inputManager.OnJumpPressed += playerController.TryJump;
+        playerController.OnJump += HandleJump;
+        
+        inputManager.OnShoot += playerController.TryShoot;
+        playerController.OnSimpleShoot += HandleSimpleShoot;
+        playerController.OnChargeShoot += HandleChargeShoot;
+        playerController.OnStartChargingShoot += animationManager.StartShoot;
     }
 
     private void OnDisable()
     {
-        inputManager.OnJumpPressed -= playerController.TryJump;
         inputManager.OnLockToggle -= lockOnSystem.ToggleLock;
         
-        inputManager.OnAttackMelee -= playerController.TryAttack;
+        inputManager.OnAttackMelee -= playerController.TryAttackMelee;
         
         playerController.OnAttackMelee  -= animationManager.AttackMelee;
         
-        playerController.OnJump -= animationManager.Jump;
+        inputManager.OnJumpPressed -= playerController.TryJump;
+        playerController.OnJump -= HandleJump;
+        
+        inputManager.OnShoot -= playerController.TryShoot;
+        playerController.OnSimpleShoot -= HandleSimpleShoot;
+        playerController.OnChargeShoot -= HandleChargeShoot;
+        playerController.OnStartChargingShoot -= animationManager.StartShoot;
     }
 
     private void Update()
@@ -121,6 +131,29 @@ public class PlayerManager : MonoBehaviour
             Vector3.Dot(d, camR),
             Vector3.Dot(d, camF)
         );
+    }
+
+    #endregion
+
+    #region Jump
+
+    private void HandleJump()
+    {
+        animationManager.Jump();
+    }
+
+    #endregion
+
+    #region Shoot
+
+    private void HandleSimpleShoot()
+    {
+        animationManager.EndShoot();
+    }
+
+    private void HandleChargeShoot(float chargeRatio)
+    {
+        animationManager.EndShoot();
     }
 
     #endregion

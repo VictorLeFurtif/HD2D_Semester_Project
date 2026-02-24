@@ -2,21 +2,21 @@ using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private static readonly int CanJump = Animator.StringToHash("CanJump");
-    private static readonly int Attacking = Animator.StringToHash("IsAttacking");
-
     #region Variables
-
+    
     public bool IsGrounded { get; private set; }
     public Rigidbody Rb => rb;
-
     public bool IsAttacking { get;private set; }
 
     public event Action OnJump;
     public event Action OnAttackMelee;
+    public event Action OnSimpleShoot;
+    public event Action<float> OnChargeShoot;
+    public event Action OnStartChargingShoot;
 
     [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerData playerDataRaw;
@@ -24,11 +24,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerDataInstance playerData;
     [SerializeField] private Animator animator;
     
+    [SerializeField] private float chargeThreshold = 0.5f;
+    [SerializeField] private float maxChargeTime = 2f;
+    
     private RaycastHit slopeHit;
     private bool exitingSlope;
-
+    
     private bool isInLockMode = false;
+    
+    private float shootPressTime;
+    private bool isChargingShoot;
 
+    private static readonly int CanJump = Animator.StringToHash("CanJump");
+    private static readonly int Attacking = Animator.StringToHash("IsAttacking");
+    
+    
+    
+
+    
+
+    
+    
+    
     #endregion
 
     #region Unity Lifecycle
@@ -52,9 +69,7 @@ public class PlayerController : MonoBehaviour
     {
         ApplyMovement(targetDirection);
     }
-
     
-
     #endregion
 
     #region Movement
@@ -209,7 +224,7 @@ public class PlayerController : MonoBehaviour
 
     #region Attack
 
-    public void TryAttack()
+    public void TryAttackMelee()
     {
         if (IsAttacking || !IsGrounded) return;
         
@@ -230,6 +245,34 @@ public class PlayerController : MonoBehaviour
         ToggleFixPlayerPosition(false);
         IsAttacking = false;
     }
+
+    public void TryShoot(InputAction.CallbackContext ctx)
+    {
+        if (IsAttacking || !IsGrounded) return;
+
+        if (ctx.started)
+        {
+            shootPressTime = Time.time;
+            isChargingShoot = true;
+            OnStartChargingShoot?.Invoke();
+        }
+        else if (ctx.canceled && isChargingShoot)
+        {
+            isChargingShoot = false;
+            float holdDuration = Time.time - shootPressTime;
+
+            if (holdDuration < chargeThreshold)
+            {
+                OnSimpleShoot?.Invoke();
+            }
+            else
+            {
+                float chargeRatio = Mathf.Clamp01(holdDuration / maxChargeTime);
+                OnChargeShoot?.Invoke(chargeRatio);
+            }
+        }
+    }
+    
     
     #endregion
 
