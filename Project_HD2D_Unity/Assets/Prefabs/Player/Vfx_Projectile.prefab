@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3208238093446687066}
   - component: {fileID: 2982901566575711848}
   - component: {fileID: 3506344787975105463}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4906,7 +4906,7 @@ GameObject:
   - component: {fileID: 376599783870551302}
   - component: {fileID: 7224291509440875889}
   - component: {fileID: 6662875346291001534}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Vfx_Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4992,8 +4992,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileBase
   m_speed: 10
   m_damage: 1
-  m_amplitudeY: 0
-  m_durationBezier: 0
   m_rb: {fileID: 7224291509440875889}
 --- !u!1 &6413690781964291158
 GameObject:
@@ -5005,7 +5003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1021236917020518961}
   - component: {fileID: 9169523905446514090}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

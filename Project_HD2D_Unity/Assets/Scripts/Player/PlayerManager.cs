@@ -92,6 +92,7 @@ public class PlayerManager : MonoBehaviour
         
         playerCursor.HandleRotation(shootDirection);
         
+        Debug.DrawRay(shootOriginPoint.position, shootDirection * 5f, Color.red, 0.5f);
     }
 
     private void FixedUpdate()
