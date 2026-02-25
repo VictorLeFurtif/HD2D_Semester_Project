@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     
     private float shootPressTime;
     private bool isChargingShoot;
+    private Quaternion targetRotation;
+
 
     private static readonly int CanJump = Animator.StringToHash("CanJump");
     private static readonly int Attacking = Animator.StringToHash("IsAttacking");
@@ -66,6 +68,12 @@ public class PlayerController : MonoBehaviour
     public void UpdatePlayerControllerPhysics(Vector3 targetDirection)
     {
         ApplyMovement(targetDirection);
+        
+        if (targetRotation != Quaternion.identity)
+        {
+            targetRotation.Normalize();
+            rb.MoveRotation(targetRotation);
+        }
     }
     
     #endregion
@@ -105,13 +113,13 @@ public class PlayerController : MonoBehaviour
             targetDirection = transform.forward;
         }
         
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        Quaternion playerRotation = Quaternion.Slerp(
-            transform.rotation, 
-            targetRotation, 
-            playerData.RotationSpeed * Time.deltaTime);
+        targetRotation = Quaternion.LookRotation(targetDirection);
+        targetRotation = Quaternion.Slerp(
+            transform.rotation,
+            Quaternion.LookRotation(targetDirection),
+            playerData.RotationSpeed * Time.fixedDeltaTime);
 
-        transform.rotation = playerRotation;
+        //transform.rotation = playerRotation;
     }
 
     #endregion

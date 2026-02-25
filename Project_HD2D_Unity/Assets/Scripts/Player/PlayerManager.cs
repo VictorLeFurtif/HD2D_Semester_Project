@@ -11,10 +11,15 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private LockOnSystem lockOnSystem;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform visualTransform; 
-    [SerializeField] private PlayerCursor playerCursor; 
+    [SerializeField] private PlayerCursor playerCursor;
+    [SerializeField] private Rigidbody rb;
     
-    private Vector3 targetDirection;
-    private Vector2 blendInput;
+    [Tooltip("Minimum stick magnitude to update rotation (deadzone)")]
+    [SerializeField] private float inputDeadzone = 0.8f;
+    
+    private Vector3 targetDirection = Vector3.zero;
+    private Vector2 blendInput = Vector2.zero;
+    private Vector3 shootDirection = Vector3.zero;
 
     #endregion
 
@@ -54,7 +59,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        lockOnSystem.UpdateLockRotation();
+        lockOnSystem.CalculLockRotation();
         CalculateTargetDirection();
     
         playerController.SetLockMode(lockOnSystem.IsLocked);
@@ -67,14 +72,17 @@ public class PlayerManager : MonoBehaviour
             blendInput,
             playerController.IsGrounded
         );
+
+        shootDirection = CalculateShootDirection(inputManager.ShootInput);
         
-        playerCursor.HandleRotation(inputManager.ShootInput);
+        playerCursor.HandleRotation(shootDirection);
         
     }
 
     private void FixedUpdate()
     {
         playerController.UpdatePlayerControllerPhysics(targetDirection);
+        lockOnSystem.HandleRotationLock(rb);
     }
 
     private void LateUpdate()
@@ -138,6 +146,24 @@ public class PlayerManager : MonoBehaviour
             Vector3.Dot(d, camR),
             Vector3.Dot(d, camF)
         );
+    }
+
+    private Vector3 CalculateShootDirection(Vector2 shootInput)
+    {
+        if (shootInput.magnitude < inputDeadzone) return shootDirection;
+
+        Vector3 camRight   = cameraTransform.right;
+        camRight.y         = 0f;
+        camRight.Normalize();
+
+        Vector3 camForward  = cameraTransform.forward;
+        camForward.y        = 0f;
+        camForward.Normalize();
+
+        Vector3 worldDirection = camRight * shootInput.x + camForward * shootInput.y;
+        worldDirection.y = 0f;
+
+        return worldDirection;
     }
 
     #endregion

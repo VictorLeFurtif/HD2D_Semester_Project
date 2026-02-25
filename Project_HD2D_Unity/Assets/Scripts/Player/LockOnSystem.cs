@@ -21,6 +21,8 @@ public class LockOnSystem : MonoBehaviour
 
     private List<ILockable> lockableTargets = new List<ILockable>();
 
+    private Quaternion targetRotation;
+
     #endregion
 
     public void ToggleLock()
@@ -36,7 +38,20 @@ public class LockOnSystem : MonoBehaviour
         }
     }
 
-    public void UpdateLockRotation()
+    public void HandleRotationLock(Rigidbody rb)
+    {
+        if (!IsLocked) return;
+        
+        if (!IsTargetValid(CurrentTarget))
+        {
+            Unlock();
+            return;
+        }
+        
+        rb.MoveRotation(targetRotation);
+    }
+
+    public void CalculLockRotation()
     {
         if (!IsLocked) return;
         
@@ -52,9 +67,9 @@ public class LockOnSystem : MonoBehaviour
         
         if (directionToTarget != Vector3.zero)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            targetRotation = Quaternion.LookRotation(directionToTarget);
 
-            playerTransform.rotation = Quaternion.Slerp(
+            targetRotation = Quaternion.Slerp(
                 playerTransform.rotation,
                 targetRotation,
                 rotationSpeed * Time.deltaTime
