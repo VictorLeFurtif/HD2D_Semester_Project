@@ -4658,7 +4658,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!43 &776669642
 Mesh:
@@ -12237,10 +12237,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player PlaceHolder
       objectReference: {fileID: 0}
-    - target: {fileID: 480803297957582579, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: 80d371985d29814499a17b6aa0ef5775, type: 2}
     - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: playerCursor
       value: 

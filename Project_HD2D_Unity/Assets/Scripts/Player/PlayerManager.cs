@@ -6,13 +6,22 @@ public class PlayerManager : MonoBehaviour
     #region Variables
 
     [SerializeField] private InputManager inputManager;
+    
     [SerializeField] private PlayerController playerController;
+    
     [SerializeField] private AnimationManager animationManager;
+    
     [SerializeField] private LockOnSystem lockOnSystem;
+    
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private Transform visualTransform; 
+    [SerializeField] private Transform visualTransform;
+    [SerializeField] private Transform shootOriginPoint;
+    
     [SerializeField] private PlayerCursor playerCursor;
+    
     [SerializeField] private Rigidbody rb;
+    
+    [SerializeField] private ProjectileBase projectilePrefab;
     
     [Tooltip("Minimum stick magnitude to update rotation (deadzone)")]
     [SerializeField] private float inputDeadzone = 0.8f;
@@ -20,10 +29,16 @@ public class PlayerManager : MonoBehaviour
     private Vector3 targetDirection = Vector3.zero;
     private Vector2 blendInput = Vector2.zero;
     private Vector3 shootDirection = Vector3.zero;
+    private ShootingSystem shootingSystem = new ShootingSystem();
 
     #endregion
 
     #region Unity Lifecycle
+
+    private void Start()
+    {
+        ObjectPooler.SetupPool<ProjectileBase>(projectilePrefab, 20, "Projectile");
+    }
 
     private void OnEnable()
     {
@@ -181,11 +196,13 @@ public class PlayerManager : MonoBehaviour
 
     private void HandleSimpleShoot()
     {
+        shootingSystem.SpawnProjectile(shootDirection, shootOriginPoint);
         //animationManager.EndShoot();
     }
 
     private void HandleChargeShoot(float chargeRatio)
     {
+        shootingSystem.SpawnProjectile(shootDirection, shootOriginPoint);
         //animationManager.EndShoot();
     }
 
