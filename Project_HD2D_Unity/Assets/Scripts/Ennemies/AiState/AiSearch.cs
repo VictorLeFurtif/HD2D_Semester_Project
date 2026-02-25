@@ -18,7 +18,6 @@ public class AiSearch : AiState
 
     public override void UpdateState(AiBehavior core)
     {
-        // Si on retrouve le joueur, on fonce !
         if (core.CanSeePlayer()) 
         { 
             core.ChangeState(core.chaseState); 
@@ -26,14 +25,12 @@ public class AiSearch : AiState
         }
 
         timer -= Time.deltaTime;
-
-        // Si l'IA arrive au point de recherche, on en choisit un autre
+        
         if (core.movement.HasReachedDestination())
         {
             MoveToRandomPoint(core);
         }
-
-        // Si le temps est écoulé, on abandonne et on rentre
+        
         if (timer <= 0) 
         {
             core.ChangeState(core.goToSpawnState);
@@ -42,7 +39,6 @@ public class AiSearch : AiState
 
     private void MoveToRandomPoint(AiBehavior core)
     {
-        // On génère un point aléatoire dans un cercle
         Vector2 randomCircle = Random.insideUnitCircle * searchRadius;
         Vector3 randomPoint = searchCenter + new Vector3(randomCircle.x, 0, randomCircle.y);
         

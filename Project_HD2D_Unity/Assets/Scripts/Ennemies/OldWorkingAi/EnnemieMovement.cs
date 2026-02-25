@@ -6,9 +6,35 @@ public class EnnemieMovement : MonoBehaviour
 {
     #region Link
     public NavMeshAgent agent;
+    
+    [Header("Visual Settings")]
+    public Transform visualTransform; 
+    public float rotationSpeed = 10f;
+    public float raycastDistance = 1.5f;
+    public LayerMask groundLayer;
     #endregion
     
-    #region Core Methods
+    void Update()
+    {
+        AlignVisualToGround();
+    }
+
+    private void AlignVisualToGround()
+    {
+        if (visualTransform == null) return;
+        RaycastHit hit;
+        
+        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out hit, raycastDistance, groundLayer))
+        {
+            Vector3 groundNormal = hit.normal;
+            
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, groundNormal) * transform.rotation;
+            
+            visualTransform.rotation = Quaternion.Slerp(visualTransform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+    }
+
+    #region Core Methods (Inchangé)
     public void SetTarget(Vector3 position)
     {
         if (agent.isOnNavMesh)
@@ -44,5 +70,4 @@ public class EnnemieMovement : MonoBehaviour
 
     public void SetSpeed(float speed) => agent.speed = speed;
     #endregion
-    
 }

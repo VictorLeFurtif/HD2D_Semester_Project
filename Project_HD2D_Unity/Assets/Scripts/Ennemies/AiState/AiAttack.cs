@@ -50,7 +50,7 @@ public class AiAttack : AiState
         isAttacking = true;
         Debug.Log("L'ennemi lance une attaque !");
         
-        rb.AddForce(new Vector3(100,100,100),ForceMode.Impulse);
+        //rb.AddForce(new Vector3(100,100,100),ForceMode.Impulse);
         
         yield return new WaitForSeconds(AttackCooldown); 
         isAttacking = false;

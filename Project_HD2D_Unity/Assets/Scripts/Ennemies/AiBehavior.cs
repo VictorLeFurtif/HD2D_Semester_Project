@@ -3,9 +3,10 @@ using UnityEngine;
 public class AiBehavior : MonoBehaviour
 {
     #region States Instances
-    [Header("States Data")]
-    public AiStatic staticState = new AiStatic();
-    public AiPatrol patrolState = new AiPatrol();
+
+    [Header("States Data")] 
+    public AiStatic StaticState { get; private set; } = new AiStatic();
+    public AiPatrol patrolState { get; private set; } = new AiPatrol();
     public AiChase chaseState = new AiChase();
     public AiAttack attackState = new AiAttack();
     public AiSearch searchState = new AiSearch();
