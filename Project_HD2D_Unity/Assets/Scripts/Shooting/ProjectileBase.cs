@@ -10,7 +10,8 @@ public class ProjectileBase : MonoBehaviour
 
     [SerializeField] protected Rigidbody m_rb;
 
-    private const string PoolKey = "Projectile";
+    [SerializeField] protected string poolKey = "Projectile_";
+    public string PoolKey => poolKey;
     
 
     public virtual void Initialize(Vector2 direction)

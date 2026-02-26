@@ -13,7 +13,8 @@ public class InputManager : MonoBehaviour
     public event Action OnLockToggle;
     public event Action OnAttackMelee;
 
-    public event Action<InputAction.CallbackContext> OnShoot;
+    public event Action OnShootStart;
+    public event Action OnShootStop;
     
     private PlayerInputAction playerInputAction;
 
@@ -28,6 +29,7 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
+        StopActionsMap();
         SetupActionsMap();
     }
 
@@ -54,8 +56,8 @@ public class InputManager : MonoBehaviour
         
         playerInputAction.Player.AttackMelee.performed += ReceiveAttackMelee;
 
-        playerInputAction.Player.Shoot.started += ReceiveShoot;
-        playerInputAction.Player.Shoot.canceled += ReceiveShoot;
+        playerInputAction.Player.Shoot.started += ReceiveShootStart;
+        playerInputAction.Player.Shoot.canceled += ReceiveShootStop;
         
         playerInputAction.Enable();
     }
@@ -74,8 +76,8 @@ public class InputManager : MonoBehaviour
         
         playerInputAction.Player.AttackMelee.performed -= ReceiveAttackMelee;
         
-        playerInputAction.Player.Shoot.started -= ReceiveShoot;
-        playerInputAction.Player.Shoot.canceled -= ReceiveShoot;
+        playerInputAction.Player.Shoot.started -= ReceiveShootStart;
+        playerInputAction.Player.Shoot.canceled -= ReceiveShootStop;
         
         playerInputAction.Disable();
     }
@@ -109,9 +111,14 @@ public class InputManager : MonoBehaviour
         OnAttackMelee?.Invoke();
     }
 
-    private void ReceiveShoot(InputAction.CallbackContext ctx)
+    private void ReceiveShootStart(InputAction.CallbackContext ctx)
     {
-        OnShoot?.Invoke(ctx);
+        OnShootStart?.Invoke();
+    }
+    
+    private void ReceiveShootStop(InputAction.CallbackContext ctx)
+    {
+        OnShootStop?.Invoke();
     }
     
     #endregion
