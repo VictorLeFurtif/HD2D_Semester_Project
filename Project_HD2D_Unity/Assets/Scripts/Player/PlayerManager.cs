@@ -19,11 +19,11 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Minimum stick magnitude to update rotation (deadzone)")]
     [SerializeField] private float inputDeadzone = 0.8f;
 
-    private Vector3 m_targetDirection = Vector3.zero;
-    private Vector2 m_blendInput      = Vector2.zero;
-    private Vector3 m_shootDirection  = Vector3.zero;
+    private Vector3 targetDirection = Vector3.zero;
+    private Vector2 blendInput      = Vector2.zero;
+    private Vector3 shootDirection  = Vector3.zero;
 
-    [SerializeField] private ShootingSystem m_shootingSystem;
+    [SerializeField] private ShootingSystem shootingSystem;
 
     #endregion
 
@@ -36,8 +36,8 @@ public class PlayerManager : MonoBehaviour
         inputManager.OnAttackMelee += playerController.TryAttackMelee;
         inputManager.OnJumpPressed += playerController.TryJump;
 
-        inputManager.OnShootStart += m_shootingSystem.HandleStartTryShoot;
-        inputManager.OnShootStop += m_shootingSystem.HandleStopTryShoot;
+        inputManager.OnShootStart += shootingSystem.HandleStartTryShoot;
+        inputManager.OnShootStop += shootingSystem.HandleStopTryShoot;
 
         playerController.OnAttackMelee += animationManager.AttackMelee;
         playerController.OnJump        += HandleJump;
@@ -49,8 +49,8 @@ public class PlayerManager : MonoBehaviour
         inputManager.OnAttackMelee -= playerController.TryAttackMelee;
         inputManager.OnJumpPressed -= playerController.TryJump;
 
-        inputManager.OnShootStart -= m_shootingSystem.HandleStartTryShoot;
-        inputManager.OnShootStop -= m_shootingSystem.HandleStopTryShoot;
+        inputManager.OnShootStart -= shootingSystem.HandleStartTryShoot;
+        inputManager.OnShootStop -= shootingSystem.HandleStopTryShoot;
 
         playerController.OnAttackMelee -= animationManager.AttackMelee;
         playerController.OnJump        -= HandleJump;
@@ -64,22 +64,22 @@ public class PlayerManager : MonoBehaviour
         playerController.SetLockMode(lockOnSystem.IsLocked);
         playerController.UpdatePlayerController(cameraTransform, inputManager.MoveInput);
 
-        m_blendInput = GetBlendTreeInput(playerController.IsAttacking);
+        blendInput = GetBlendTreeInput(playerController.IsAttacking);
         animationManager.HandleAnimation(
             playerController.Rb.linearVelocity.magnitude,
-            m_blendInput,
+            blendInput,
             playerController.IsGrounded);
 
-        m_shootDirection = CalculateShootDirection(inputManager.ShootInput);
-        playerCursor.HandleRotation(m_shootDirection);
-        m_shootingSystem.SetShootDirection(m_shootDirection);
+        shootDirection = CalculateShootDirection(inputManager.ShootInput);
+        playerCursor.HandleRotation(shootDirection);
+        shootingSystem.SetShootDirection(shootDirection);
 
-        Debug.DrawRay(shootOriginPoint.position, m_shootDirection * 5f, Color.red, 0.5f);
+        Debug.DrawRay(shootOriginPoint.position, shootDirection * 5f, Color.red, 0.5f);
     }
 
     private void FixedUpdate()
     {
-        playerController.UpdatePlayerControllerPhysics(m_targetDirection);
+        playerController.UpdatePlayerControllerPhysics(targetDirection);
         lockOnSystem.HandleRotationLock(rb);
     }
 
@@ -100,16 +100,16 @@ public class PlayerManager : MonoBehaviour
         Vector3 camRight = cameraTransform.right;
         camRight.y = 0; camRight.Normalize();
 
-        m_targetDirection = camForward * inputManager.MoveInput.y +
+        targetDirection = camForward * inputManager.MoveInput.y +
                             camRight   * inputManager.MoveInput.x;
 
-        if (m_targetDirection.magnitude > 0.1f)
-            m_targetDirection.Normalize();
+        if (targetDirection.magnitude > 0.1f)
+            targetDirection.Normalize();
     }
 
     private Vector2 GetBlendTreeInput(bool isAttacking)
     {
-        if (isAttacking) return m_blendInput;
+        if (isAttacking) return blendInput;
 
         Vector3 camR = cameraTransform.right;
         camR.y = 0f; camR.Normalize();
@@ -128,9 +128,9 @@ public class PlayerManager : MonoBehaviour
                 Vector3.Dot(enemyDir, camF));
         }
 
-        if (m_targetDirection.magnitude < 0.1f) return Vector2.zero;
+        if (targetDirection.magnitude < 0.1f) return Vector2.zero;
 
-        Vector3 d = m_targetDirection;
+        Vector3 d = targetDirection;
         d.y = 0f; d.Normalize();
 
         return new Vector2(
@@ -140,7 +140,7 @@ public class PlayerManager : MonoBehaviour
 
     private Vector3 CalculateShootDirection(Vector2 shootInput)
     {
-        if (shootInput.magnitude < inputDeadzone) return m_shootDirection;
+        if (shootInput.magnitude < inputDeadzone) return shootDirection;
 
         Vector3 camRight = cameraTransform.right;
         camRight.y = 0f; camRight.Normalize();
