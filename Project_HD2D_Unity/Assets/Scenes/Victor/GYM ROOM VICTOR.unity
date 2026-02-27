@@ -13023,6 +13023,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 610014270}
     - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
+      propertyPath: playerDataRaw
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e73603580fe6a74d86f03fe582124ee, type: 2}
+    - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: shootingSystem
       value: 
       objectReference: {fileID: 2636261790364949927}

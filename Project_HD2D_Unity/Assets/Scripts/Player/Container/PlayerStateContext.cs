@@ -12,4 +12,5 @@ public class PlayerStateContext
     public PlayerManager StateMachine;
     public PlayerCursor PlayerCursor;
     public ShootingSystem ShootingSystem;
+    public PlayerDataInstance PlayerData;
 }

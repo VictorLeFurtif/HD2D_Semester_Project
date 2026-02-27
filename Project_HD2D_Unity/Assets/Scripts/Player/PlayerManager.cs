@@ -20,6 +20,9 @@ public class PlayerManager : MonoBehaviour
     public PlayerBaseState CurrentPlayerState { get; private set; }
 
     private PlayerStateContext context;
+    
+    [SerializeField] private PlayerData playerDataRaw;
+    private PlayerDataInstance playerData;
 
     #endregion
 
@@ -27,6 +30,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+
+        playerData = playerDataRaw.Init();
+        
         context = new PlayerStateContext
         {
             Controller       = playerController,
@@ -39,6 +45,7 @@ public class PlayerManager : MonoBehaviour
             StateMachine     = this,
             PlayerCursor     = playerCursor,
             ShootingSystem   = shootingSystem,
+            PlayerData = playerData
         };
 
         TransitionTo(new PlayerLocomotionState());
@@ -50,8 +57,8 @@ public class PlayerManager : MonoBehaviour
         inputManager.OnJumpPressed += TryJump;
         inputManager.OnAttackMelee += TryAttack;
 
-        inputManager.OnShootStart += shootingSystem.HandleStartTryShoot;
-        inputManager.OnShootStop  += shootingSystem.HandleStopTryShoot;
+        inputManager.OnShootStart += TryStartShoot;
+        inputManager.OnShootStop  += TryStopShoot;
 
         playerController.OnAttackMelee += animationManager.AttackMelee;
         playerController.OnJump        += animationManager.Jump;
@@ -63,8 +70,8 @@ public class PlayerManager : MonoBehaviour
         inputManager.OnJumpPressed -= TryJump;
         inputManager.OnAttackMelee -= TryAttack;
 
-        inputManager.OnShootStart -= shootingSystem.HandleStartTryShoot;
-        inputManager.OnShootStop  -= shootingSystem.HandleStopTryShoot;
+        inputManager.OnShootStart -= TryStartShoot;
+        inputManager.OnShootStop  -= TryStopShoot;
 
         playerController.OnAttackMelee -= animationManager.AttackMelee;
         playerController.OnJump        -= animationManager.Jump;
@@ -113,9 +120,23 @@ public class PlayerManager : MonoBehaviour
     {
         if (!CurrentPlayerState.CanAttack) return;
         
-        playerController.TryAttackMelee();
         TransitionTo(new PlayerAttackMeleeState());
+    }
 
+    private void TryStartShoot()
+    {
+        if (CurrentPlayerState.CanAttack)
+        {
+            shootingSystem.HandleStartTryShoot();
+        }
+    }
+
+    private void TryStopShoot()
+    {
+        if (CurrentPlayerState.CanAttack)
+        {
+            shootingSystem.HandleStopTryShoot();
+        }
     }
 
     #endregion

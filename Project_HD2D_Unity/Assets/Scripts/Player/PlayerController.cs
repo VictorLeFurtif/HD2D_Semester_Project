@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody Rb     => rb;
 
     public event Action OnJump;
-    public event Action OnAttackMelee;
+    public Action OnAttackMelee;
 
     [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerData playerDataRaw;
@@ -146,14 +146,10 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Attack
+    
+    public void RunRoutine(IEnumerator routine) => StartCoroutine(routine);
 
-    public void TryAttackMelee()
-    {
-        if (IsAttacking || !IsGrounded) return;
-        AttackMelee();
-    }
-
-    private void AttackMelee()
+    public void AttackMelee()
     {
         OnAttackMelee?.Invoke();
         StartCoroutine(AttackMeleeIe());
@@ -188,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
     #region Constraints
 
-    private void ToggleFixPlayerPosition(bool fixedPosition)
+    public void ToggleFixPlayerPosition(bool fixedPosition)
     {
         if (fixedPosition)
         {

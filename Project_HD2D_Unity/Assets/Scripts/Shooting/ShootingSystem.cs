@@ -28,7 +28,7 @@ public class ShootingSystem : MonoBehaviour
     private void Awake()
     {
         for (int i = 0; i < projectilePrefab.Length; i++)
-            ObjectPooler.SetupPool(projectilePrefab[i], 10, $"Projectile_{i}");
+            ObjectPooler.SetupPool(projectilePrefab[i], 3, $"Projectile_{i}");
     }
 
     private void Update()
