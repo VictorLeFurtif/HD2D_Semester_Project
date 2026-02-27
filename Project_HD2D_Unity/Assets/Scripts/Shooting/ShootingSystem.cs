@@ -19,6 +19,8 @@ public class ShootingSystem : MonoBehaviour
     private float chargeRatio     = 0f;
     
     private PlayerDataInstance playerData;
+    
+    private Vector2 finalDirection = Vector2.zero;
 
     #endregion
 
@@ -108,9 +110,11 @@ public class ShootingSystem : MonoBehaviour
         projectile.transform.position = origin.position;
         projectile.gameObject.SetActive(true);
 
-        Vector2 finalDirection = new Vector2(shootDirection.x, shootDirection.z);
+        finalDirection = new Vector2(shootDirection.x, shootDirection.z);
         if (finalDirection != Vector2.zero) finalDirection.Normalize();
 
+        Debug.Log(finalDirection);
+        
         projectile.Initialize(finalDirection);
     }
 

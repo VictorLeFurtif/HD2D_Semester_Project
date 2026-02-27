@@ -16,6 +16,8 @@ public abstract class PlayerBaseState
     public virtual bool CanMove => true;
     public virtual bool CanShoot => true;
     
+    public virtual string Name { get; protected set; }
+    
     protected virtual void CalculateTargetDirection(PlayerStateContext psc)
     {
         Vector3 camForward = psc.CameraTransform.forward;

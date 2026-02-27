@@ -58,4 +58,6 @@ public class PlayerLocomotionState : PlayerBaseState
     
     public override bool CanJump   => true;
     public override bool CanAttack => true;
+    
+    public override string Name => "Locomotion";
 }

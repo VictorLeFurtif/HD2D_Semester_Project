@@ -54,5 +54,7 @@ namespace Player.State
         }
         
         public override bool CanShoot => false;
+        
+        public override string Name => "Attack Melee";
     }
 }

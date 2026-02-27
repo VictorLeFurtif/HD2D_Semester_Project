@@ -1,4 +1,7 @@
+using System;
+using System.Diagnostics;
 using Player.State;
+using TMPro;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -16,12 +19,13 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PlayerCursor   playerCursor;
     [SerializeField] private Rigidbody      rb;
     [SerializeField] private ShootingSystem shootingSystem;
+    [SerializeField] private PlayerData playerDataRaw;
+    [SerializeField] private TMP_Text stateText;
 
     public PlayerBaseState CurrentPlayerState { get; private set; }
 
     private PlayerStateContext context;
     
-    [SerializeField] private PlayerData playerDataRaw;
     private PlayerDataInstance playerData;
 
     #endregion
@@ -81,6 +85,11 @@ public class PlayerManager : MonoBehaviour
         playerController.OnJump        -= animationManager.Jump;
     }
 
+    private void Start()
+    {
+        DebugState();
+    }
+
     private void Update()
     {
         CurrentPlayerState.UpdateState(context);
@@ -105,6 +114,7 @@ public class PlayerManager : MonoBehaviour
         CurrentPlayerState?.ExitState(context);
         CurrentPlayerState = newState;
         CurrentPlayerState.EnterState(context);
+        DebugState();
     }
 
     #endregion
@@ -141,6 +151,15 @@ public class PlayerManager : MonoBehaviour
         {
             shootingSystem.HandleStopTryShoot();
         }
+    }
+
+    #endregion
+
+    #region Debugging
+
+    private void DebugState()
+    {
+        stateText.text = $"State: {CurrentPlayerState.Name}";
     }
 
     #endregion
