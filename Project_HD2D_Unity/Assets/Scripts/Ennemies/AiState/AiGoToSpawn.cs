@@ -21,4 +21,6 @@ public class AiGoToSpawn : AiState
             
     }
     public override void ExitState(AiBehavior core) { }
+    
+    public override string Name => "Go to spawn";
 }

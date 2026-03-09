@@ -20,9 +20,11 @@ public class AiChase : AiState
         }
         else 
         {
-            core.movement.SetTarget(core.targetPlayer.transform.position);
+            core.movement.SetTarget(core.target.transform.position);
         }
     }
 
     public override void ExitState(AiBehavior core) { }
+
+    public override string Name => "Chase";
 }

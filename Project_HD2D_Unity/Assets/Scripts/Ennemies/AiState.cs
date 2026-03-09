@@ -7,5 +7,8 @@ public abstract class AiState
     public abstract void EnterState(AiBehavior aiBehavior);
     public abstract void UpdateState(AiBehavior aiBehavior);
     public abstract void ExitState(AiBehavior aiBehavior);
+
+    public virtual string Name { get; private set; }
+
     #endregion
 }

@@ -46,4 +46,6 @@ public class AiSearch : AiState
     }
 
     public override void ExitState(AiBehavior core) { }
+    
+    public override string Name => "Searching";
 }

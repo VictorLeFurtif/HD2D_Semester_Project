@@ -30,4 +30,6 @@ public class AiPatrol : AiState
         }
     }
     public override void ExitState(AiBehavior core) { }
+    
+    public override string Name => "Patrol";
 }
