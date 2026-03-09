@@ -47,7 +47,7 @@ public class PlayerLocomotionState : PlayerBaseState
 
     public override void FixedUpdateState(PlayerStateContext psc)
     {
-        psc.Controller.UpdatePlayerControllerPhysics(targetDirection,speedMultiplier);
+        HandlePhysics(psc,speedMultiplier);
         psc.LockOnSystem.HandleRotationLock(psc.Rb);
     }
     

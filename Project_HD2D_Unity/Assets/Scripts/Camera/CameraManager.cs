@@ -127,8 +127,6 @@ public class CameraManager : MonoBehaviour
             StopCoroutine(cameraCoroutine);
 
         
-        
-        
         Vector3 targetPosition = playerTransform.position + offsetCamera;
         
         Vector3 newPosition = Vector3.SmoothDamp(

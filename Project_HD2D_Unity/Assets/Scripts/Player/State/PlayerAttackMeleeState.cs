@@ -11,22 +11,19 @@ namespace Player.State
             psc.Controller.RunRoutine(AttackMeleeIe(psc));
         }
 
-        public override void ExitState(PlayerStateContext psc)
-        {
-       
-        }
+        public override void ExitState(PlayerStateContext psc){}
 
-        public override void UpdateState(PlayerStateContext psc)
-        {
-            
-        }
+        public override void UpdateState(PlayerStateContext psc){}
 
-        public override void FixedUpdateState(PlayerStateContext psc)
-        {
+        public override void FixedUpdateState(PlayerStateContext psc){}
         
-        }
+        public override bool CanShoot => false;
         
-        
+        public override string Name => "Attack Melee";
+
+        public override bool CanMove { get; } = false;
+
+
         private IEnumerator AttackMeleeIe(PlayerStateContext psc)
         {
             
@@ -43,19 +40,11 @@ namespace Player.State
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-
-            psc.Controller.ToggleFixPlayerPosition(true);
             
             yield return new WaitForSeconds(
-                psc.PlayerData.GetAttackClipLength() - dashDuration - 0.5f);
-
-            psc.Controller.ToggleFixPlayerPosition(false);
+                psc.PlayerData.GetAttackClipLength() - dashDuration);
             
             psc.StateMachine.TransitionTo(new PlayerLocomotionState());
         }
-        
-        public override bool CanShoot => false;
-        
-        public override string Name => "Attack Melee";
     }
 }

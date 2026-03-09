@@ -107,11 +107,13 @@ public class ShootingSystem : MonoBehaviour
 
     private ProjectileBase SelectProjectile()
     {
+        print("Projectile Easy");
         return projectilePrefab[0];
     }
 
     private ProjectileBase SelectProjectile(float charge)
     {
+        print(charge < playerData.MediumHeavyThreshold ? "Projectile Medium" : "Projectile Heavy");
         return charge < playerData.MediumHeavyThreshold ? projectilePrefab[1] : projectilePrefab[2];
     }
 
@@ -127,8 +129,6 @@ public class ShootingSystem : MonoBehaviour
 
         finalDirection = new Vector2(shootDirection.x, shootDirection.z);
         if (finalDirection != Vector2.zero) finalDirection.Normalize();
-
-        Debug.Log(finalDirection);
         
         projectile.Initialize(finalDirection);
     }

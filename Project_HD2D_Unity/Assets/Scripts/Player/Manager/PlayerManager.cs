@@ -89,6 +89,10 @@ public class PlayerManager : MonoBehaviour
 
         playerController.OnAttackMelee += animationManager.AttackMelee;
         playerController.OnJump        += animationManager.Jump;
+
+        shootingSystem.OnChargeTick += uiManager.UpdateEnergyBar;
+        
+        inputManager.OnDash += TryDash;
     }
 
     private void OnDisable()
@@ -102,6 +106,10 @@ public class PlayerManager : MonoBehaviour
 
         playerController.OnAttackMelee -= animationManager.AttackMelee;
         playerController.OnJump        -= animationManager.Jump;
+        
+        shootingSystem.OnChargeTick -= uiManager.UpdateEnergyBar;
+        
+        inputManager.OnDash += TryDash;
     }
 
     private void Start()
@@ -111,7 +119,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        CurrentPlayerState.UpdateState(context);
+        CurrentPlayerState.UpdateState(context); ;
     }
 
     private void FixedUpdate()
@@ -174,6 +182,14 @@ public class PlayerManager : MonoBehaviour
 
         shootingSystem.HandleStopTryShoot(lockTarget);
         Mana--;
+    }
+
+    public void TryDash()
+    {
+        if (CurrentPlayerState.CanMove)
+        {
+            TransitionTo(new PlayerDashState());
+        }
     }
 
     #endregion
