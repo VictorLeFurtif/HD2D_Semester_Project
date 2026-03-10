@@ -5,8 +5,11 @@ namespace Player.State
 {
     public class PlayerAttackMeleeState : PlayerBaseState
     {
+        private Vector3 velocityStock;
+        
         public override void EnterState(PlayerStateContext psc)
         {
+            velocityStock = psc.Rb.linearVelocity;
             psc.Controller.OnAttackMelee?.Invoke();
             psc.Controller.RunRoutine(AttackMeleeIe(psc));
         }
@@ -34,7 +37,7 @@ namespace Player.State
             {
                 psc.Rb.linearVelocity = Vector3.Lerp(
                     psc.PlayerTransform.forward * psc.PlayerData.DashSpeed,
-                    Vector3.zero,
+                    velocityStock,
                     elapsed / dashDuration);
 
                 elapsed += Time.deltaTime;

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Manager;
 using UnityEngine;
 
 namespace Player.State
@@ -7,6 +8,8 @@ namespace Player.State
     {
         private float dashSpeed    = 20f;
         private float dashDuration = 0.4f;
+
+        private Vector3 velocityStock;
 
         public override string Name { get; protected set; } = "Dash";
 
@@ -17,6 +20,8 @@ namespace Player.State
 
         public override void EnterState(PlayerStateContext psc)
         {
+            velocityStock = psc.Rb.linearVelocity;
+            HandleAnimation(psc);
             psc.Controller.RunRoutine(DashRoutine(psc));
         }
 
@@ -33,22 +38,30 @@ namespace Player.State
         private IEnumerator DashRoutine(PlayerStateContext psc)
         {
             float elapsed = 0f;
-
             Vector3 dashDirection = psc.PlayerTransform.forward;
 
+            EventManager.CameraShake();
+            psc.VfxManager.ToggleDashTrail(true);
+            
             while (elapsed < dashDuration)
             {
                 psc.Rb.linearVelocity = Vector3.Lerp(
                     dashDirection * dashSpeed,
-                    Vector3.zero,
+                    velocityStock * 0.7f,
                     elapsed / dashDuration);
 
                 elapsed += Time.deltaTime;
                 yield return null;
             }
 
-            psc.Rb.linearVelocity = Vector3.zero;
+            
+            if (psc.Controller.IsGrounded)
+            {
+                psc.Rb.linearVelocity = velocityStock;
+            }
+            
             psc.StateMachine.TransitionTo(new PlayerLocomotionState());
+            psc.VfxManager.ToggleDashTrail(false);
         }
     }
 }

@@ -21,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private ShootingSystem shootingSystem;
     [SerializeField] private PlayerData playerDataRaw;
     [SerializeField] private TMP_Text stateText;
+    [SerializeField] private VfxManager vfxManager;
 
     public PlayerBaseState CurrentPlayerState { get; private set; }
 
@@ -66,7 +67,8 @@ public class PlayerManager : MonoBehaviour
             StateMachine     = this,
             PlayerCursor     = playerCursor,
             ShootingSystem   = shootingSystem,
-            PlayerData = playerData
+            PlayerData = playerData,
+            VfxManager = vfxManager
         };
 
         TransitionTo(new PlayerLocomotionState());
@@ -184,7 +186,7 @@ public class PlayerManager : MonoBehaviour
         Mana--;
     }
 
-    public void TryDash()
+    private void TryDash()
     {
         if (CurrentPlayerState.CanMove)
         {

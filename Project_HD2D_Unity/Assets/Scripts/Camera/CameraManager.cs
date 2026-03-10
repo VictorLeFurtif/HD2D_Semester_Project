@@ -20,9 +20,14 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private float smoothTime = 0.3f;
     
     [SerializeField] private CameraPlayerState cameraState = CameraPlayerState.Fix;
+    [SerializeField] private Transform childTransform;
+    
+    
     private float cameraPositionY = 0f;
     
     private Coroutine cameraCoroutine;
+    private Coroutine shakeCoroutine;
+    
     private Vector3 velocity = Vector3.zero;
 
     #endregion
@@ -44,11 +49,13 @@ public class CameraManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnCameraTrigger += OnCameraTrigger;
+        EventManager.OnCameraShake += Shake;
     }
 
     private void OnDisable()
     {
         EventManager.OnCameraTrigger -= OnCameraTrigger;
+        EventManager.OnCameraShake -= Shake;
     }
 
     private void LateUpdate()
@@ -162,6 +169,40 @@ public class CameraManager : MonoBehaviour
     }
 
     #endregion
+
+    #region Shake
+
+    private void Shake()
+    {
+        if (shakeCoroutine != null)
+            StopCoroutine(shakeCoroutine);
+
+        shakeCoroutine = StartCoroutine(ShakeIE(0.2f,0.7f));
+    }
     
-    
+    private IEnumerator ShakeIE(float duration, float magnitude)
+    {
+        float elapsed = 0f;
+        float seed    = UnityEngine.Random.value * 100f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            float currentMagnitude = Mathf.Lerp(magnitude, 0f, t);
+
+            childTransform.localPosition = new Vector3(
+                (Mathf.PerlinNoise(seed + t * 10f, 0f) - 0.5f) * 2f,
+                0,
+                (Mathf.PerlinNoise(0f, seed + t * 10f) - 0.5f) * 2f) * currentMagnitude;
+
+            yield return null;
+        }
+
+        childTransform.localPosition = Vector3.zero;
+        shakeCoroutine = null;
+    }
+
+    #endregion
 }
