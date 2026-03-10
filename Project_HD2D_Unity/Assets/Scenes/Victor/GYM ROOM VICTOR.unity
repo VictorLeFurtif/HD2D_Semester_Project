@@ -2039,7 +2039,7 @@ PrefabInstance:
       objectReference: {fileID: 1410116906}
     - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
       propertyPath: obstacleMask.m_Bits
-      value: 25
+      value: 537
       objectReference: {fileID: 0}
     - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
       propertyPath: patrolPoints.Array.size
