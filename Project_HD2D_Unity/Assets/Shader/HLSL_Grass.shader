@@ -53,7 +53,6 @@ Shader "Custom/HLSL_Grass"
             #define BLADE_SEGMENTS 4
             #define MAX_POSITIONS 100
 
-            // URP texture declarations (évite le "tout noir" sur certaines configs)
             TEXTURE2D(_BladeTexture);  SAMPLER(sampler_BladeTexture);
             TEXTURE2D(_GrassMap);      SAMPLER(sampler_GrassMap);
             TEXTURE2D(_WindMap);       SAMPLER(sampler_WindMap);
@@ -82,14 +81,13 @@ Shader "Custom/HLSL_Grass"
                 float4 _WindVelocity;
                 float  _WindFrequency;
 
-                // Interactive
                 float _PositionCount;
                 float _Radius;
                 float _MaxWidth;
             CBUFFER_END
 
-            // IMPORTANT: le tableau ne peut PAS être un Property, il est rempli via C# SetVectorArray
-            float4 _Positions[MAX_POSITIONS]; // xyz = world pos
+            
+            float4 _Positions[MAX_POSITIONS];
 
             struct VertexInput
             {
@@ -99,7 +97,6 @@ Shader "Custom/HLSL_Grass"
                 float2 uv      : TEXCOORD0;
             };
 
-            // IMPORTANT: ne pas utiliser SV_POSITION ici (on transporte la pos objet jusqu’au geom)
             struct VertexOutput
             {
                 float4 vertex  : POSITION;
@@ -243,14 +240,12 @@ Shader "Custom/HLSL_Grass"
                     float3x3 randRotMatrix  = angleAxis3x3(rand(posOS) * UNITY_TWO_PI, float3(0, 0, 1.0f));
                     float3x3 randBendMatrix = angleAxis3x3(rand(posOS.zzx) * _BendDelta * UNITY_PI * 0.5f, float3(-1.0f, 0, 0));
 
-                    // ---- Wind sample (objet -> UV) ----
                     float2 windUV = posOS.xz * _WindMap_ST.xy + _WindMap_ST.zw
                                   + normalize(_WindVelocity.xzy) * _WindFrequency * _Time.y;
 
                     float2 windSample2 = (SAMPLE_TEXTURE2D_LOD(_WindMap, sampler_WindMap, windUV, 0).xy * 2 - 1)
                                        * length(_WindVelocity);
 
-                    // ---- Interactive (multi positions) comme le pastebin ----
                     float3 posWS = TransformObjectToWorld(posOS);
 
                     float2 totalDisp = float2(0, 0);
@@ -264,22 +259,20 @@ Shader "Custom/HLSL_Grass"
                         float3 p = _Positions[i].xyz;
 
                         float dist = distance(p, posWS);
-                        float circle = 1.0 - saturate(dist / max(_Radius, 1e-4)); // 1 au centre, 0 au bord
+                        float circle = 1.0 - saturate(dist / max(_Radius, 1e-4));
                         maxCircle = max(maxCircle, circle);
 
-                        float3 sphereDisp = (posWS - p) * circle;                 // push away
+                        float3 sphereDisp = (posWS - p) * circle;                
                         float2 dispXZ = clamp(sphereDisp.xz, -_MaxWidth.xx, _MaxWidth.xx);
                         totalDisp += dispXZ;
                     }
 
-                    // Convertit le push en pliage (bending) sur l’axe XZ
                     float2 bend2 = windSample2 + totalDisp;
                     float bendAmt = length(bend2);
 
                     float3 bendAxis = (bendAmt > 1e-5) ? normalize(float3(bend2.x, bend2.y, 0)) : float3(0, 1, 0);
                     float3x3 bendMatrix = angleAxis3x3(UNITY_PI * bendAmt, bendAxis);
 
-                    // Matrices brin
                     float3x3 baseM = mul(tangentToLocal, randRotMatrix);
                     float3x3 tipM  = mul(mul(mul(tangentToLocal, bendMatrix), randBendMatrix), randRotMatrix);
 
@@ -327,7 +320,7 @@ Shader "Custom/HLSL_Grass"
             float4 frag(GeomData i) : SV_Target
             {
                 float4 albedo = SAMPLE_TEXTURE2D(_BladeTexture, sampler_BladeTexture, i.uv);
-                // here make a lerp from _baseTexture to _tipcolor
+                // here make a lerp from _baseTexture to _tipcolor instead of base color
 				float4 tint   = lerp(_BaseColor, _TipColor, i.uv.y);
                 float4 color  = albedo * tint;
 
