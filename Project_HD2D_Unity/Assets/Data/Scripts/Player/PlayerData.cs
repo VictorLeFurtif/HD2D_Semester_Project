@@ -46,8 +46,10 @@ public class PlayerDataInstance
     
     public float DashSpeed;
     public float DashDuration;
+    public float DashCooldown;
 
     public float JumpForce;
+    public float JumpCooldown;
     public float MaxVerticalVelocity;
     public float GravityMultiplier;
     public float MaxGravityTime;
@@ -85,8 +87,10 @@ public class PlayerDataInstance
 
         DashDuration = data.DashData.DashDuration;
         DashSpeed = data.DashData.DashSpeed;
+        DashCooldown = data.DashData.DashCooldown;
 
         JumpForce = data.JumpData.JumpForce;
+        JumpCooldown = data.JumpData.JumpCooldown;
         MaxVerticalVelocity = data.JumpData.MaxVerticalVelocity;
         GravityMultiplier = data.JumpData.GravityMultiplier;
         MaxGravityTime = data.JumpData.MaxGravityTime;

@@ -7,13 +7,11 @@ public class PlayerLocomotionState : PlayerBaseState
     
     public override void EnterState(PlayerStateContext psc)
     {
-        psc.ShootingSystem.OnChargeTick += HandleChargeTick;
         psc.HasDash = false;
     }
 
     public override void ExitState(PlayerStateContext psc)
     {
-        psc.ShootingSystem.OnChargeTick -= HandleChargeTick;
         speedMultiplier = 1f;
     }
 
@@ -37,7 +35,6 @@ public class PlayerLocomotionState : PlayerBaseState
             blendInput,
             psc.Controller.IsGrounded);
         
-        HandleCursor(psc);
         HandleAnimation(psc);
     }
 

@@ -94,13 +94,6 @@ public abstract class PlayerBaseState
         psc.Controller.UpdatePlayerController(psc.CameraTransform, psc.InputManager.MoveInput);
     }
     
-    protected void HandleCursor(PlayerStateContext psc)
-    {
-        psc.ShootDirection = CalculateShootDirection(psc); 
-        psc.PlayerCursor.HandleRotation(psc.ShootDirection);
-        psc.ShootingSystem.SetShootDirection(psc.ShootDirection);
-    }
-    
     protected void HandleAnimation(PlayerStateContext psc)
     {
         blendInput = GetBlendTreeInput(psc);

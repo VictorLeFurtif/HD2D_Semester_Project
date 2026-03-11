@@ -33,7 +33,6 @@ namespace Player.State
 
         public override void UpdateState(PlayerStateContext psc)
         {
-            HandleCursor(psc);
             HandleAnimation(psc);
         }
 

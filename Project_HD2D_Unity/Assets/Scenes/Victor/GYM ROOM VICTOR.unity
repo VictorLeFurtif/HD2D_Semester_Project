@@ -3628,7 +3628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &610014269
 Transform:
   m_ObjectHideFlags: 0
@@ -13837,6 +13837,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 610014270}
     - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
+      propertyPath: shootingSystem
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 961739753}
@@ -13908,7 +13912,8 @@ PrefabInstance:
       propertyPath: 'linkPoints.Array.data[3]'
       value: 
       objectReference: {fileID: 6814109585301885169}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2260263632553136361, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

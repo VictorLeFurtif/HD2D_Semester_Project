@@ -39,7 +39,6 @@ namespace Player.State
             psc.Controller.SetLockMode(psc.LockOnSystem.IsLocked);
 
             HandleMovement(psc);
-            HandleCursor(psc);
             HandleAnimation(psc);
         }
 

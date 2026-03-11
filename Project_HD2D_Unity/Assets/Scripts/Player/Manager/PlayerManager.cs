@@ -16,10 +16,7 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform playerHead;
-
-    [SerializeField] private PlayerCursor   playerCursor;
     [SerializeField] private Rigidbody      rb;
-    [SerializeField] private ShootingSystem shootingSystem;
     [SerializeField] private PlayerData playerDataRaw;
     [SerializeField] private TMP_Text stateText;
     [SerializeField] private VfxManager vfxManager;
@@ -39,8 +36,8 @@ public class PlayerManager : MonoBehaviour
     
     //TEMPORARY
 
-    private float dashCooldown     = 0.2f;
     private float dashCooldownTimer = 0f;
+    private float jumpCooldownTimer = 0f;
     
     [SerializeField] private int mana;
     [SerializeField] private UiManager uiManager;
@@ -82,8 +79,6 @@ public class PlayerManager : MonoBehaviour
             CameraTransform  = cameraTransform,
             PlayerTransform  = transform,
             StateMachine     = this,
-            PlayerCursor     = playerCursor,
-            ShootingSystem   = shootingSystem,
             PlayerData = playerData,
             VfxManager = vfxManager,
             ShootDirection   = transform.forward,
@@ -94,7 +89,6 @@ public class PlayerManager : MonoBehaviour
         
         lockOnSystem.InitData(playerData);
         playerController.InitData(playerData);
-        shootingSystem.InitData(playerData);
 
         Mana = mana;
     }
@@ -109,8 +103,7 @@ public class PlayerManager : MonoBehaviour
 
         playerController.OnAttackMelee += animationManager.AttackMelee;
         playerController.OnJump        += animationManager.Jump;
-
-        shootingSystem.OnChargeTick += uiManager.UpdateEnergyBar;
+        
         
         inputManager.OnDash += TryDash;
 
@@ -128,8 +121,6 @@ public class PlayerManager : MonoBehaviour
         playerController.OnAttackMelee -= animationManager.AttackMelee;
         playerController.OnJump        -= animationManager.Jump;
         
-        shootingSystem.OnChargeTick -= uiManager.UpdateEnergyBar;
-        
         inputManager.OnDash -= TryDash;
         
         inputManager.OnJumpReleased -= TryJumpReleased;
@@ -144,6 +135,7 @@ public class PlayerManager : MonoBehaviour
     {
         CurrentPlayerState.UpdateState(context); 
         TimerDash();
+        TimerJump();
     }
 
     private void FixedUpdate()
@@ -153,8 +145,6 @@ public class PlayerManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        playerCursor.FollowPlayer();
-
         if (lockOnSystem.IsLocked)
         {
             vfxManager.LinkFollow(playerHead,lockOnSystem.CurrentTarget.GetLockTransform());
@@ -184,10 +174,11 @@ public class PlayerManager : MonoBehaviour
     private void TryJump()
     {
         if (!CurrentPlayerState.CanJump) return;
-        
+        if (jumpCooldownTimer > 0f) return;
+
+        jumpCooldownTimer = playerData.JumpCooldown;
         playerController.TryJump();
         TransitionTo(AirState);
-
     }
     
     private void TryJumpReleased()
@@ -210,16 +201,26 @@ public class PlayerManager : MonoBehaviour
         if (dashCooldownTimer > 0f) return;
         if (context.HasDash) return;
         
-        dashCooldownTimer = dashCooldown;
+        dashCooldownTimer = playerData.DashCooldown;
         TransitionTo(DashState);
     }
 
+    #endregion
+    
+    #region Timer
+    
     private void TimerDash()
     {
         if (dashCooldownTimer > 0f)
             dashCooldownTimer -= Time.deltaTime;
     }
-
+    
+    private void TimerJump()
+    {
+        if (jumpCooldownTimer > 0f)
+            jumpCooldownTimer -= Time.deltaTime;
+    }
+    
     #endregion
 
     #region Debugging
