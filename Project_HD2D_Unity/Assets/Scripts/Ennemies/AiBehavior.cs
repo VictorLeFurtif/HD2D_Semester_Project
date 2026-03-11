@@ -14,10 +14,8 @@ public class AiBehavior : MonoBehaviour
         public AiSearch searchState = new AiSearch();
         public AiGoToSpawn goToSpawnState = new AiGoToSpawn();
         public AiKO aiKoState = new AiKO();
-        public AiTakeDamage aiTakeDamage = new AiTakeDamage();
 
         private AiState currentState;
-        [HideInInspector] public AiState previousState;
         
     #endregion
 
@@ -38,7 +36,7 @@ public class AiBehavior : MonoBehaviour
     #region References
         //KO thing , to move later for SRP (if needed)
         public Slider KoSlider;
-        public int KoSliderMax = 100;
+        public const int KoSliderMax = 100;
         public bool isHold = false;
         
         //Name of the state
@@ -86,6 +84,7 @@ public class AiBehavior : MonoBehaviour
         void Update() 
         {
             currentState?.UpdateState(this);
+            KoHandlerUpdt();
             
             Debug.DrawRay(lastKnownPosition, Vector3.up * 2f, Color.yellow);
         }
@@ -98,10 +97,10 @@ public class AiBehavior : MonoBehaviour
         public void ChangeState(AiState newState)
         {
             currentState?.ExitState(this);
-            previousState = currentState;
-            
             currentState = newState;
+            
             StateTxt.text = newState.Name;
+            
             currentState.EnterState(this);
         }
         
@@ -191,14 +190,26 @@ public class AiBehavior : MonoBehaviour
         
     #endregion
 
-    #region Take Damage
+    #region KoHandler
 
-        public void TakeDamage(int value)
+    public void KoHandlerUpdt()
+    {
+
+        if (currentState == aiKoState) return;
+
+        if (KoSlider.value >= KoSliderMax)
         {
-            aiTakeDamage.DamageToApply = value;
-            
-            ChangeState(aiTakeDamage);
+            ChangeState(aiKoState);
         }
+
+    }
+
+    public void KoSliderFill(int value)
+    {
+
+        KoSlider.value += value;
+
+    }
 
     #endregion
 }
