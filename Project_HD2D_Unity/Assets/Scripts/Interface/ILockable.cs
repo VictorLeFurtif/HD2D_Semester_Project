@@ -6,4 +6,5 @@ public interface ILockable
     bool IsLockable();
     float GetLockPriority();
     
+    
 }

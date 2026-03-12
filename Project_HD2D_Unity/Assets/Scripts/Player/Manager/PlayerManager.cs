@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Timers;
+using Manager;
 using Player.State;
 using TMPro;
 using UnityEngine;
@@ -96,38 +97,39 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         inputManager.OnLockToggle += OnLockToggle;
-        
         inputManager.OnLockToggle  += OnLockToggle;
         inputManager.OnLockRelease += OnLockRelease;
         
         inputManager.OnJumpPressed += TryJump;
-        inputManager.OnAttackMelee += TryAttack;
-
-        playerController.OnAttackMelee += animationManager.AttackMelee;
-        playerController.OnJump        += animationManager.Jump;
+        inputManager.OnJumpReleased += TryJumpReleased;
+        playerController.OnJump += animationManager.Jump;
         
+        inputManager.OnAttackMelee += TryAttack;
+        playerController.OnAttackMelee += animationManager.AttackMelee;
         
         inputManager.OnDash += TryDash;
 
-        inputManager.OnJumpReleased += TryJumpReleased;
+        inputManager.OnEnergyGive += TryGiveEnergy;
+        inputManager.OnEnergyTake += TryTakeEnergy;
     }
 
     private void OnDisable()
     {
         inputManager.OnLockToggle  -= OnLockToggle;
-        
         inputManager.OnLockToggle  -= OnLockToggle;
         inputManager.OnLockRelease -= OnLockRelease;
         
         inputManager.OnJumpPressed -= TryJump;
-        inputManager.OnAttackMelee -= TryAttack;
+        inputManager.OnJumpReleased -= TryJumpReleased;
+        playerController.OnJump -= animationManager.Jump;
         
+        inputManager.OnAttackMelee -= TryAttack;
         playerController.OnAttackMelee -= animationManager.AttackMelee;
-        playerController.OnJump        -= animationManager.Jump;
         
         inputManager.OnDash -= TryDash;
         
-        inputManager.OnJumpReleased -= TryJumpReleased;
+        inputManager.OnEnergyGive -= TryGiveEnergy;
+        inputManager.OnEnergyTake -= TryTakeEnergy;
     }
 
     private void Start()
@@ -175,10 +177,24 @@ public class PlayerManager : MonoBehaviour
 
     #region Input Gates
 
+    private void TryTakeEnergy()
+    {
+        if (!lockOnSystem.IsLocked) return;
+        
+        EventManager.EnergyInteract(true);
+    }
+
+    private void TryGiveEnergy()
+    {
+        if (!lockOnSystem.IsLocked) return;
+        
+        EventManager.EnergyInteract(false);
+    }
+    
+
     private void TryJump()
     {
-        if (!CurrentPlayerState.CanJump) return;
-        if (jumpCooldownTimer > 0f) return;
+        if (!CurrentPlayerState.CanJump || jumpCooldownTimer > 0f || lockOnSystem.IsLocked) return;
 
         jumpCooldownTimer = playerData.JumpCooldown;
         playerController.TryJump();
