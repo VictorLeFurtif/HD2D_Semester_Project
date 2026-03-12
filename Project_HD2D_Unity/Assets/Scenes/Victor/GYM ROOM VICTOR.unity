@@ -13912,8 +13912,7 @@ PrefabInstance:
       propertyPath: 'linkPoints.Array.data[3]'
       value: 
       objectReference: {fileID: 6814109585301885169}
-    m_RemovedComponents:
-    - {fileID: 2260263632553136361, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

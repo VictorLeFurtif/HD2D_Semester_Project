@@ -209,8 +209,13 @@ public class PlayerManager : MonoBehaviour
 
     private void TryAttack()
     {
+        if (CurrentPlayerState is PlayerAttackMeleeState meleeState)
+        {
+            meleeState.BufferAttack();
+            return;
+        }
+
         if (!CurrentPlayerState.CanAttack) return;
-        
         TransitionTo(MeleeAttackState);
     }
 

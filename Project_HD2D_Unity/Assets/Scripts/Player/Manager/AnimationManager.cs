@@ -15,6 +15,7 @@ public class AnimationManager : MonoBehaviour
     private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
     private static readonly int MeleeAttack = Animator.StringToHash("MeleeAttack");
     private static readonly int IsChargingHash = Animator.StringToHash("IsCharging");
+    private static readonly int ComboIndexHash = Animator.StringToHash("ComboIndex");
 
     #endregion
 
@@ -60,6 +61,12 @@ public class AnimationManager : MonoBehaviour
 
     public void AttackMelee()
     {
+        animator.SetTrigger(MeleeAttack);
+    }
+    
+    public void SetComboIndex(int index)
+    {
+        animator.SetInteger(ComboIndexHash, index);
         animator.SetTrigger(MeleeAttack);
     }
     

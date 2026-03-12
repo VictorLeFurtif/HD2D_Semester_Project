@@ -25,9 +25,7 @@ public class PlayerDataInstance
     public float PlayerHeight;
     public float MaxSlopeAngle;
 
-    public float DashSpeedAttack;
-    public float DashDurationAttack;
-    public AnimationClip AttackClip;
+    public CombatHitData[] ComboHits;
     public float ComboWindow;
 
     public float ChargeThreshold;
@@ -69,9 +67,7 @@ public class PlayerDataInstance
         Deceleration = data.Movement.Deceleration;
         RunThreshold = data.Movement.RunThreshold;
 
-        DashSpeedAttack = data.Combat.DashSpeed;
-        DashDurationAttack = data.Combat.DashDuration;
-        AttackClip = data.Combat.AttackClip;
+        ComboHits = data.Combat.ComboHits;
         ComboWindow = data.Combat.ComboWindow;
 
         ChargeThreshold = data.Shooting.ChargeThreshold;
@@ -97,5 +93,5 @@ public class PlayerDataInstance
         JumpCutMultiplier = data.JumpData.JumpCutMultiplier;
     }
 
-    public float GetAttackClipLength() => AttackClip != null ? AttackClip.length : 0f;
+    public float GetAttackClipLength(int index) => ComboHits[index].Clip != null ? ComboHits[index].Clip.length : 0f;
 }
