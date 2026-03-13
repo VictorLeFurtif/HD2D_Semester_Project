@@ -34,7 +34,6 @@ public class PlayerLocomotionState : PlayerBaseState
         float animMagnitude = magnitude > psc.PlayerData.RunThreshold ? 1f :
             magnitude > 0.1f  ? 0.5f : 0f;
         
-        Debug.Log(animMagnitude);
         
         blendInput = GetBlendTreeInput(psc);
         psc.AnimationManager.HandleAnimation(
