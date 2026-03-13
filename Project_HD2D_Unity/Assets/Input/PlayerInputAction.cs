@@ -172,6 +172,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Carry"",
+                    ""type"": ""Button"",
+                    ""id"": ""f82c3de2-6239-40ba-b8e4-44b1d6e76806"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -504,6 +513,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""TakeEnergy"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd11495f-4e97-4dec-8a91-025af205a3e5"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Carry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c21dc12-e4fe-4b00-9d68-f043a79af5a7"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Carry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -521,6 +552,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_GiveEnergy = m_Player.FindAction("GiveEnergy", throwIfNotFound: true);
         m_Player_TakeEnergy = m_Player.FindAction("TakeEnergy", throwIfNotFound: true);
+        m_Player_Carry = m_Player.FindAction("Carry", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -610,6 +642,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_GiveEnergy;
     private readonly InputAction m_Player_TakeEnergy;
+    private readonly InputAction m_Player_Carry;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -657,6 +690,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/TakeEnergy".
         /// </summary>
         public InputAction @TakeEnergy => m_Wrapper.m_Player_TakeEnergy;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Carry".
+        /// </summary>
+        public InputAction @Carry => m_Wrapper.m_Player_Carry;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -710,6 +747,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @TakeEnergy.started += instance.OnTakeEnergy;
             @TakeEnergy.performed += instance.OnTakeEnergy;
             @TakeEnergy.canceled += instance.OnTakeEnergy;
+            @Carry.started += instance.OnCarry;
+            @Carry.performed += instance.OnCarry;
+            @Carry.canceled += instance.OnCarry;
         }
 
         /// <summary>
@@ -748,6 +788,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @TakeEnergy.started -= instance.OnTakeEnergy;
             @TakeEnergy.performed -= instance.OnTakeEnergy;
             @TakeEnergy.canceled -= instance.OnTakeEnergy;
+            @Carry.started -= instance.OnCarry;
+            @Carry.performed -= instance.OnCarry;
+            @Carry.canceled -= instance.OnCarry;
         }
 
         /// <summary>
@@ -851,5 +894,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTakeEnergy(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Carry" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCarry(InputAction.CallbackContext context);
     }
 }

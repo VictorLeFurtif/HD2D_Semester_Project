@@ -18,6 +18,8 @@ public class InputManager : MonoBehaviour
     public event Action OnEnergyGive;
     public event Action OnEnergyTake;
 
+    public event Action OnCarry;
+
     public event Action OnDash;
     
     private PlayerInputAction playerInputAction;
@@ -67,6 +69,8 @@ public class InputManager : MonoBehaviour
         playerInputAction.Player.GiveEnergy.started += ReceiveGiveEnergy;
         playerInputAction.Player.TakeEnergy.started += ReceiveTakeEnergy;
         
+        playerInputAction.Player.Carry.started += ReceiveCarry;
+        
         playerInputAction.Enable();
     }
 
@@ -90,6 +94,8 @@ public class InputManager : MonoBehaviour
         
         playerInputAction.Player.GiveEnergy.started -= ReceiveGiveEnergy;
         playerInputAction.Player.TakeEnergy.started -= ReceiveTakeEnergy;
+        
+        playerInputAction.Player.Carry.started -= ReceiveCarry;
         
         playerInputAction.Disable();
     }
@@ -140,6 +146,11 @@ public class InputManager : MonoBehaviour
     private void ReceiveTakeEnergy(InputAction.CallbackContext ctx)
     {
         OnEnergyTake?.Invoke();
+    }
+
+    private void ReceiveCarry(InputAction.CallbackContext ctx)
+    {
+        OnCarry?.Invoke();
     }
     
     #endregion

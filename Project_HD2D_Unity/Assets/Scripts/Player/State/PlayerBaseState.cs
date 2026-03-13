@@ -13,9 +13,10 @@ public abstract class PlayerBaseState
     public virtual bool CanJump(PlayerStateContext psc) => false;
     public virtual bool CanAttack => false;
     public virtual bool CanMove => true;
-    public virtual bool CanShoot => true;
     public virtual bool CanTakeDamage => true;
     public virtual bool CanDash => false;
+
+    public virtual bool CanCarry => false;
     
     public virtual string Name { get; protected set; }
     
