@@ -73,15 +73,14 @@ public class PlayerManager : MonoBehaviour
 
     private void OnEnable()
     {
-        inputManager.OnLockToggle += OnLockToggle;
+        inputManager.OnLockToggle  += OnLockToggle;
         inputManager.OnLockRelease += OnLockRelease;
 
-        inputManager.OnJumpPressed += TryJump;
+        inputManager.OnJumpPressed  += TryJump;
         inputManager.OnJumpReleased += TryJumpReleased;
-        playerController.OnJump += animationManager.Jump;
+        playerController.OnJump     += animationManager.Jump;
 
         inputManager.OnAttackMelee += TryAttack;
-        playerController.OnAttackMelee += animationManager.AttackMelee;
 
         inputManager.OnDash += TryDash;
 
@@ -91,15 +90,14 @@ public class PlayerManager : MonoBehaviour
 
     private void OnDisable()
     {
-        inputManager.OnLockToggle -= OnLockToggle;
+        inputManager.OnLockToggle  -= OnLockToggle;
         inputManager.OnLockRelease -= OnLockRelease;
 
-        inputManager.OnJumpPressed -= TryJump;
+        inputManager.OnJumpPressed  -= TryJump;
         inputManager.OnJumpReleased -= TryJumpReleased;
-        playerController.OnJump -= animationManager.Jump;
+        playerController.OnJump     -= animationManager.Jump;
 
         inputManager.OnAttackMelee -= TryAttack;
-        playerController.OnAttackMelee -= animationManager.AttackMelee;
 
         inputManager.OnDash -= TryDash;
 
@@ -187,6 +185,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         if (!CurrentPlayerState.CanAttack) return;
+        
         TransitionTo(MeleeAttackState);
     }
 

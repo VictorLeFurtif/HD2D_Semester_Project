@@ -10,7 +10,8 @@ namespace Player.State
 
         private bool bufferNextAttack = false;
         private bool bufferWindowOpen = false;
-        private int  comboIndex = 0;
+        private int comboIndex = 0;
+        private Coroutine currentAttackRoutine;
 
         public override bool CanShoot => false;
         public override bool CanMove => false;
@@ -22,12 +23,19 @@ namespace Player.State
 
         public override void EnterState(PlayerStateContext psc)
         {
+            comboIndex = 0;
             bufferNextAttack = false;
-            psc.AnimationManager.SetComboIndex(comboIndex);
-            psc.Controller.RunRoutine(AttackMeleeIe(psc));
+            StartAttackSequence(psc);
         }
 
-        public override void ExitState(PlayerStateContext psc) { }
+        public override void ExitState(PlayerStateContext psc) 
+        {
+            if (currentAttackRoutine != null)
+                psc.Controller.StopCoroutine(currentAttackRoutine);
+            
+            bufferWindowOpen = false;
+            bufferNextAttack = false;
+        }
 
         public override void UpdateState(PlayerStateContext psc)
         {
@@ -48,7 +56,16 @@ namespace Player.State
 
         #endregion
 
-        #region Combo
+        #region Combo Logic
+
+        private void StartAttackSequence(PlayerStateContext psc)
+        {
+            if (currentAttackRoutine != null)
+                psc.Controller.StopCoroutine(currentAttackRoutine);
+
+            psc.AnimationManager.SetComboIndex(comboIndex);
+            currentAttackRoutine = psc.Controller.RunRoutine(AttackMeleeIe(psc));
+        }
 
         private void ResolveCombo(PlayerStateContext psc)
         {
@@ -58,12 +75,12 @@ namespace Player.State
             {
                 comboIndex++;
                 bufferNextAttack = false;
-                psc.AnimationManager.SetComboIndex(comboIndex);
-                psc.Controller.RunRoutine(AttackMeleeIe(psc));
+                StartAttackSequence(psc);
             }
             else
             {
                 comboIndex = 0;
+                psc.AnimationManager.ExitAttack();
                 psc.StateMachine.TransitionTo(psc.StateMachine.LocomotionState);
             }
         }
@@ -77,15 +94,23 @@ namespace Player.State
             CombatHitData hit = psc.PlayerData.ComboHits[comboIndex];
 
             yield return DashIe(hit, psc);
-            yield return WaitBeforeWindowIe(hit, psc);
-            yield return OpenWindowIe(psc);
 
+            yield return new WaitUntil(() => psc.AnimationManager.IsInAttackAnimation());
+
+            bufferWindowOpen = true;
+
+            float clipLength = psc.AnimationManager.GetCurrentAnimatorStateInfo(0).length;
+            
+            yield return new WaitForSeconds(clipLength * 0.8f);
+
+            bufferWindowOpen = false;
             ResolveCombo(psc);
         }
 
         private IEnumerator DashIe(CombatHitData data, PlayerStateContext psc)
         {
             float elapsed = 0f;
+            psc.Rb.linearVelocity = Vector3.zero;
 
             while (elapsed < data.DashDuration)
             {
@@ -97,25 +122,7 @@ namespace Player.State
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-        }
-
-        private IEnumerator WaitBeforeWindowIe(CombatHitData hit, PlayerStateContext psc)
-        {
             psc.Rb.linearVelocity = Vector3.zero;
-
-            float waitBeforeWindow = psc.PlayerData.GetAttackClipLength(comboIndex)
-                                     - hit.DashDuration
-                                     - psc.PlayerData.ComboWindow;
-
-            if (waitBeforeWindow > 0f)
-                yield return new WaitForSeconds(waitBeforeWindow);
-        }
-
-        private IEnumerator OpenWindowIe(PlayerStateContext psc)
-        {
-            bufferWindowOpen = true;
-            yield return new WaitForSeconds(psc.PlayerData.ComboWindow);
-            bufferWindowOpen = false;
         }
 
         #endregion
