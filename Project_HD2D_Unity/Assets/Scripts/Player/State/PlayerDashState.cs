@@ -23,12 +23,16 @@ namespace Player.State
                 psc.HasDash = true;
             }
             
+            psc.AnimationManager.SetDash(true);
             velocityStock = psc.Rb.linearVelocity;
             HandleAnimation(psc);
             psc.Controller.RunRoutine(DashRoutine(psc));
         }
 
-        public override void ExitState(PlayerStateContext psc) { }
+        public override void ExitState(PlayerStateContext psc)
+        {
+            psc.AnimationManager.SetDash(false);
+        }
 
         public override void UpdateState(PlayerStateContext psc)
         {
