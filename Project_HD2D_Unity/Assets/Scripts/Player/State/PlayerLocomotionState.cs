@@ -60,4 +60,5 @@ public class PlayerLocomotionState : PlayerBaseState
     public override bool CanDash => true;
 
     public override string Name => "Locomotion";
+    public override bool CanCarry => true;
 }

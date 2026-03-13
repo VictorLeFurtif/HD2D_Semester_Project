@@ -23,7 +23,7 @@ public class CarryObject : MonoBehaviour, ICarryable
         }
     }
 
-    public bool CanCarry() => true;
+    public bool IsCarryable() => true;
 
     public void Eject()
     {

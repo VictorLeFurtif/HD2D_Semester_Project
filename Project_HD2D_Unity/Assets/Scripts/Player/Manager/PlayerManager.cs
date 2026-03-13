@@ -91,6 +91,8 @@ public class PlayerManager : MonoBehaviour
 
         inputManager.OnEnergyGive += TryGiveEnergy;
         inputManager.OnEnergyTake += TryTakeEnergy;
+
+        inputManager.OnCarry += TryCarry;
     }
 
     private void OnDisable()
@@ -108,6 +110,8 @@ public class PlayerManager : MonoBehaviour
 
         inputManager.OnEnergyGive -= TryGiveEnergy;
         inputManager.OnEnergyTake -= TryTakeEnergy;
+        
+        inputManager.OnCarry += TryCarry;
     }
 
     private void Start()
@@ -183,7 +187,7 @@ public class PlayerManager : MonoBehaviour
 
     private void TryAttack()
     {
-        /*if (CurrentPlayerState is PlayerAttackMeleeState meleeState)
+        if (CurrentPlayerState is PlayerAttackMeleeState meleeState)
         {
             meleeState.BufferAttack();
             return;
@@ -191,22 +195,22 @@ public class PlayerManager : MonoBehaviour
 
         if (!CurrentPlayerState.CanAttack) return;
         
-        TransitionTo(MeleeAttackState);*/
+        TransitionTo(MeleeAttackState);
         
-        
-        TryCarry();
     }
 
     #endregion
 
     private void TryCarry()
     {
+        
         if (context.CurrentTargetCarry != null)
         {
             TransitionTo(LocomotionState);
-            print("FULL");
             return;
         }
+
+        if (!CurrentPlayerState.CanCarry) return;
         
         var targets = DetectionHelper.FindVisibleTargets<ICarryable>(
             transform, 
@@ -215,7 +219,7 @@ public class PlayerManager : MonoBehaviour
             playerData.CarryLayer
         );
 
-        targets.RemoveAll(t => !t.CanCarry());
+        targets.RemoveAll(t => !t.IsCarryable());
 
         context.CurrentTargetCarry = DetectionHelper.GetBestTarget(transform, targets);
         

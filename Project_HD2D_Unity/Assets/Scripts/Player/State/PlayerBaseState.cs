@@ -15,6 +15,8 @@ public abstract class PlayerBaseState
     public virtual bool CanMove => true;
     public virtual bool CanTakeDamage => true;
     public virtual bool CanDash => false;
+
+    public virtual bool CanCarry => false;
     
     public virtual string Name { get; protected set; }
     

@@ -6,7 +6,7 @@ namespace Interface
     {
         void Carry(Transform playerHead);
         
-        bool CanCarry();
+        bool IsCarryable();
         
         void Eject();
     }
