@@ -98,7 +98,7 @@ public abstract class PlayerBaseState
     {
         blendInput = GetBlendTreeInput(psc);
         psc.AnimationManager.HandleAnimation(
-            psc.Rb.linearVelocity.magnitude,
+            psc.InputManager.MoveInput.magnitude,
             blendInput,
             psc.Controller.IsGrounded);
     }

@@ -124,13 +124,13 @@ public class PlayerManager : MonoBehaviour
         CurrentPlayerState.FixedUpdateState(context);
     }
 
-    private void LateUpdate()
+    /*private void LateUpdate()
     {
         if (lockOnSystem.IsLocked)
             vfxManager.LinkFollow(playerHead, lockOnSystem.CurrentTarget.GetLockTransform());
         else
             vfxManager.ToggleLinkEffect(false);
-    }
+    }*/
 
     #endregion
 
@@ -282,16 +282,16 @@ public class PlayerManager : MonoBehaviour
     {
         lockOnSystem.TryLock();
 
-        if (lockOnSystem.IsLocked)
+        /*if (lockOnSystem.IsLocked)
             vfxManager.ToggleLinkEffect(true, playerHead, lockOnSystem.CurrentTarget.GetLockTransform());
         else
-            vfxManager.ToggleLinkEffect(false);
+            vfxManager.ToggleLinkEffect(false);*/
     }
 
     private void OnLockRelease()
     {
         lockOnSystem.Unlock();
-        vfxManager.ToggleLinkEffect(false);
+        /*vfxManager.ToggleLinkEffect(false);*/
     }
 
     #endregion
