@@ -61,13 +61,11 @@ public class AiAttack : AiState
 
         if (core.target != null && core.isPlayerInAttackRange)
         {
-            Rigidbody playerRb = core.target.GetComponentInParent<Rigidbody>();
+            PlayerManager player = core.target.GetComponentInParent<PlayerManager>();
 
-            if (playerRb != null)
+            if (player != null)
             {
-                Vector3 knockbackDir = (playerRb.transform.position - core.transform.position).normalized;
-                knockbackDir.y = 0.2f;
-                playerRb.AddForce(knockbackDir * KnockbackStrength, ForceMode.Impulse);
+                player.TransitionTo(player.HitState);
                 Debug.Log("Player has been hit");
             }
             else

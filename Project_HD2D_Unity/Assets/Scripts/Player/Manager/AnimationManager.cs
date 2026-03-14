@@ -104,6 +104,7 @@ public class AnimationManager : MonoBehaviour
     public void SetIsHit(bool isHit)
     {
         animator.SetBool(IsHitHash, isHit);
+        if(isHit) animator.Update(0);
     }
 
     public AnimatorStateInfo GetCurrentAnimatorStateInfo(int layerIndex)

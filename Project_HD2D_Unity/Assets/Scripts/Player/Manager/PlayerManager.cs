@@ -30,6 +30,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerLandingState LandingState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerCarryState CarryState { get; private set; }
+    public PlayerHitState HitState { get; private set; }
 
     private PlayerStateContext context;
     private PlayerDataInstance playerData;
@@ -49,6 +50,7 @@ public class PlayerManager : MonoBehaviour
         LandingState = new PlayerLandingState();
         DashState = new PlayerDashState();
         CarryState = new PlayerCarryState();
+        HitState = new PlayerHitState();
 
         playerData = playerDataRaw.Init();
 

@@ -4,9 +4,12 @@ namespace Player.State
 {
     public class PlayerHitState : PlayerBaseState
     {
+        private float hitDuration = 0.5f;
+        private float timer;
         
         public override void EnterState(PlayerStateContext psc)
         {
+            timer = hitDuration;
             psc.AnimationManager.SetIsHit(true);
             Hit(psc);
         }
@@ -18,7 +21,8 @@ namespace Player.State
 
         public override void UpdateState(PlayerStateContext psc)
         {
-            if (!psc.AnimationManager.IsInHitAnimation())
+            timer -= Time.deltaTime;
+            if (timer <= 0)
             {
                 psc.StateMachine.TransitionTo(psc.StateMachine.LocomotionState);
             }

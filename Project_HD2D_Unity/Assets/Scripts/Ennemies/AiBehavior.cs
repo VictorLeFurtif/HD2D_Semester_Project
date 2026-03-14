@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AiBehavior : MonoBehaviour
+public class AiBehavior : MonoBehaviour, IDamageable
 {
     #region States Instances
 
