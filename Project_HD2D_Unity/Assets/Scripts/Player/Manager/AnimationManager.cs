@@ -23,7 +23,8 @@ public class AnimationManager : MonoBehaviour
     
     private static readonly int DashingHash = Animator.StringToHash("Dashing");
     
-    private static readonly int IsCarrying = Animator.StringToHash("IsCarrying");
+    private static readonly int IsCarryingHash = Animator.StringToHash("IsCarrying");
+    private static readonly int IsHitHash = Animator.StringToHash("IsHit");
 
     #endregion
 
@@ -45,6 +46,11 @@ public class AnimationManager : MonoBehaviour
     public bool IsInAttackAnimation()
     {
         return animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
+    }
+
+    public bool IsInHitAnimation()
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsTag("Hit");
     }
 
     private void UpdateMovement(Vector2 input)
@@ -94,7 +100,12 @@ public class AnimationManager : MonoBehaviour
 
     public void SetIsCarrying(bool isCarrying)
     {
-        animator.SetBool(IsCarrying, isCarrying);
+        animator.SetBool(IsCarryingHash, isCarrying);
+    }
+
+    public void SetIsHit(bool isHit)
+    {
+        animator.SetBool(IsHitHash, isHit);
     }
 
     public AnimatorStateInfo GetCurrentAnimatorStateInfo(int layerIndex)
