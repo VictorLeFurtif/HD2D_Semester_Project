@@ -5082,16 +5082,6 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 6053275285241826347, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
   m_PrefabInstance: {fileID: 869775818}
   m_PrefabAsset: {fileID: 0}
---- !u!195 &754599666 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 2585091766700536800, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-  m_PrefabInstance: {fileID: 869775818}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &754599669 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 2879923308048361767, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-  m_PrefabInstance: {fileID: 869775818}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &776669642
 Mesh:
   m_ObjectHideFlags: 0
@@ -5739,21 +5729,9 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      propertyPath: rb
-      value: 
-      objectReference: {fileID: 754599665}
-    - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      propertyPath: agent
-      value: 
-      objectReference: {fileID: 754599666}
-    - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
       propertyPath: rigidBody
       value: 
       objectReference: {fileID: 754599665}
-    - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      propertyPath: mainCollider
-      value: 
-      objectReference: {fileID: 754599669}
     - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
       propertyPath: obstacleMask.m_Bits
       value: 537

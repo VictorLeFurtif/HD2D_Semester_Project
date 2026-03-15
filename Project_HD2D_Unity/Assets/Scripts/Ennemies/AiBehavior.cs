@@ -1,6 +1,8 @@
+using System.Collections;
 using Interface;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
@@ -20,8 +22,12 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
         private AiState currentState;
         [HideInInspector] public AiState previousState;
         
-        [SerializeField] private Rigidbody rigidBody;
         
+        [SerializeField] private Rigidbody rb;
+        [SerializeField] private NavMeshAgent agent;
+        [SerializeField] private Collider mainCollider;
+
+        private bool isFlying = false;
     #endregion
 
     #region Settings & Triggers
@@ -206,38 +212,70 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
 
     #endregion
 
-    public void Carry(Transform playerHead)
+    public void Carry(Transform anchor)
     {
-        rigidBody.linearVelocity = Vector3.zero;
-        rigidBody.angularVelocity = Vector3.zero;
+        if (agent != null) agent.enabled = false;
 
-        transform.SetParent(playerHead);
-
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        
+        transform.SetParent(anchor);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
-        
-        
-        if (TryGetComponent<Collider>(out var col)) {
-            col.enabled = false; 
-        }
+
+        mainCollider.enabled = false;
     }
 
     public bool IsCarryable()
     {
         return currentState == aiKoState;
     }
+    
 
     public void Eject()
     {
-        transform.SetParent(null);
         
-        if (TryGetComponent<Collider>(out var col)) {
-            col.enabled = true;
+        transform.SetParent(null);
+
+        mainCollider.enabled = true;
+        rb.isKinematic = false;
+        rb.useGravity = true;
+        
+        rb.AddForce(-transform.forward * 5f, ForceMode.Impulse);
+
+        isFlying = true;
+        StartCoroutine(LandingRoutine());
+    }
+    
+    private IEnumerator LandingRoutine()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        bool grounded = false;
+        while (!grounded)
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.2f))
+            {
+                if (NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 0.5f, NavMesh.AllAreas))
+                {
+                    grounded = true;
+                }
+            }
+            yield return new WaitForFixedUpdate();
         }
 
-        rigidBody.isKinematic = false;
-        rigidBody.useGravity = true;
+        ReactivateAI();
+    }
+    
+    private void ReactivateAI()
+    {
+        isFlying = false;
+        rb.isKinematic = true; 
         
-        rigidBody.AddForce(transform.forward * 5f, ForceMode.Impulse);
+        if (agent != null)
+        {
+            agent.Warp(transform.position);
+            agent.enabled = true;
+        }
     }
 }

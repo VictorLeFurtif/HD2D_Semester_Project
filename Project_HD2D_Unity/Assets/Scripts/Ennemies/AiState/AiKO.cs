@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class AiKO : AiState
 {
-    public float KoTime = 5f;
+    public float KoTime = 15f;
     private Coroutine KoRoutine;
     
     public override void EnterState(AiBehavior core)
