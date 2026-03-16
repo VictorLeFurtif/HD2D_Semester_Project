@@ -86,6 +86,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Carry",
+                    "type": "Button",
+                    "id": "f82c3de2-6239-40ba-b8e4-44b1d6e76806",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -416,6 +425,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TakeEnergy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bd11495f-4e97-4dec-8a91-025af205a3e5",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Carry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9c21dc12-e4fe-4b00-9d68-f043a79af5a7",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Carry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

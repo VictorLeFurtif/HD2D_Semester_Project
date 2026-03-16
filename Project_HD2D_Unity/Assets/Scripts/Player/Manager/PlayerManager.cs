@@ -1,3 +1,4 @@
+using Interface;
 using Manager;
 using Player.State;
 using TMPro;
@@ -11,14 +12,16 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PlayerController playerController;
     [SerializeField] private AnimationManager animationManager;
     [SerializeField] private LockOnSystem lockOnSystem;
+    [SerializeField] private UiManager uiManager;
+    [SerializeField] private VfxManager vfxManager;
 
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform playerHead;
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private PlayerData playerDataRaw;
+    
     [SerializeField] private TMP_Text stateText;
-    [SerializeField] private VfxManager vfxManager;
-    [SerializeField] private UiManager uiManager;
+    [SerializeField] private Rigidbody rb;
+    
+    [SerializeField] private PlayerData playerDataRaw;
 
     public PlayerBaseState CurrentPlayerState { get; private set; }
     public PlayerLocomotionState LocomotionState { get; private set; }
@@ -26,6 +29,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerAttackMeleeState MeleeAttackState { get; private set; }
     public PlayerLandingState LandingState { get; private set; }
     public PlayerDashState DashState { get; private set; }
+    public PlayerCarryState CarryState { get; private set; }
 
     private PlayerStateContext context;
     private PlayerDataInstance playerData;
@@ -44,6 +48,7 @@ public class PlayerManager : MonoBehaviour
         MeleeAttackState = new PlayerAttackMeleeState();
         LandingState = new PlayerLandingState();
         DashState = new PlayerDashState();
+        CarryState = new PlayerCarryState();
 
         playerData = playerDataRaw.Init();
 
@@ -73,38 +78,40 @@ public class PlayerManager : MonoBehaviour
 
     private void OnEnable()
     {
-        inputManager.OnLockToggle += OnLockToggle;
+        inputManager.OnLockToggle  += OnLockToggle;
         inputManager.OnLockRelease += OnLockRelease;
 
-        inputManager.OnJumpPressed += TryJump;
+        inputManager.OnJumpPressed  += TryJump;
         inputManager.OnJumpReleased += TryJumpReleased;
-        playerController.OnJump += animationManager.Jump;
+        playerController.OnJump     += animationManager.Jump;
 
         inputManager.OnAttackMelee += TryAttack;
-        playerController.OnAttackMelee += animationManager.AttackMelee;
 
         inputManager.OnDash += TryDash;
 
         inputManager.OnEnergyGive += TryGiveEnergy;
         inputManager.OnEnergyTake += TryTakeEnergy;
+
+        inputManager.OnCarry += TryCarry;
     }
 
     private void OnDisable()
     {
-        inputManager.OnLockToggle -= OnLockToggle;
+        inputManager.OnLockToggle  -= OnLockToggle;
         inputManager.OnLockRelease -= OnLockRelease;
 
-        inputManager.OnJumpPressed -= TryJump;
+        inputManager.OnJumpPressed  -= TryJump;
         inputManager.OnJumpReleased -= TryJumpReleased;
-        playerController.OnJump -= animationManager.Jump;
+        playerController.OnJump     -= animationManager.Jump;
 
         inputManager.OnAttackMelee -= TryAttack;
-        playerController.OnAttackMelee -= animationManager.AttackMelee;
 
         inputManager.OnDash -= TryDash;
 
         inputManager.OnEnergyGive -= TryGiveEnergy;
         inputManager.OnEnergyTake -= TryTakeEnergy;
+        
+        inputManager.OnCarry += TryCarry;
     }
 
     private void Start()
@@ -187,10 +194,40 @@ public class PlayerManager : MonoBehaviour
         }
 
         if (!CurrentPlayerState.CanAttack) return;
+        
         TransitionTo(MeleeAttackState);
+        
     }
 
     #endregion
+
+    private void TryCarry()
+    {
+        
+        if (context.CurrentTargetCarry != null)
+        {
+            TransitionTo(LocomotionState);
+            return;
+        }
+
+        if (!CurrentPlayerState.CanCarry) return;
+        
+        var targets = DetectionHelper.FindVisibleTargets<ICarryable>(
+            transform, 
+            playerData.CarryRange, 
+            playerData.CarryAngle, 
+            playerData.CarryLayer
+        );
+
+        targets.RemoveAll(t => !t.IsCarryable());
+
+        context.CurrentTargetCarry = DetectionHelper.GetBestTarget(transform, targets);
+        
+        if (context.CurrentTargetCarry != null)
+        {
+            TransitionTo(CarryState);
+        }
+    }
 
     #region Dash
 

@@ -8,15 +8,22 @@ public class AnimationManager : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
     
-    private static readonly int VelocityHash = Animator.StringToHash("Velocity");
     private static readonly int MoveXHash = Animator.StringToHash("moveX");
     private static readonly int MoveYHash = Animator.StringToHash("moveY");
+    
     private static readonly int JumpHash = Animator.StringToHash("Jump");
+    
     private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
-    private static readonly int MeleeAttack = Animator.StringToHash("MeleeAttack");
-    private static readonly int IsChargingHash = Animator.StringToHash("IsCharging");
+    
+    private static readonly int IsAttackingHash = Animator.StringToHash("IsAttacking");
+    
     private static readonly int ComboIndexHash = Animator.StringToHash("ComboIndex");
+    
     private static readonly int InputMagnitudeHash = Animator.StringToHash("InputMagnitude");
+    
+    private static readonly int DashingHash = Animator.StringToHash("Dashing");
+    
+    private static readonly int IsCarrying = Animator.StringToHash("IsCarrying");
 
     #endregion
 
@@ -25,9 +32,7 @@ public class AnimationManager : MonoBehaviour
     public void HandleAnimation(float inputRawMagnitude, Vector2 inputBlendTree, bool isGrounded)
     {
         UpdateMovement(inputBlendTree);
-        
         GroundedParameters(isGrounded);
-        
         UpdateInputMagnitude(inputRawMagnitude);
     }
     
@@ -35,6 +40,11 @@ public class AnimationManager : MonoBehaviour
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
         return !info.IsName("Land");
+    }
+
+    public bool IsInAttackAnimation()
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
     }
 
     private void UpdateMovement(Vector2 input)
@@ -64,18 +74,33 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetBool(IsGroundedHash, isGrounded);
     }
-
-    public void AttackMelee()
+    
+    public void ExitAttack()
     {
-        animator.SetTrigger(MeleeAttack);
+        animator.SetBool(IsAttackingHash, false);
+        animator.SetInteger(ComboIndexHash, 0);
     }
     
     public void SetComboIndex(int index)
     {
         animator.SetInteger(ComboIndexHash, index);
-        animator.SetTrigger(MeleeAttack);
+        animator.SetBool(IsAttackingHash, true);
     }
-    
+
+    public void SetDash(bool isDashing)
+    {
+        animator.SetBool(DashingHash, isDashing);
+    }
+
+    public void SetIsCarrying(bool isCarrying)
+    {
+        animator.SetBool(IsCarrying, isCarrying);
+    }
+
+    public AnimatorStateInfo GetCurrentAnimatorStateInfo(int layerIndex)
+    {
+        return animator.GetCurrentAnimatorStateInfo(layerIndex);
+    }
     
     #endregion
 }

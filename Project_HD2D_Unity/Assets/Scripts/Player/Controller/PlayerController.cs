@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
     #region Attack
     
-    public void RunRoutine(IEnumerator routine) => StartCoroutine(routine);
+    public Coroutine RunRoutine(IEnumerator routine) => StartCoroutine(routine);
 
     #endregion
 
