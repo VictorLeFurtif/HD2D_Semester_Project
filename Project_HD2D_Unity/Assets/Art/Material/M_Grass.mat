@@ -55,9 +55,9 @@ Material:
     - _TessellationGrassDistance: 0.087
     - _WindFrequency: 0.036
     m_Colors:
-    - _BaseColor: {r: 0.2967693, g: 0.5377358, b: 0.40779096, a: 1}
+    - _BaseColor: {r: 0, g: 0.16981131, b: 0.12777568, a: 1}
     - _Positions: {r: 1, g: 1, b: 1, a: 1}
-    - _TipColor: {r: 0.24061468, g: 0.3773585, b: 0.2260591, a: 1}
+    - _TipColor: {r: 0.33094516, g: 0.6085337, b: 0.6320754, a: 1}
     - _WindVelocity: {r: 0.02, g: 0, b: 0.02, a: 0.02}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
