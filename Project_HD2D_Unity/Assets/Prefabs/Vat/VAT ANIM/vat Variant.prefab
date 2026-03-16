@@ -63,6 +63,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2760910857453688328, guid: c75badac8c56d4f418bb8ea81d4ab4e5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7077882988356412382}
+    - targetCorrespondingSourceObject: {fileID: 2760910857453688328, guid: c75badac8c56d4f418bb8ea81d4ab4e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8355130439492927675}
+    - targetCorrespondingSourceObject: {fileID: 2760910857453688328, guid: c75badac8c56d4f418bb8ea81d4ab4e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7109167683582085620}
   m_SourcePrefab: {fileID: 100100000, guid: c75badac8c56d4f418bb8ea81d4ab4e5, type: 3}
 --- !u!23 &6205398029003349831 stripped
 MeshRenderer:
@@ -87,5 +93,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VATManager
   targetRenderer: {fileID: 6205398029003349831}
-  normalizedAnimationRange: 0.765
+  shaderPropertyName: _frame
   maxFrames: 24
+  animationSteps:
+  - 0
+  - 0.3
+  - 0.7
+  - 1
+  transitionSpeed: 2
+  animator: {fileID: 7109167683582085620}
+  currentEnergy: 0
+--- !u!65 &8355130439492927675
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8328908607854756785}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.03, y: 0.03, z: 0.05430809}
+  m_Center: {x: 0.012, y: -5.0186384e-17, z: 0.017320389}
+--- !u!95 &7109167683582085620
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8328908607854756785}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6be576e5ca8fe5841aa9c0a91db739d9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
