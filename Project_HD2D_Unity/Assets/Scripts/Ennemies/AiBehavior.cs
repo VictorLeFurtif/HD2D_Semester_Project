@@ -243,7 +243,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
 
     public void Eject()
     {
-        Vector3 forceDirection = -transform.forward; 
+        Vector3 forceDirection = transform.forward; 
 
         transform.SetParent(null, true);
 
@@ -253,7 +253,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        rb.AddForce((forceDirection + Vector3.up * 0.5f) * 12f, ForceMode.Impulse);
+        rb.AddForce((forceDirection + Vector3.up * 0.5f) * 6f, ForceMode.Impulse);
 
         isFlying = true;
         StartCoroutine(LandingRoutine());
