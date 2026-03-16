@@ -34,16 +34,6 @@ public class VATManager : MonoBehaviour
             currentNormalizedValue = animationSteps[0];
     }
     
-    //check si mon anim fait bien 1sec sinon noarmalized
-    public void Start()
-    {
-        if(!clip.length == 0)
-        {
-            
-        }
-    }
-
-
     private void Update()
     {
         UpdateStep();
@@ -77,9 +67,6 @@ public class VATManager : MonoBehaviour
         
         float frameValue = currentNormalizedValue * Mathf.Max(0, maxFrames - 1);
         
-        print(currentNormalizedValue);
-        
-        // je plug la normalized value a voir si je unplug pas
         animator.Play("AnimClip", -1, currentNormalizedValue); 
 
         targetRenderer.GetPropertyBlock(propBlock);
