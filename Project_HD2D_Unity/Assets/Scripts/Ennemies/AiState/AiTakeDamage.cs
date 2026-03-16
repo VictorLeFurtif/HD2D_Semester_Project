@@ -1,42 +1,43 @@
 using UnityEngine;
 
-[System.Serializable]
 public class AiTakeDamage : AiState
 {
     public int DamageToApply;
     public float StunDuration = 0.2f;
     private float timer;
-    
-    public override void EnterState(AiBehavior core)
+
+    public override string Name => "Taking Damage";
+
+    public override void EnterState(AiContext actx)
     {
-        core.movement.StopMovement();
-        
-        core.KoSlider.value += DamageToApply;
-        
-        if (core.KoSlider.value >= core.KoSliderMax)
+        if (actx.Agent.isActiveAndEnabled)
         {
-            core.ChangeState(core.aiKoState);
-            return;
+            actx.Agent.isStopped = true;
         }
-        
+
+        if (actx.Behavior.KoSlider != null)
+        {
+            actx.Behavior.KoSlider.value += DamageToApply;
+
+            if (actx.Behavior.KoSlider.value >= actx.Behavior.KoSliderMax)
+            {
+                actx.TransitionTo(actx.Behavior.AiKoState);
+                return;
+            }
+        }
+
         timer = StunDuration;
     }
 
-    public override void UpdateState(AiBehavior core)
+    public override void UpdateState(AiContext actx)
     {
         timer -= Time.deltaTime;
-        
+
         if (timer <= 0)
         {
-            core.ChangeState(core.previousState);
+            actx.TransitionTo(actx.Behavior.previousState);
         }
-        
     }
 
-    public override void ExitState(AiBehavior core)
-    {
-        
-    }
-
-    public override string Name => "Taking Damage";
+    public override void ExitState(AiContext actx) { }
 }

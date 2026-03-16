@@ -1,75 +1,91 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class AiAttack : AiState
 {
+    #region Settings
     public float AttackCooldown = 1f;
     public float KnockbackStrength = 15f;
     public float AnticipationTime = 0.4f;
-    
+    #endregion
+
+    #region Private Variables
     private bool isExecutingSequence = false;
     private Coroutine attackRoutine;
+    #endregion
 
-    public override void EnterState(AiBehavior core) 
+    public override string Name => "Attacking";
+
+    public override void EnterState(AiContext actx) 
     { 
-        core.movement.StopMovement();
+        // On stoppe la navigation de l'agent via le contexte
+        if (actx.Agent.isActiveAndEnabled)
+            actx.Agent.isStopped = true;
+
         isExecutingSequence = false;
     }
 
-    public override void UpdateState(AiBehavior core)
+    public override void UpdateState(AiContext actx)
     {
-        if (core.target != null)
+        if (actx.Target != null)
         {
-            Vector3 lookDir = (core.target.transform.position - core.transform.position).normalized;
+            Vector3 lookDir = (actx.Target.transform.position - actx.Behavior.transform.position).normalized;
             lookDir.y = 0;
             if (lookDir != Vector3.zero)
             {
-                core.transform.rotation = Quaternion.Slerp(core.transform.rotation, Quaternion.LookRotation(lookDir), Time.deltaTime * 10f);
+                actx.Behavior.transform.rotation = Quaternion.Slerp(
+                    actx.Behavior.transform.rotation, 
+                    Quaternion.LookRotation(lookDir), 
+                    Time.deltaTime * 10f
+                );
             }
         }
 
         if (isExecutingSequence) return;
 
-        if (core.target == null) 
+        if (actx.Target == null) 
         { 
-            core.ChangeState(core.searchState);
+            actx.TransitionTo(actx.Behavior.SearchState);
             return; 
         }
 
-        if (!core.isPlayerInAttackRange)
+        if (!actx.IsPlayerInAttackRange)
         {
-            core.ChangeState(core.chaseState);
+            actx.TransitionTo(actx.Behavior.ChaseState);
             return;
         }
         
-        attackRoutine = core.StartCoroutine(AttackSequence(core));
+        attackRoutine = actx.Behavior.StartCoroutine(AttackSequence(actx));
     }
 
-    public override void ExitState(AiBehavior core) 
+    public override void ExitState(AiContext actx) 
     { 
-        if (attackRoutine != null) core.StopCoroutine(attackRoutine);
+        if (attackRoutine != null) actx.Behavior.StopCoroutine(attackRoutine);
+        
+        if (actx.Agent.isActiveAndEnabled)
+            actx.Agent.isStopped = false;
+
         isExecutingSequence = false;
     }
 
-    private IEnumerator AttackSequence(AiBehavior core)
+    private IEnumerator AttackSequence(AiContext actx)
     {
         isExecutingSequence = true;
 
         yield return new WaitForSeconds(AnticipationTime);
 
-        if (core.target != null && core.isPlayerInAttackRange)
+        if (actx.Target != null && actx.IsPlayerInAttackRange)
         {
-            PlayerManager player = core.target.GetComponentInParent<PlayerManager>();
+            PlayerManager player = actx.Target.GetComponentInParent<PlayerManager>();
 
             if (player != null)
             {
                 player.TransitionTo(player.HitState);
+                Debug.Log($"[IA] Touche le joueur !");
             }
             else
             {
-                Debug.LogWarning($"Cible trouvée ({core.target.name}), mais aucun Rigidbody trouvé ici ou dans les parents !");
+                Debug.LogWarning($"[IA] Cible détectée ({actx.Target.name}), mais aucun PlayerManager trouvé !");
             }
         }
     
@@ -78,6 +94,4 @@ public class AiAttack : AiState
         isExecutingSequence = false;
         attackRoutine = null;
     }
-    
-    public override string Name => "Attacking";
 }

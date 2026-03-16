@@ -95,6 +95,7 @@ public class PlayerManager : MonoBehaviour
         inputManager.OnEnergyTake += TryTakeEnergy;
 
         inputManager.OnCarry += TryCarry;
+        EventManager.OnEject += HandleEject;
     }
 
     private void OnDisable()
@@ -113,7 +114,8 @@ public class PlayerManager : MonoBehaviour
         inputManager.OnEnergyGive -= TryGiveEnergy;
         inputManager.OnEnergyTake -= TryTakeEnergy;
         
-        inputManager.OnCarry += TryCarry;
+        inputManager.OnCarry -= TryCarry;
+        EventManager.OnEject -= HandleEject;
     }
 
     private void Start()
@@ -132,14 +134,6 @@ public class PlayerManager : MonoBehaviour
     {
         CurrentPlayerState.FixedUpdateState(context);
     }
-
-    /*private void LateUpdate()
-    {
-        if (lockOnSystem.IsLocked)
-            vfxManager.LinkFollow(playerHead, lockOnSystem.CurrentTarget.GetLockTransform());
-        else
-            vfxManager.ToggleLinkEffect(false);
-    }*/
 
     #endregion
 
@@ -207,6 +201,10 @@ public class PlayerManager : MonoBehaviour
         
         if (context.CurrentTargetCarry != null)
         {
+            context.CurrentTargetCarry.Eject();
+        
+            context.CurrentTargetCarry = null;
+        
             TransitionTo(LocomotionState);
             return;
         }
@@ -227,6 +225,14 @@ public class PlayerManager : MonoBehaviour
         if (context.CurrentTargetCarry != null)
         {
             TransitionTo(CarryState);
+        }
+    }
+
+    private void HandleEject()
+    {
+        if (CurrentPlayerState is  PlayerCarryState)
+        {
+            context.CurrentTargetCarry = null;    
         }
     }
 
