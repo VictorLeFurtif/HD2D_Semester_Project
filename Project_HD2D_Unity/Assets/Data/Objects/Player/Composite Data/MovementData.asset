@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MovementData
   <MoveSpeedWalking>k__BackingField: 5
   <MoveSpeedRunning>k__BackingField: 8
-  <MoveSpeedSlope>k__BackingField: 8
+  <MoveSpeedSlope>k__BackingField: 5
   <RotationSpeed>k__BackingField: 100
   <GroundMask>k__BackingField:
     serializedVersion: 2

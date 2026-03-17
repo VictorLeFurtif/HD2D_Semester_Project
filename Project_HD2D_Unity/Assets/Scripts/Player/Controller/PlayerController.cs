@@ -66,9 +66,10 @@ public class PlayerController : MonoBehaviour
         Vector3 currentVelocity  = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
         Vector3 smoothedVelocity = Vector3.Lerp(currentVelocity, targetVelocity, 0.2f);
 
-        if (OnSlope() && rb.linearVelocity.y <= 0.1f)
+        if (OnSlope() && rb.linearVelocity.y <= 0.5f)
         {
             smoothedVelocity  = GetSlopeMoveDirection(smoothedVelocity);
+            
             rb.linearVelocity = smoothedVelocity;
         }
         else
@@ -78,6 +79,12 @@ public class PlayerController : MonoBehaviour
                 rb.linearVelocity.y, 
                 smoothedVelocity.z);
         }
+        
+        if (moveInput.magnitude > 0.1f && rb.linearVelocity.y <= 0.1f)
+        {
+            SnapToGround();
+        }
+        
     }
 
     private float SelectSpeed(Vector2 moveInput)
@@ -87,6 +94,25 @@ public class PlayerController : MonoBehaviour
         return moveInput.magnitude >= playerData.RunThreshold
             ? playerData.MoveSpeedRunning
             : playerData.MoveSpeedWalking;
+    }
+    
+
+    public void SnapToGround()
+    {
+        if (rb.linearVelocity.y > 0.1f) return;
+
+        float snapDistance = playerData.GroundCheckDistance + 0.3f; 
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, snapDistance, playerData.GroundMask))
+        {
+            if (hit.distance > 0.05f)
+            {
+                Vector3 targetPos = transform.position;
+                targetPos.y = hit.point.y + (playerData.PlayerHeight / 2f);
+                transform.position = targetPos;
+
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            }
+        }
     }
 
     private void HandleRotation(Transform cam, Vector2 moveInput)
