@@ -19,7 +19,7 @@ MonoBehaviour:
   <GroundMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 8
-  <GroundCheckDistance>k__BackingField: 0.3
+  <GroundCheckDistance>k__BackingField: 0.2
   <PlayerHeight>k__BackingField: 1.85
   <MaxSlopeAngle>k__BackingField: 45
   <Acceleration>k__BackingField: 20

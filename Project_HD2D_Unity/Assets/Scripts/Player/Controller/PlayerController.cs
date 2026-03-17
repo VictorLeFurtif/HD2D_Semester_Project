@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
         Vector3 currentVelocity  = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
         Vector3 smoothedVelocity = Vector3.Lerp(currentVelocity, targetVelocity, 0.2f);
 
-        if (OnSlope())
+        if (OnSlope() && rb.linearVelocity.y <= 0.1f)
         {
             smoothedVelocity  = GetSlopeMoveDirection(smoothedVelocity);
             rb.linearVelocity = smoothedVelocity;
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector3(
                 smoothedVelocity.x,
-                rb.linearVelocity.y,
+                rb.linearVelocity.y, 
                 smoothedVelocity.z);
         }
     }
@@ -112,10 +112,14 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGround()
     {
-        Vector3 rayStart = transform.position - new Vector3(0, playerData.PlayerHeight / 2, 0);
-        IsGrounded = Physics.Raycast(
+        float sphereRadius = 0.2f;
+        Vector3 rayStart = transform.position - new Vector3(0, (playerData.PlayerHeight / 2) - sphereRadius, 0);
+        
+        IsGrounded = Physics.SphereCast(
             rayStart,
+            sphereRadius,
             -Vector3.up,
+            out _,
             playerData.GroundCheckDistance,
             playerData.GroundMask);
     }

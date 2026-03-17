@@ -27,10 +27,9 @@ namespace Player.State
 
         public override void UpdateState(PlayerStateContext psc)
         {
-            if (psc.Controller.IsGrounded)
+            if (psc.Controller.IsGrounded && psc.Rb.linearVelocity.y <= 0.1f) 
             {
                 psc.StateMachine.TransitionTo(psc.StateMachine.LandingState);
-                return;
             }
 
             timeInAir += Time.deltaTime;

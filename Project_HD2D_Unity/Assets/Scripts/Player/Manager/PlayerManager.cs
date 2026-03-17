@@ -128,6 +128,8 @@ public class PlayerManager : MonoBehaviour
         CurrentPlayerState.UpdateState(context);
         TickDashTimer();
         TickJumpTimer();
+        
+        Debug.Log(context.Controller.IsGrounded);
     }
 
     private void FixedUpdate()
