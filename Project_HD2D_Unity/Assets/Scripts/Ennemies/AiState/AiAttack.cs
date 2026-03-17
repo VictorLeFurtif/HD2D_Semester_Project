@@ -87,4 +87,8 @@ public class AiAttack : AiState
         isExecutingSequence = false;
         attackRoutine = null;
     }
+    
+    public virtual bool CanAttack => true;
+    public virtual bool CanMove => false;
+    public virtual bool CanTakeDamage => false;
 }

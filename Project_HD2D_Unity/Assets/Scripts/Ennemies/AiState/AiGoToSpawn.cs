@@ -31,4 +31,8 @@ public class AiGoToSpawn : AiState
     }
 
     public override void ExitState(AiContext actx) { }
+    
+    public virtual bool CanAttack => true;
+    public virtual bool CanMove => true;
+    public virtual bool CanTakeDamage => true;
 }

@@ -50,4 +50,8 @@ public class AiKO : AiState
             actx.TransitionTo(actx.Behavior.GoToSpawnState);
         }
     }
+    
+    public virtual bool CanAttack => false;
+    public virtual bool CanMove => false;
+    public virtual bool CanTakeDamage => false;
 }

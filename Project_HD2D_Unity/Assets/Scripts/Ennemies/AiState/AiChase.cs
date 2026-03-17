@@ -36,4 +36,8 @@ public class AiChase : AiState
     {
   
     }
+    
+    public virtual bool CanAttack => true;
+    public virtual bool CanMove => true;
+    public virtual bool CanTakeDamage => true;
 }

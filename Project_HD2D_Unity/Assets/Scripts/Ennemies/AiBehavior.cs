@@ -17,6 +17,8 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     public AiGoToSpawn GoToSpawnState { get; private set; }
     public AiKO AiKoState { get; private set; }
     public AiTakeDamage AiTakeDamage { get; private set; }
+    public AiPostDrop AiPostDrop { get; private set; }
+    public AiFriendly AiFriendly { get; private set; }
 
     [Header("Core Components")]
     [SerializeField] private Rigidbody rb;
@@ -54,6 +56,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     [HideInInspector] public bool isPlayerInAttackRange;
     [HideInInspector] public bool isPlayerInViewRange;
     [HideInInspector] public bool isHold = false;
+    [HideInInspector] public bool isFriendly = false;
     #endregion
 
     #region Unity Lifecycle
@@ -69,6 +72,8 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
         GoToSpawnState = new AiGoToSpawn();
         AiKoState = new AiKO();
         AiTakeDamage = new AiTakeDamage();
+        AiPostDrop = new AiPostDrop();
+        AiFriendly = new AiFriendly();
 
         movement = GetComponent<EnnemieMovement>();
         spawnPosition = transform.position;
