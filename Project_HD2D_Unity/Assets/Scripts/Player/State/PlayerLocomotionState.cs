@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class PlayerLocomotionState : PlayerBaseState
 {
-    private float speedMultiplier = 1f;
     private float airTimeBuffer = 0f;
-    private const float MaxAirTimeBeforeFall = 0.2f;
     
     public override void EnterState(PlayerStateContext psc)
     {
@@ -14,7 +12,7 @@ public class PlayerLocomotionState : PlayerBaseState
 
     public override void ExitState(PlayerStateContext psc)
     {
-        speedMultiplier = 1f;
+        
     }
 
     public override void UpdateState(PlayerStateContext psc)
@@ -24,7 +22,7 @@ public class PlayerLocomotionState : PlayerBaseState
         {
             airTimeBuffer += Time.deltaTime;
             
-            if (airTimeBuffer > MaxAirTimeBeforeFall || psc.Rb.linearVelocity.y > 1f)
+            if (airTimeBuffer > psc.PlayerData.MaxAirTimeBeforeFall || psc.Rb.linearVelocity.y > 1f)
             {
                 psc.StateMachine.TransitionTo(psc.StateMachine.AirState);
                 return;
@@ -58,7 +56,7 @@ public class PlayerLocomotionState : PlayerBaseState
     
     public override void FixedUpdateState(PlayerStateContext psc)
     {
-        HandlePhysics(psc,speedMultiplier);
+        HandlePhysics(psc);
         psc.LockOnSystem.HandleRotationLock(psc.Rb);
     }
     

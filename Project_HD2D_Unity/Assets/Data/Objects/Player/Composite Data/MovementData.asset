@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bc86e0bb37cbe46b99be354784cd2f, type: 3}
   m_Name: MovementData
   m_EditorClassIdentifier: Assembly-CSharp::MovementData
-  <MoveSpeedWalking>k__BackingField: 5
-  <MoveSpeedRunning>k__BackingField: 8
-  <MoveSpeedSlope>k__BackingField: 5
+  <MoveSpeedWalking>k__BackingField: 3
+  <MoveSpeedRunning>k__BackingField: 5
+  <MoveSpeedSlope>k__BackingField: 4
   <RotationSpeed>k__BackingField: 100
   <GroundMask>k__BackingField:
     serializedVersion: 2
@@ -22,6 +22,7 @@ MonoBehaviour:
   <GroundCheckDistance>k__BackingField: 0.2
   <PlayerHeight>k__BackingField: 1.85
   <MaxSlopeAngle>k__BackingField: 45
-  <Acceleration>k__BackingField: 20
-  <Deceleration>k__BackingField: 30
+  <Acceleration>k__BackingField: 10
+  <Deceleration>k__BackingField: 15
   <RunThreshold>k__BackingField: 0.65
+  <MaxAirTimeBeforeFall>k__BackingField: 0.2

@@ -25,4 +25,6 @@ public class MovementData : ScriptableObject
     [field: Header("Speed Threshold")]
     [field: Tooltip("Input magnitude above which run speed is applied")]
     [field: SerializeField] public float RunThreshold   { get; private set; } = 0.6f;
+    
+    [field: SerializeField] public float MaxAirTimeBeforeFall { get; private set; } = 0.2f;
 }

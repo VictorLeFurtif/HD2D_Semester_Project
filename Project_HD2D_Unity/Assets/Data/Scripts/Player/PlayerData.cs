@@ -26,6 +26,7 @@ public class PlayerDataInstance
     public float GroundCheckDistance;
     public float PlayerHeight;
     public float MaxSlopeAngle;
+    public float MaxAirTimeBeforeFall;
 
     public CombatHitData[] ComboHits;
     public float ComboWindow;
@@ -77,6 +78,7 @@ public class PlayerDataInstance
         Acceleration = data.Movement.Acceleration;
         Deceleration = data.Movement.Deceleration;
         RunThreshold = data.Movement.RunThreshold;
+        MaxAirTimeBeforeFall = data.Movement.MaxAirTimeBeforeFall;
 
         ComboHits = data.Combat.ComboHits;
         ComboWindow = data.Combat.ComboWindow;

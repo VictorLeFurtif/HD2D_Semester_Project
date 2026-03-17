@@ -12,5 +12,5 @@ public class JumpData : ScriptableObject
     [field: SerializeField] public float MaxVerticalVelocity { get; private set; } = 12f;
     [field: SerializeField] public float GravityMultiplier { get; private set; } = 3f;
     [field: SerializeField] public float MaxGravityTime { get; private set; } = 0.8f;
-    [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.4f;
+    [field: SerializeField, Range(0,1f)] public float JumpCutMultiplier { get; private set; } = 0.4f;
 }

@@ -198,6 +198,7 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
+    #region Link ICarry
     private void TryCarry()
     {
         
@@ -237,6 +238,10 @@ public class PlayerManager : MonoBehaviour
             context.CurrentTargetCarry = null;    
         }
     }
+
+    
+
+    #endregion
 
     #region Dash
 
