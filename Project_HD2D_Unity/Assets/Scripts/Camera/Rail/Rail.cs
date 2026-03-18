@@ -5,6 +5,9 @@ public class Rail : MonoBehaviour
     private Vector3[] nodes;
     private int nodeCount;
 
+    public int NodeCount => nodeCount;
+    public Vector3[] Nodes => nodes;
+    
     private void Start()
     {
         UpdateNodes();
