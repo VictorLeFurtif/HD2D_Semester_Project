@@ -12,4 +12,7 @@ public class CameraStateContext
     
     public CameraSettings CurrentSettings;
     public Vector3 Velocity = Vector3.zero;
+    
+    public LayerMask CollisionLayers; 
+    public float CollisionPadding = 0.2f;
 }

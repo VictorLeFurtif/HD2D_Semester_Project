@@ -269,7 +269,7 @@ public class PlayerManager : MonoBehaviour
         if (!CanInteractWithTarget(out IEnergyLockable target)) return;
         if (playerData.IsEnergyEmpty()) return;
         if (target.IsAtMaximumEnergy()) return;
-
+        
         HandleEnergy(target, false);
     }
 

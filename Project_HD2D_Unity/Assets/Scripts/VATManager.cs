@@ -22,6 +22,9 @@ public class VATManager : MonoBehaviour
 
     private float currentNormalizedValue = 0f;
     private MaterialPropertyBlock propBlock;
+    
+    [Header("Root")]
+    [SerializeField] private List<Root> roots;
 
     #endregion
 
@@ -29,15 +32,33 @@ public class VATManager : MonoBehaviour
 
     private void Awake()
     {
+        InitMat();
+        InitRoots();
+    }
+    
+    private void Update()
+    {
+        UpdateStep();
+    }
+
+    #endregion
+
+    #region Initialisation
+
+    private void InitMat()
+    {
         propBlock = new MaterialPropertyBlock();
 
         if (animationSteps.Count > 0)
             currentNormalizedValue = animationSteps[0];
     }
     
-    private void Update()
+    private void InitRoots()
     {
-        UpdateStep();
+        foreach (Root root in roots)
+        {
+            root.SetVATManager(this);
+        }
     }
 
     #endregion
@@ -78,10 +99,6 @@ public class VATManager : MonoBehaviour
 
     #endregion
 
-    #region Collider
-
-
-    #endregion 
 
     public bool IsContainingEnergy() => currentEnergy > 0;
     public bool IsAtMaximumEnergy()  => currentEnergy >= animationSteps.Count - 1;

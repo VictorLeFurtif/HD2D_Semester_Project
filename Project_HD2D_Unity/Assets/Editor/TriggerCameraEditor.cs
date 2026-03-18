@@ -17,10 +17,10 @@ public class TriggerCameraEditor : Editor
 
             if (GUILayout.Button("Place Main Camera at Position", GUILayout.Height(30)))
             {
-                if (Camera.main != null)
+                if (Camera.main.transform.parent != null)
                 {
-                    Undo.RecordObject(Camera.main.transform, "Move Main Camera");
-                    Camera.main.transform.position = camPosProp.vector3Value;
+                    Undo.RecordObject(Camera.main.transform.parent, "Move Main Camera");
+                    Camera.main.transform.parent.position = camPosProp.vector3Value;
                 }
                 else
                 {

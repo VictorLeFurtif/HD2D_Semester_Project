@@ -1,8 +1,10 @@
+using System;
+using UnityEditor;
 using UnityEngine;
 
 public class Root : MonoBehaviour, IEnergyLockable
 {
-    [SerializeField] private VATManager vatManager;
+    private VATManager vatManager;
     [SerializeField] private Transform pivotPoint;
 
     #region IEnergyLockable
@@ -18,4 +20,19 @@ public class Root : MonoBehaviour, IEnergyLockable
     public void RemoveEnergy() => vatManager.RemoveEnergy();
 
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        GUIStyle style = new GUIStyle();
+        style.normal.textColor = Color.white;
+        style.alignment = TextAnchor.MiddleCenter;
+        style.fontStyle = FontStyle.Bold;
+        
+        Handles.Label(transform.position,"ROOT",style);
+    }
+
+    public void SetVATManager(VATManager _vatManager)
+    {
+        vatManager = _vatManager;
+    }
 }

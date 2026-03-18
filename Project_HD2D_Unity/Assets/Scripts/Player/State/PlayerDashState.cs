@@ -54,6 +54,8 @@ namespace Player.State
                     dashDirection * psc.PlayerData.DashSpeed,
                     velocityStock * 0.7f,
                     elapsed / psc.PlayerData.DashDuration);
+                
+                psc.Rb.linearVelocity = new Vector3(psc.Rb.linearVelocity.x, 0, psc.Rb.linearVelocity.z);
 
                 elapsed += Time.deltaTime;
                 yield return null;

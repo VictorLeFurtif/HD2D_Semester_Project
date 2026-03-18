@@ -703,6 +703,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHitbox
   damage: 10
+--- !u!114 &110459657 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5219940469082350556, guid: 18a3256f720569540801daac51714fb2, type: 3}
+  m_PrefabInstance: {fileID: 133213179}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5802ef65b2d617642a2158676ced197f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Root
 --- !u!1001 &133213179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5336,6 +5347,10 @@ MonoBehaviour:
   smoothTimeFollow: 0.1
   smoothTimeRail: 0.3
   travelDuration: 1
+  CollisionLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  CollisionPadding: 10
 --- !u!4 &698868108
 Transform:
   m_ObjectHideFlags: 0
@@ -13165,6 +13180,18 @@ PrefabInstance:
       propertyPath: transitionSpeed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7077882988356412382, guid: 46c9eef2c890f5c42a7bdd7d6e278122, type: 3}
+      propertyPath: roots.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077882988356412382, guid: 46c9eef2c890f5c42a7bdd7d6e278122, type: 3}
+      propertyPath: 'roots.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1861274054}
+    - target: {fileID: 7077882988356412382, guid: 46c9eef2c890f5c42a7bdd7d6e278122, type: 3}
+      propertyPath: 'roots.Array.data[1]'
+      value: 
+      objectReference: {fileID: 110459657}
     - target: {fileID: 8328908607854756785, guid: 46c9eef2c890f5c42a7bdd7d6e278122, type: 3}
       propertyPath: m_Name
       value: vat Variant
@@ -13825,6 +13852,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1861274054 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5219940469082350556, guid: 18a3256f720569540801daac51714fb2, type: 3}
+  m_PrefabInstance: {fileID: 3852001406325589757}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5802ef65b2d617642a2158676ced197f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Root
 --- !u!1 &1861757557
 GameObject:
   m_ObjectHideFlags: 0

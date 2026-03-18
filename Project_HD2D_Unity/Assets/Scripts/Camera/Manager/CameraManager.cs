@@ -19,6 +19,10 @@ public class CameraManager : MonoBehaviour
 
     [Header("Settings Camera Traveling")]
     [SerializeField] private float travelDuration = 1f;
+    
+    [Header("Collision Settings")]
+    [SerializeField] private LayerMask CollisionLayers; 
+    [SerializeField] private  float CollisionPadding = 0.2f;
 
     public CameraFollowState FollowState { get; private set; }
     public CameraFixState FixState { get; private set; }
@@ -54,7 +58,9 @@ public class CameraManager : MonoBehaviour
             Offset = offsetCamera,
             SmoothTimeFix = smoothTimeFix,
             SmoothTimeFollow = smoothTimeFollow,
-            SmoothTimeRail = smoothTimeRail
+            SmoothTimeRail = smoothTimeRail,
+            CollisionLayers = this.CollisionLayers,
+            CollisionPadding = this.CollisionPadding,
         };
 
         TransitionTo(FixState);
@@ -187,4 +193,7 @@ public class CameraManager : MonoBehaviour
             }
         }
     }
+    
+    
+    
 }

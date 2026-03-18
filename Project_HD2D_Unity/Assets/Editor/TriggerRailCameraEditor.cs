@@ -37,12 +37,13 @@ public class TriggerRailCameraEditor : Editor
         EditorGUILayout.EndHorizontal();
 
         GUI.color = Color.cyan;
+        
         if (GUILayout.Button($"TP Main Camera au Node {nodeIndex}", GUILayout.Height(30)))
         {
-            if (Camera.main != null)
+            if (Camera.main.transform.parent != null)
             {
-                Undo.RecordObject(Camera.main.transform, "Snap Camera to Rail Node");
-                Camera.main.transform.position = script.RailToUse.Nodes[nodeIndex];
+                Undo.RecordObject(Camera.main.transform.parent, "Snap Camera to Rail Node");
+                Camera.main.transform.parent.position = script.RailToUse.Nodes[nodeIndex];
                 
                 if (nodeIndex < nodeCount - 1)
                 {
