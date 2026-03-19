@@ -24,6 +24,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     [SerializeField] private Rigidbody rb;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Collider mainCollider;
+    [SerializeField] private AnimManagerEnnemie AnimationManagerEnnemie;
 
     [Header("Triggers")]
     [SerializeField] private Trigger viewRangeTrigger;
@@ -89,7 +90,9 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
             Movement = movement,
             SpawnPosition = spawnPosition,
             LastKnownPosition = lastKnownPosition,
-            Data = data
+            Data = data,
+            AnimManager = AnimationManagerEnnemie
+            
         };
     }
 

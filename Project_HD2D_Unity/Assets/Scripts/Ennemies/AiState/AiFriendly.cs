@@ -50,7 +50,7 @@ public class AiFriendly : AiState
         }
     }
     
-    public virtual bool CanAttack => false;
-    public virtual bool CanMove => true;
-    public virtual bool CanTakeDamage => false;
+    public override bool CanAttack => false;
+    public override bool CanMove => true;
+    public override bool CanTakeDamage => false;
 }

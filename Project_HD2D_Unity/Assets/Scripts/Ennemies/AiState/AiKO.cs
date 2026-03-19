@@ -51,7 +51,7 @@ public class AiKO : AiState
         }
     }
     
-    public virtual bool CanAttack => false;
-    public virtual bool CanMove => false;
-    public virtual bool CanTakeDamage => false;
+    public override bool CanAttack => false;
+    public override bool CanMove => false;
+    public override bool CanTakeDamage => false;
 }

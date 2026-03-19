@@ -42,6 +42,7 @@ public class AnimManagerEnnemie : MonoBehaviour
     public void EnterAttack()
     {
         animator.SetBool(IsAttackingHash, true);
+        AttackOn();
     }
 
     public void ExitAttack()
