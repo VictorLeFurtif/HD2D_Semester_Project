@@ -13,7 +13,7 @@ public class Root : MonoBehaviour
     public List<Flaw> flaws;
     
     [Header("Current State")]
-    [SerializeField] private int currentEnergy = 0;
+    public int currentEnergy { get; private set; } = 0;
     [SerializeField] private int maxEnergy = 0;
 
     #endregion
@@ -57,7 +57,7 @@ public class Root : MonoBehaviour
         {
             if (vatManager.IsAtMaximumEnergy()) continue;
             
-            vatManager.AddEnergy();    
+            //vatManager.AddEnergy();    
         }
     }
 
@@ -69,7 +69,7 @@ public class Root : MonoBehaviour
         {
             if (!vatManager.IsContainingEnergy()) continue;
             
-            vatManager.RemoveEnergy();    
+            //vatManager.RemoveEnergy();    
         }
     }
 

@@ -17,8 +17,7 @@ public class VATManager : MonoBehaviour, IRootLink
     [SerializeField] private float transitionSpeed = 2f;
     [SerializeField] public Animator animator;
 
-    [Header("Current State")]
-    [SerializeField] private int currentEnergy = 0;
+    private int currentEnergy => root.currentEnergy;
 
     private float currentNormalizedValue = 0f;
     private MaterialPropertyBlock propBlock;
@@ -60,13 +59,13 @@ public class VATManager : MonoBehaviour, IRootLink
 
     #region VAT
 
-    private void SetEnergy(int energy)
+    /*private void SetEnergy(int energy)
     {
         currentEnergy = Mathf.Clamp(energy, 0, animationSteps.Count - 1);
     }
 
     public void AddEnergy() => SetEnergy(currentEnergy + 1);
-    public void RemoveEnergy() => SetEnergy(currentEnergy - 1);
+    public void RemoveEnergy() => SetEnergy(currentEnergy - 1);*/
     
 
     private void UpdateStep()
