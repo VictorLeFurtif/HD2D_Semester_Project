@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
 {
     #region Variables
-    public AiStatic StaticState { get; private set; }
+    //public AiStatic StaticState { get; private set; }
     public AiPatrol PatrolState { get; private set; }
     public AiChase ChaseState { get; private set; }
     public AiAttack AttackState { get; private set; }
@@ -16,7 +16,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     public AiGoToSpawn GoToSpawnState { get; private set; }
     public AiKO AiKoState { get; private set; }
     public AiTakeDamage AiTakeDamage { get; private set; }
-    public AiPostDrop AiPostDrop { get; private set; }
+    public AiDrop AiDropState { get; private set; }
     public AiFriendly AiFriendly { get; private set; }
 
     [Header("Core Components")]
@@ -43,7 +43,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
 
     private AiState currentState;
     private AiContext context;
-    private bool isFlying = false;
+    private bool isCarry = false;
 
     [SerializeField] private EnemyData enemyDataRaw;
     private EnemyDataInstance data;
@@ -64,7 +64,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     {
         data = enemyDataRaw.Init();
         
-        StaticState = new AiStatic();
+        //StaticState = new AiStatic();
         PatrolState = new AiPatrol();
         ChaseState = new AiChase();
         AttackState = new AiAttack();
@@ -72,7 +72,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
         GoToSpawnState = new AiGoToSpawn();
         AiKoState = new AiKO();
         AiTakeDamage = new AiTakeDamage();
-        AiPostDrop = new AiPostDrop();
+        AiDropState = new AiDrop();
         AiFriendly = new AiFriendly();
 
         movement = GetComponent<EnnemieMovement>();
@@ -247,49 +247,33 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
         transform.localRotation = Quaternion.identity;
 
         mainCollider.enabled = false;
+
+        isCarry = true;
     }
 
-    public void Eject()
+    public void Eject(bool isEscaping = false)
     {
-        Vector3 forceDirection = transform.forward; 
-
         transform.SetParent(null, true);
-
+    
         mainCollider.enabled = true;
         rb.isKinematic = false;
         rb.useGravity = true;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
 
-        rb.AddForce((forceDirection + Vector3.up * 0.5f) * 6f, ForceMode.Impulse);
+        Vector3 forceDirection = -transform.forward + Vector3.up; 
+        rb.AddForce(forceDirection * 5f, ForceMode.Impulse);
 
-        isFlying = true;
-        StartCoroutine(LandingRoutine());
+        isCarry = false;
+
+        if (isEscaping)
+        {
+            ChangeState(AiDropState);
+        }
     }
     
-    private IEnumerator LandingRoutine()
-    {
-        yield return new WaitForSeconds(0.2f);
-
-        bool grounded = false;
-        while (!grounded)
-        {
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.2f))
-            {
-                if (NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 0.5f, NavMesh.AllAreas))
-                {
-                    grounded = true;
-                }
-            }
-            yield return new WaitForFixedUpdate();
-        }
-
-        ReactivateAI();
-    }
     
     private void ReactivateAI()
     {
-        isFlying = false;
+        
         rb.isKinematic = true; 
         
         if (agent != null)
@@ -298,5 +282,9 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
             agent.Warp(transform.position);
         }
     }
+
+    public bool IsCarry() => isCarry;
+
     #endregion
+
 }

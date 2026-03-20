@@ -12,11 +12,11 @@ public class PlayerCarryState : PlayerBaseState
 
     public override void ExitState(PlayerStateContext psc)
     {
-        if (psc.CurrentTargetCarry != null)
+        /*if (psc.CurrentTargetCarry != null)
         {
             psc.CurrentTargetCarry.Eject();
             psc.CurrentTargetCarry = null;
-        }
+        }*/
         
         psc.AnimationManager.SetIsCarrying(false);
     }

@@ -25,7 +25,7 @@ public class CarryObject : MonoBehaviour, ICarryable
 
     public bool IsCarryable() => true;
 
-    public void Eject()
+    public void Eject(bool isEscaping = false)
     {
         transform.SetParent(null);
 
@@ -38,5 +38,10 @@ public class CarryObject : MonoBehaviour, ICarryable
         }
         
         rb.AddForce(transform.forward * 5f, ForceMode.Impulse);
+    }
+
+    public bool IsCarry()
+    {
+        return true;
     }
 }

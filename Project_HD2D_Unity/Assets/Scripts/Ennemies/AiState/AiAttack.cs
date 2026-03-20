@@ -4,20 +4,36 @@ using UnityEngine;
 public class AiAttack : AiState
 {
     private Coroutine attackRoutine;
-    private bool isBusy = false; 
+
+    private bool isPreparingAttack = false;
+    
+    private bool isCooldown = false;
+    
 
     public override string Name => "Attacking";
 
     public override void EnterState(AiContext actx)
     {
-        isBusy = false;
+        attackRoutine = null;
+        
         if (actx.Agent.isActiveAndEnabled) 
             actx.Agent.isStopped = true;
+        
+        isPreparingAttack = false;
+        
+        isCooldown = false;
     }
 
     public override void UpdateState(AiContext actx)
     {
-        if (isBusy || attackRoutine != null) return;
+        if (isPreparingAttack || isCooldown || attackRoutine == null)
+        {
+            RotateTowardsTarget(actx);
+        }
+
+        if (attackRoutine != null) return;
+
+        if (isCooldown) return;
 
         if (actx.Target == null) 
         { 
@@ -31,20 +47,20 @@ public class AiAttack : AiState
             return;
         }
 
-        RotateTowardsTarget(actx);
         attackRoutine = actx.Behavior.StartCoroutine(AttackSequence(actx));
     }
 
     private IEnumerator AttackSequence(AiContext actx)
     {
-        isBusy = true;
-        var data = actx.Data; 
-
+        var data = actx.Data;
+        isPreparingAttack = true;
+        
         yield return new WaitForSeconds(data.AnticipationTime);
+        
+        isPreparingAttack = false;
         actx.AnimManager.TriggerAttack(); 
-
         actx.AnimManager.AttackOn();
-    
+
         float elapsed = 0f;
         Vector3 strikeDir = actx.Behavior.transform.forward;
         float activePhaseDuration = Mathf.Max(data.AttackDashDuration, data.HitboxActiveDuration);
@@ -52,26 +68,23 @@ public class AiAttack : AiState
         while (elapsed < activePhaseDuration)
         {
             elapsed += Time.deltaTime;
-
             if (elapsed <= data.AttackDashDuration)
-            {
                 actx.Behavior.transform.position += strikeDir * data.AttackDashSpeed * Time.deltaTime;
-            }
 
             if (elapsed >= data.HitboxActiveDuration)
-            {
                 actx.AnimManager.AttackOff();
-            }
 
             yield return null;
         }
 
         actx.AnimManager.AttackOff();
 
-        yield return new WaitForSeconds(data.AttackCooldown); 
-    
-        isBusy = false;
-        attackRoutine = null;
+        attackRoutine = null; 
+        isCooldown = true;
+
+        yield return new WaitForSeconds(data.AttackCooldown);
+
+        isCooldown = false;  
     }
 
     private void RotateTowardsTarget(AiContext actx)
@@ -80,7 +93,11 @@ public class AiAttack : AiState
         lookDir.y = 0;
         if (lookDir != Vector3.zero)
         {
-            actx.Behavior.transform.rotation = Quaternion.LookRotation(lookDir);
+            actx.Behavior.transform.rotation = Quaternion.Slerp(
+                actx.Behavior.transform.rotation, 
+                Quaternion.LookRotation(lookDir), 
+                Time.deltaTime * 5f 
+            );
         }
     }
 
@@ -89,12 +106,13 @@ public class AiAttack : AiState
         if (attackRoutine != null) 
             actx.Behavior.StopCoroutine(attackRoutine);
         
-        isBusy = false;
         actx.AnimManager.AttackOff();
+        isPreparingAttack = false;
+        isCooldown = false; 
 
         if (actx.Agent.isActiveAndEnabled) 
             actx.Agent.isStopped = false;
     }
 
-    public override bool CanMove => !isBusy;
+    public override bool CanMove => attackRoutine != null;
 }

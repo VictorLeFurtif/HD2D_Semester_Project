@@ -7,7 +7,7 @@ public class AnimManagerEnnemie : MonoBehaviour
     [SerializeField] private GameObject colliderAttack;
     
     private static readonly int SpeedHash = Animator.StringToHash("Speed");
-    private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
+    private static readonly int IsFallingHash = Animator.StringToHash("IsFalling");
     private static readonly int IsAttackingHash = Animator.StringToHash("IsAttacking");
     private static readonly int IsHitHash = Animator.StringToHash("IsHit");
     private static readonly int IsKOHash = Animator.StringToHash("IsKO");
@@ -20,9 +20,9 @@ public class AnimManagerEnnemie : MonoBehaviour
         animator.SetFloat(SpeedHash, currentSpeed);
     }
 
-    public void SetGrounded(bool isGrounded)
+    public void SetFalling(bool isFalling)
     {
-        animator.SetBool(IsGroundedHash, isGrounded);
+        animator.SetBool(IsFallingHash, isFalling);
     }
 
     public void SetKO(bool isKO)

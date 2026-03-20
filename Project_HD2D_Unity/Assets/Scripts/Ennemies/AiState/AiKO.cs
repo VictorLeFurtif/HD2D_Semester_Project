@@ -1,9 +1,8 @@
-using System.Collections;
 using UnityEngine;
 
 public class AiKO : AiState
 {
-    private Coroutine KoRoutine;
+    private float koTimer;
 
     public override string Name => "K-O";
 
@@ -14,44 +13,49 @@ public class AiKO : AiState
             actx.Agent.isStopped = true;
         }
 
+        koTimer = actx.Data.KoTime;
+
         if (actx.Behavior.KoSlider != null)
         {
             actx.Behavior.KoSlider.value = 0;
         }
-
-        KoRoutine = actx.Behavior.StartCoroutine(KoMoment(actx));
+        
+        actx.AnimManager.SetKO(true);
     }
 
-    public override void UpdateState(AiContext actx) { }
-
-    public override void ExitState(AiContext actx)
+    public override void UpdateState(AiContext actx)
     {
-        if (KoRoutine != null)
+        koTimer -= Time.deltaTime;
+
+        if (actx.Behavior.KoSlider != null)
         {
-            actx.Behavior.StopCoroutine(KoRoutine);
-            KoRoutine = null;
+            actx.Behavior.KoSlider.value = 1f - (koTimer / actx.Data.KoTime);
+        }
+
+        if (koTimer <= 0)
+        {
+            DetermineNextState(actx);
         }
     }
 
-    private IEnumerator KoMoment(AiContext actx)
+    private void DetermineNextState(AiContext actx)
     {
-        yield return new WaitForSeconds(actx.Data.KoTime);
-
-        if (actx.IsPlayerInAttackRange && actx.Target != null)
+        if (actx.Behavior.IsCarry())
         {
-            actx.TransitionTo(actx.Behavior.AttackState);
-        }
-        else if (actx.IsPlayerInViewRange && actx.Target != null)
-        {
-            actx.TransitionTo(actx.Behavior.ChaseState);
+            actx.Behavior.Eject(true);
         }
         else
         {
-            actx.TransitionTo(actx.Behavior.GoToSpawnState);
+            actx.TransitionTo(actx.Behavior.PatrolState);
         }
     }
-    
+
+    public override void ExitState(AiContext actx)
+    {
+        actx.AnimManager.SetKO(false);
+    }
+
     public override bool CanAttack => false;
     public override bool CanMove => false;
-    public override bool CanTakeDamage => false;
+    public override bool CanTakeDamage => false; 
 }
