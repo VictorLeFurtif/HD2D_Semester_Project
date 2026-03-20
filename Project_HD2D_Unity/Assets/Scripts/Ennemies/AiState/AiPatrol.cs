@@ -21,6 +21,8 @@ public class AiPatrol : AiState
 
     public override void UpdateState(AiContext actx)
     {
+        actx.AnimManager.UpdateMovement(actx.Agent.speed);
+        
         if (actx.Behavior.CanSeePlayer())
         {
             actx.TransitionTo(actx.Behavior.ChaseState); 
@@ -37,6 +39,8 @@ public class AiPatrol : AiState
                 actx.Agent.SetDestination(actx.Behavior.patrolPoints[currentPointIndex].position);
             }
         }
+        
+        
     }
 
     public override void ExitState(AiContext actx) { }

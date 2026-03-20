@@ -39,17 +39,12 @@ public class AnimManagerEnnemie : MonoBehaviour
         animator.SetTrigger(IsHitHash);
     }
 
-    public void EnterAttack()
+    public void TriggerAttack()
     {
-        animator.SetBool(IsAttackingHash, true);
-        AttackOn();
+        animator.SetTrigger(IsAttackingHash);
     }
 
-    public void ExitAttack()
-    {
-        animator.SetBool(IsAttackingHash, false);
-        AttackOff();
-    }
+    
 
     public bool IsInAttackAnimation()
     {
@@ -68,7 +63,10 @@ public class AnimManagerEnnemie : MonoBehaviour
     private void ToggleAttackCollider(bool toggle)
     {
         if (colliderAttack != null)
+        {
             colliderAttack.SetActive(toggle);
+        }
+        
     }
     
     public void AttackOn() => ToggleAttackCollider(true);

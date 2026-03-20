@@ -35,7 +35,7 @@ namespace Player.State
 
         private void Hit(PlayerStateContext psc)
         {
-            psc.Rb.AddForce(-psc.PlayerTransform.forward * 5f, ForceMode.Impulse);
+            psc.Rb.AddForce(psc.HitDirection * 5f, ForceMode.Impulse);
         }
         
 

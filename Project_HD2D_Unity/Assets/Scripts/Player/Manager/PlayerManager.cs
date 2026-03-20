@@ -4,7 +4,7 @@ using Player.State;
 using TMPro;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour, IDamageable
 {
     #region Variables
 
@@ -402,4 +402,13 @@ public class PlayerManager : MonoBehaviour
     }
 
 #endregion
+
+    public void TakeDamage(int value, Vector3 hitDirection)
+    {
+        if (CurrentPlayerState.CanTakeDamage)
+        {
+            context.HitDirection = hitDirection;
+            TransitionTo(HitState);
+        }
+    }
 }

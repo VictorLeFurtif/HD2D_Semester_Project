@@ -221,8 +221,9 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     #endregion
 
     #region IDamageable Implementation
-    public void TakeDamage(int value)
+    public void TakeDamage(int value,Vector3 hitDirection)
     {
+        context.HitDirection = hitDirection;
         data.DamageToApply = value;
         ChangeState(AiTakeDamage);
     }

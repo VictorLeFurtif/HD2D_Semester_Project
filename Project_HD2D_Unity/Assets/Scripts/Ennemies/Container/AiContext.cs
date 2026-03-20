@@ -19,5 +19,7 @@ public class AiContext
 
     public EnemyDataInstance Data;
     
+    public Vector3 HitDirection;
+    
     public void TransitionTo(AiState newState) => Behavior.ChangeState(newState);
 }

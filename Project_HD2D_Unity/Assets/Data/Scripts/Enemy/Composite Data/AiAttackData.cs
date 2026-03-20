@@ -4,6 +4,8 @@
 public class AiAttackData : ScriptableObject
 {
     [field: SerializeField] public float AttackCooldown { get; private set; } = 1f;
-    [field: SerializeField] public float KnockbackStrength { get; private set; } = 15f;
     [field: SerializeField] public float AnticipationTime { get; private set; } = 0.4f;
+    [field: SerializeField] public float HitboxActiveDuration { get; private set; }
+    [field: SerializeField] public float AttackDashSpeed { get; private set; }
+    [field: SerializeField] public float AttackDashDuration { get; private set; }
 }

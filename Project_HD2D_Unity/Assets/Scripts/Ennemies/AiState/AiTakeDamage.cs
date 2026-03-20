@@ -24,6 +24,8 @@ public class AiTakeDamage : AiState
             }
         }
 
+        actx.Rb.AddForce(actx.HitDirection * 5f, ForceMode.Impulse);
+        
         timer = actx.Data.StunDuration;
     }
 

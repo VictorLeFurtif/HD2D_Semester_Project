@@ -8,15 +8,18 @@ public class EnemyData : ScriptableObject
     [field: SerializeField] public AiSearchData AiSearchData { get; private set; }
     [field: SerializeField] public AiTakeDamageData AiTakeDamageData { get; private set; }
     
+    
     public EnemyDataInstance Init() => new EnemyDataInstance(this);
 }
 
 public class EnemyDataInstance
 {
     public float AttackCooldown;
-    public float KnockbackStrength;
-    public float AnticipationTime;
-
+    public float AnticipationTime;      
+    public float HitboxActiveDuration; 
+    public float AttackDashSpeed;     
+    public float AttackDashDuration;
+    
     public float KoTime;
 
     public float SearchDuration;
@@ -28,9 +31,12 @@ public class EnemyDataInstance
     public EnemyDataInstance(EnemyData data)
     {
         AttackCooldown = data.AiAttackData.AttackCooldown;
-        KnockbackStrength = data.AiAttackData.KnockbackStrength;
         AnticipationTime = data.AiAttackData.AnticipationTime;
-
+        HitboxActiveDuration = data.AiAttackData.HitboxActiveDuration;
+        AttackDashSpeed = data.AiAttackData.AttackDashSpeed;
+        AttackDashDuration = data.AiAttackData.AttackDashDuration;
+        
+        
         KoTime = data.AiKOData.KoTime;
 
         SearchDuration = data.AiSearchData.searchDuration;

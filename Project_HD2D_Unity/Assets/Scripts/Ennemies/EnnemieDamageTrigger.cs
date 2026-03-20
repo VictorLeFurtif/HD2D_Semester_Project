@@ -7,16 +7,7 @@ public class EnemyDamageTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            /*
-            PlayerDataInstance playerDataInstance = other.GetComponent<PlayerDataInstance>();
-        
-            if (playerDataInstance != null)
-            {
-                playerDataInstance.Life -= Damage;
-            }
-            */
             
-            Debug.Log("Ouchh...");
         }
         
     }
