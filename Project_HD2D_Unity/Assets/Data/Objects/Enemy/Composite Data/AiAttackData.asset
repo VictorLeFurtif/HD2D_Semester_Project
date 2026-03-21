@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AiAttackData
   m_EditorClassIdentifier: Assembly-CSharp::AiAttackData
   <AttackCooldown>k__BackingField: 2
-  <AnticipationTime>k__BackingField: 0.2
+  <AnticipationTime>k__BackingField: 0.35
   <HitboxActiveDuration>k__BackingField: 0.2
   <AttackDashSpeed>k__BackingField: 12
   <AttackDashDuration>k__BackingField: 0.2
