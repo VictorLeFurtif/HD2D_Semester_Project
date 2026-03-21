@@ -8,36 +8,31 @@ public class AiPatrol : AiState
 
     public override void EnterState(AiContext actx) 
     {
-        if (actx.Agent.isActiveAndEnabled)
-        {
-            actx.Behavior.SetPhysicalMode(false);
-            actx.Agent.isStopped = false;
-            
-            if (actx.Behavior.patrolPoints.Length > 0)
-            {
-                actx.Agent.SetDestination(actx.Behavior.patrolPoints[currentPointIndex].position);
-            }
-        }
+        actx.Behavior.ApplyMovementMode(false);
+        
+        actx.ResumeAgent();
+        
+        actx.UpdateAgentSpeed(actx.Data.PatrolSpeed,actx.Data.Acceleration,actx.Data.StoppingDistance);
+    
+        if (actx.Behavior.patrolPoints.Length > 0)
+            actx.SetDestination(actx.Behavior.patrolPoints[currentPointIndex].position);
     }
 
     public override void UpdateState(AiContext actx)
     {
         actx.AnimManager.UpdateMovement(actx.Agent.speed);
-        
+
         if (actx.Behavior.CanSeePlayer())
         {
-            actx.TransitionTo(actx.Behavior.ChaseState); 
-            return;
+            actx.TransitionTo(actx.Behavior.ChaseState); return;
         }
 
-        if (actx.Behavior.patrolPoints.Length == 0) return;
-        
-        if (actx.Agent.isActiveAndEnabled && !actx.Agent.pathPending)
+        if (actx.IsNavReady && !actx.Agent.pathPending)
         {
             if (actx.Agent.remainingDistance <= actx.Agent.stoppingDistance)
             {
                 currentPointIndex = (currentPointIndex + 1) % actx.Behavior.patrolPoints.Length;
-                actx.Agent.SetDestination(actx.Behavior.patrolPoints[currentPointIndex].position);
+                actx.SetDestination(actx.Behavior.patrolPoints[currentPointIndex].position);
             }
         }
         

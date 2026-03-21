@@ -6,11 +6,8 @@ public class AiStatic : AiState
 
     public override void EnterState(AiContext actx)
     {
-        if (actx.Agent.isActiveAndEnabled)
-        {
-            actx.Behavior.SetPhysicalMode(false);
-            actx.Agent.isStopped = true;
-        }
+        actx.Behavior.ApplyMovementMode(false);
+        actx.StopAgent();
     }
 
     public override void UpdateState(AiContext actx)

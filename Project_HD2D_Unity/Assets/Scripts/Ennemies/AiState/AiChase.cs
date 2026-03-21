@@ -6,12 +6,10 @@ public class AiChase : AiState
 
     public override void EnterState(AiContext actx) 
     {
-        actx.Behavior.SetPhysicalMode(false);
+        actx.Behavior.ApplyMovementMode(false); 
+        actx.ResumeAgent();
         
-        if (actx.Agent.isActiveAndEnabled && actx.Agent.isOnNavMesh)
-        {
-            actx.Agent.isStopped = false;
-        }
+        actx.UpdateAgentSpeed(actx.Data.ChaseSpeed,actx.Data.Acceleration,actx.Data.StoppingDistance);
     }
 
     public override void UpdateState(AiContext actx)
@@ -21,16 +19,16 @@ public class AiChase : AiState
             actx.TransitionTo(actx.Behavior.SearchState); 
             return; 
         }
-        
+    
         if (actx.IsPlayerInAttackRange) 
         {
             actx.TransitionTo(actx.Behavior.AttackState);
             return;
         }
-        
-        if (actx.Target != null && actx.Agent.isActiveAndEnabled)
+    
+        if (actx.Target != null)
         {
-            actx.Agent.SetDestination(actx.Target.transform.position);
+            actx.SetDestination(actx.Target.transform.position);
         }
     }
 

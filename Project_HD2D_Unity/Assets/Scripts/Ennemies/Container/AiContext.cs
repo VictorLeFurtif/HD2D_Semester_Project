@@ -22,4 +22,33 @@ public class AiContext
     public Vector3 HitDirection;
     
     public void TransitionTo(AiState newState) => Behavior.ChangeState(newState);
+    
+    public bool IsNavReady => Agent != null && Agent.isActiveAndEnabled && Agent.isOnNavMesh;
+
+    public void StopAgent()
+    {
+        if (IsNavReady) Agent.isStopped = true;
+    }
+
+    public void ResumeAgent()
+    {
+        if (IsNavReady) Agent.isStopped = false;
+    }
+
+    public void SetDestination(Vector3 target)
+    {
+        if (IsNavReady) Agent.SetDestination(target);
+    }
+
+    public void UpdateAgentSpeed(float speed,float acceleration = -1,float stoppingDistance = -1)
+    {
+        if (!IsNavReady) return;
+        
+        Agent.speed = speed;
+        
+        if (acceleration != -1)  Agent.acceleration = acceleration;
+        if (stoppingDistance != -1)  Agent.stoppingDistance = stoppingDistance;
+    }
+    
+    
 }

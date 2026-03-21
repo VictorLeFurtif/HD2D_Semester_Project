@@ -13,11 +13,7 @@ public class AiDrop : AiState
     public override void EnterState(AiContext actx) 
     {
         isGrounded = false;
-        
-        actx.Behavior.SetPhysicalMode(true);
-        actx.Rb.isKinematic = false; 
-        actx.Rb.useGravity = true;
-    
+        actx.Behavior.ApplyMovementMode(true);
         actx.AnimManager.SetFalling(true);
     }
 
@@ -35,15 +31,21 @@ public class AiDrop : AiState
 
     private void LandingSequence(AiContext actx)
     {
-        actx.Rb.isKinematic = true;
-        actx.Rb.linearVelocity = Vector3.zero;
-        
-        if (actx.Agent != null)
+        actx.Behavior.ApplyMovementMode(false); 
+
+        bool isStillKO = actx.Behavior.KoSlider != null && actx.Behavior.KoSlider.value > 0;
+
+        if (isStillKO)
         {
-            actx.Agent.enabled = true;
-            actx.Agent.Warp(actx.Behavior.transform.position);
+            actx.TransitionTo(actx.Behavior.AiKoState);
         }
-        actx.TransitionTo(actx.Behavior.PatrolState);
+        else 
+        {
+            if (actx.Target != null)
+                actx.TransitionTo(actx.Behavior.ChaseState);
+            else
+                actx.TransitionTo(actx.Behavior.PatrolState);
+        }
     }
 
     public override void ExitState(AiContext actx)

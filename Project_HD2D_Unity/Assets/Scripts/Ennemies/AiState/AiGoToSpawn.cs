@@ -6,12 +6,9 @@ public class AiGoToSpawn : AiState
 
     public override void EnterState(AiContext actx)
     {
-        if (actx.Agent.isActiveAndEnabled)
-        {
-            actx.Behavior.SetPhysicalMode(false);
-            actx.Agent.isStopped = false;
-            actx.Agent.SetDestination(actx.SpawnPosition);
-        }
+        actx.Behavior.ApplyMovementMode(false);
+        actx.ResumeAgent();
+        actx.SetDestination(actx.SpawnPosition);
     }
 
     public override void UpdateState(AiContext actx)
@@ -22,12 +19,9 @@ public class AiGoToSpawn : AiState
             return;
         }
 
-        if (actx.Agent.isActiveAndEnabled && !actx.Agent.pathPending)
+        if (actx.IsNavReady && !actx.Agent.pathPending && actx.Agent.remainingDistance <= actx.Agent.stoppingDistance)
         {
-            if (actx.Agent.remainingDistance <= actx.Agent.stoppingDistance)
-            {
-                actx.TransitionTo(actx.Behavior.PatrolState);
-            }
+            actx.TransitionTo(actx.Behavior.PatrolState);
         }
     }
 

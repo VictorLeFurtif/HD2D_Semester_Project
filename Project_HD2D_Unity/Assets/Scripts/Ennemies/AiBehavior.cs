@@ -39,6 +39,7 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     [Header("UI & Feedback")]
     public Slider KoSlider;
     public TMP_Text StateTxt;
+    [SerializeField] private Image feedbackRenderer;
 
     private AiState currentState;
     private AiContext context;
@@ -47,15 +48,15 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     [SerializeField] private EnemyData enemyDataRaw;
     private EnemyDataInstance data;
 
-    [HideInInspector] public AiState previousState;
-    [HideInInspector] public EnnemieMovement movement;
-    [HideInInspector] public GameObject target;
-    [HideInInspector] public Vector3 spawnPosition;
-    [HideInInspector] public Vector3 lastKnownPosition;
-    [HideInInspector] public bool isPlayerInAttackRange;
-    [HideInInspector] public bool isPlayerInViewRange;
-    [HideInInspector] public bool isHold = false;
-    [HideInInspector] public bool isFriendly = false;
+    public AiState previousState {get; private set;}
+    private EnnemieMovement movement;
+    private GameObject target;
+    private Vector3 spawnPosition;
+    private Vector3 lastKnownPosition;
+    private bool isPlayerInAttackRange;
+    private bool isPlayerInViewRange;
+    private bool isHold = false;
+    public bool isFriendly { get; private set; } = false;
     #endregion
 
     #region Unity Lifecycle
@@ -101,6 +102,10 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
 
         KoSlider.value = data.CurrentKo;
         
+        agent.speed = data.PatrolSpeed;
+        agent.stoppingDistance = data.StoppingDistance;
+        agent.acceleration = 12f;
+        
         ChangeState(PatrolState);
     }
 
@@ -134,6 +139,11 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
         
         currentState = newState;
         if (StateTxt != null) StateTxt.text = newState.Name;
+        
+        if (feedbackRenderer != null && data != null)
+        {
+            feedbackRenderer.sprite = data.GetSprite(currentState);
+        }
         
         currentState.EnterState(context);
     }
@@ -228,8 +238,6 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
         
         data.CurrentKo += amount;
         
-        Debug.Log($"{data.CurrentKo} / {data.MaxKo}");
-        
         if (KoSlider != null)
         {
             KoSlider.maxValue = data.MaxKo;
@@ -271,20 +279,17 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
     public void Eject(bool isEscaping = false)
     {
         transform.SetParent(null, true);
-    
         mainCollider.enabled = true;
-        rb.isKinematic = false;
-        rb.useGravity = true;
+    
+        ApplyMovementMode(true); 
 
         Vector3 forceDirection = -transform.forward + Vector3.up; 
         rb.AddForce(forceDirection * 5f, ForceMode.Impulse);
 
         isCarry = false;
 
-        if (isEscaping)
-        {
-            ChangeState(AiDropState);
-        }
+        print("coucou");
+        ChangeState(AiDropState); 
     }
     
 
@@ -292,22 +297,28 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
 
     #endregion
     
-    
-    public void SetPhysicalMode(bool usePhysics)
+    public void ApplyMovementMode(bool usePhysics)
     {
         if (usePhysics)
         {
             agent.enabled = false;
-            rb.isKinematic = false; 
+            rb.isKinematic = false;
             rb.useGravity = true;
         }
         else
         {
+            if (!rb.isKinematic) 
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
             rb.isKinematic = true;
-            
+            rb.useGravity = false;
+
             if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
             {
-                agent.enabled = true;
+                agent.enabled = true; 
                 agent.Warp(hit.position);
             }
         }

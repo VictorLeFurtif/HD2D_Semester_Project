@@ -8,12 +8,13 @@ public class AiTakeDamage : AiState
 
     public override void EnterState(AiContext actx)
     {
-        actx.Behavior.SetPhysicalMode(true);
-        
+        actx.Behavior.ApplyMovementMode(true);
+    
         actx.Rb.AddForce(actx.HitDirection * 5f, ForceMode.Impulse);
-
         actx.AnimManager.SetIsHit(true);
-        
+    
+        actx.Data.CurrentKo += actx.Data.DamageToApply;
+
         if (actx.Data.IsKoFull())
         {
             actx.TransitionTo(actx.Behavior.AiKoState);
@@ -21,7 +22,6 @@ public class AiTakeDamage : AiState
         }
 
         timer = actx.Data.StunDuration;
-
     }
 
     public override void UpdateState(AiContext actx)

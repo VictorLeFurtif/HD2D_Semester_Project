@@ -6744,6 +6744,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1180420561115512309, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+      propertyPath: m_fontSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1180420561115512309, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1180420561115512309, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2851330436214420276, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.27
@@ -6784,26 +6796,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3343014870410861951, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      propertyPath: cameraTransform
-      value: 
-      objectReference: {fileID: 1410116906}
-    - target: {fileID: 3841302548814769766, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3841302548814769766, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7228887627121313361, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      propertyPath: m_Value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7228887627121313361, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      propertyPath: m_MaxValue
-      value: 5
-      objectReference: {fileID: 0}
+    - target: {fileID: 4114226570106249627, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 1410116906}
+    - target: {fileID: 6058569021581972833, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 1410116906}
+    - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+      propertyPath: feedbackRenderer
+      value: 
+      objectReference: {fileID: 1499628613}
     - target: {fileID: 7379718704339800893, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
       propertyPath: 'patrolPoints.Array.data[0]'
       value: 
@@ -6816,21 +6824,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewVersionEnnemies
       objectReference: {fileID: 0}
-    - target: {fileID: 8930600654042696040, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3343014870410861951, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 345090111129908896, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 494590984475845359, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1624109384}
-    - targetCorrespondingSourceObject: {fileID: 474788852468066725, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1938417573}
+      addedObject: {fileID: 1499628615}
   m_SourcePrefab: {fileID: 100100000, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
 --- !u!1001 &876256803
 PrefabInstance:
@@ -12344,6 +12344,39 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1499628611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 494590984475845359, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+  m_PrefabInstance: {fileID: 869775818}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1499628613 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5006892226430789606, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
+  m_PrefabInstance: {fileID: 869775818}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499628611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &1499628615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499628611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cee6d94b54ae6de4b92dd852bc8f4dfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
+  billboardType: 0
+  cameraTransform: {fileID: 1410116906}
+  lockX: 0
+  lockY: 0
+  lockZ: 0
 --- !u!1 &1503696107
 GameObject:
   m_ObjectHideFlags: 0
@@ -12661,28 +12694,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!1 &1624109380 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 345090111129908896, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-  m_PrefabInstance: {fileID: 869775818}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1624109384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624109380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cee6d94b54ae6de4b92dd852bc8f4dfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
-  billboardType: 0
-  cameraTransform: {fileID: 1410116906}
-  lockX: 0
-  lockY: 0
-  lockZ: 0
 --- !u!1001 &1629236566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13585,28 +13596,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1938417570 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 474788852468066725, guid: 2a52f8e5bd47e10418c11400918b18d1, type: 3}
-  m_PrefabInstance: {fileID: 869775818}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1938417573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938417570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cee6d94b54ae6de4b92dd852bc8f4dfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
-  billboardType: 1
-  cameraTransform: {fileID: 1410116906}
-  lockX: 0
-  lockY: 0
-  lockZ: 0
 --- !u!1 &1939662813
 GameObject:
   m_ObjectHideFlags: 0

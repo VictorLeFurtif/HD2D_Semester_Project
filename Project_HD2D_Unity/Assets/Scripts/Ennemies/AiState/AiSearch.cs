@@ -12,13 +12,10 @@ public class AiSearch : AiState
     { 
         timer = actx.Data.SearchDuration;
         searchCenter = actx.LastKnownPosition;
-        
-        if (actx.Agent.isActiveAndEnabled)
-        {
-            actx.Behavior.SetPhysicalMode(false);
-            actx.Agent.isStopped = false;
-            MoveToRandomPoint(actx);
-        }
+    
+        actx.Behavior.ApplyMovementMode(false);
+        actx.ResumeAgent();
+        MoveToRandomPoint(actx);
     } 
 
     public override void UpdateState(AiContext actx)
@@ -30,15 +27,12 @@ public class AiSearch : AiState
         }
 
         timer -= Time.deltaTime;
-        
-        if (actx.Agent.isActiveAndEnabled && !actx.Agent.pathPending)
+    
+        if (actx.IsNavReady && !actx.Agent.pathPending && actx.Agent.remainingDistance <= actx.Agent.stoppingDistance)
         {
-            if (actx.Agent.remainingDistance <= actx.Agent.stoppingDistance)
-            {
-                MoveToRandomPoint(actx);
-            }
+            MoveToRandomPoint(actx);
         }
-        
+    
         if (timer <= 0) 
         {
             actx.TransitionTo(actx.Behavior.GoToSpawnState);

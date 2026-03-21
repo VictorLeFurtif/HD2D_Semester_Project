@@ -14,17 +14,10 @@ public class AiAttack : AiState
 
     public override void EnterState(AiContext actx)
     {
+        actx.Behavior.ApplyMovementMode(false);
+        actx.StopAgent(); 
         attackRoutine = null;
-        
-        actx.Behavior.SetPhysicalMode(false);
-        
-        if (actx.Agent.isActiveAndEnabled && actx.Agent.isOnNavMesh)
-        {
-            actx.Agent.isStopped = true;
-        }
-        
         isPreparingAttack = false;
-        
         isCooldown = false;
     }
 

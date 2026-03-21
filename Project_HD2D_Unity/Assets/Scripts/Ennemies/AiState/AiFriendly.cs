@@ -10,22 +10,21 @@ public class AiFriendly : AiState
     
     public override void EnterState(AiContext actx)
     {
-        actx.Behavior.SetPhysicalMode(false);
-        actx.Agent.isStopped = false;
-        
-        searchCenter = actx.Agent.transform.position;
+        actx.Behavior.ApplyMovementMode(false); 
+        actx.ResumeAgent();
+    
+        searchCenter = actx.Behavior.transform.position;
         waitTimer = 0f;
         MoveToRandomPoint(actx);
     }
 
     public override void UpdateState(AiContext actx)
     {
-        if (!actx.Agent.isActiveAndEnabled || !actx.Behavior.isFriendly) return;
+        if (!actx.Behavior.isFriendly) return;
 
-        if (!actx.Agent.pathPending && actx.Agent.remainingDistance <= actx.Agent.stoppingDistance)
+        if (actx.IsNavReady && !actx.Agent.pathPending && actx.Agent.remainingDistance <= actx.Agent.stoppingDistance)
         {
             waitTimer += Time.deltaTime;
-
             if (waitTimer >= 3.0f) 
             {
                 MoveToRandomPoint(actx);
@@ -41,7 +40,7 @@ public class AiFriendly : AiState
 
         if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, actx.Data.SearchRadius, NavMesh.AllAreas))
         {
-            actx.Agent.SetDestination(hit.position);
+            actx.SetDestination(hit.position);
         }
     }
 
