@@ -865,7 +865,7 @@ Transform:
   m_GameObject: {fileID: 63745557}
   serializedVersion: 2
   m_LocalRotation: {x: 0.31598538, y: 0.3596048, z: -0.13088542, w: 0.8681629}
-  m_LocalPosition: {x: -14.52, y: 27.95, z: -14.52}
+  m_LocalPosition: {x: 50.26, y: 3.84, z: -6.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3274,7 +3274,7 @@ Transform:
   m_GameObject: {fileID: 495359371}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7160,7 +7160,7 @@ PrefabInstance:
     - target: {fileID: 480803297957582579, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 448fc2fd4cb418d42a4fa51e95502e66, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2565947084703810372, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: uiManager
       value: 
@@ -10690,9 +10690,8 @@ MonoBehaviour:
   travelDuration: 1
   CollisionLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 521
   CollisionPadding: 0.2
-  startingState: 1
 --- !u!4 &1612547003
 Transform:
   m_ObjectHideFlags: 0
