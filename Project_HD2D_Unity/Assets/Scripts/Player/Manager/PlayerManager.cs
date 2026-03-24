@@ -85,7 +85,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
         inputManager.OnJumpPressed  += TryJump;
         inputManager.OnJumpReleased += TryJumpReleased;
-        playerController.OnJump     += animationManager.Jump;
+        playerController.OnJump     += animationManager.TriggerJump;
 
         inputManager.OnAttackMelee += TryAttack;
 
@@ -105,7 +105,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
         inputManager.OnJumpPressed  -= TryJump;
         inputManager.OnJumpReleased -= TryJumpReleased;
-        playerController.OnJump     -= animationManager.Jump;
+        playerController.OnJump     -= animationManager.TriggerJump;
 
         inputManager.OnAttackMelee -= TryAttack;
 

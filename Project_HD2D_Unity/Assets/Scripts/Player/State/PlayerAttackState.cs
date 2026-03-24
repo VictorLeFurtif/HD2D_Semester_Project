@@ -18,14 +18,20 @@ namespace Player.State
         public override void EnterState(PlayerStateContext psc)
         {
             comboIndex = 0;
+            
             bufferNextAttack = false;
+            
             StartAttackSequence(psc);
+            
+            psc.Controller.SetGravity(false);
         }
 
         public override void ExitState(PlayerStateContext psc) 
         {
             if (currentAttackRoutine != null)
                 psc.Controller.StopCoroutine(currentAttackRoutine);
+            
+            psc.Controller.SetGravity(true);
             
             bufferWindowOpen = false;
             bufferNextAttack = false;
@@ -53,7 +59,7 @@ namespace Player.State
                 psc.Controller.StopCoroutine(currentAttackRoutine);
             RotateTowardsInput(psc);
 
-            psc.AnimationManager.SetComboIndex(comboIndex);
+            psc.AnimationManager.SetAttackState(true,comboIndex);
             currentAttackRoutine = psc.Controller.RunRoutine(AttackMeleeIe(psc));
         }
 
@@ -70,7 +76,7 @@ namespace Player.State
         private IEnumerator AttackMeleeIe(PlayerStateContext psc)
         {
             CombatHitData hit = psc.PlayerData.ComboHits[comboIndex];
-            psc.AnimationManager.SetComboIndex(comboIndex);
+            psc.AnimationManager.SetAttackState(true,comboIndex);
             bufferWindowOpen = true;
 
             float elapsed = 0f;

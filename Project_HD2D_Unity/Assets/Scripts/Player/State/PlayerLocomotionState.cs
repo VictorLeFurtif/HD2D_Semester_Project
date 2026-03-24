@@ -8,6 +8,7 @@ public class PlayerLocomotionState : PlayerBaseState
     public override void EnterState(PlayerStateContext psc)
     {
         psc.HasDash = false;
+        psc.Controller.SetGravity(true);
     }
 
     public override void ExitState(PlayerStateContext psc)

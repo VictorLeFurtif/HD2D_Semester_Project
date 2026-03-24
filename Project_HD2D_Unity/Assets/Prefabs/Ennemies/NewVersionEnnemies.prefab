@@ -93,10 +93,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
-  m_fontSizeBase: 36
+  m_fontSize: 0
+  m_fontSizeBase: 0
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 5520685213147156538}
   - component: {fileID: 8777141001770316464}
   - component: {fileID: 5006892226430789606}
+  - component: {fileID: 5091126322122416205}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -337,6 +338,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5091126322122416205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494590984475845359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cee6d94b54ae6de4b92dd852bc8f4dfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
+  billboardType: 0
+  cameraTransform: {fileID: 0}
+  lockX: 0
+  lockY: 0
+  lockZ: 0
 --- !u!1 &1573869269200761794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,6 +1209,7 @@ MonoBehaviour:
   - {fileID: 0}
   KoSlider: {fileID: 7228887627121313361}
   StateTxt: {fileID: 1180420561115512309}
+  feedbackRenderer: {fileID: 5006892226430789606}
   enemyDataRaw: {fileID: 11400000, guid: d96629e6f36625f49b7913dc1df76deb, type: 2}
 --- !u!195 &2585091766700536800
 NavMeshAgent:

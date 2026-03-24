@@ -6,8 +6,9 @@ public class PlayerCarryState : PlayerBaseState
     
     public override void EnterState(PlayerStateContext psc)
     {
-        psc.AnimationManager.SetIsCarrying(true);
+        psc.AnimationManager.SetCarrying(true);
         psc.CurrentTargetCarry.Carry(psc.PlayerHeadTransform);
+        psc.Controller.SetGravity(true);
     }
 
     public override void ExitState(PlayerStateContext psc)
@@ -18,7 +19,7 @@ public class PlayerCarryState : PlayerBaseState
             psc.CurrentTargetCarry = null;
         }*/
         
-        psc.AnimationManager.SetIsCarrying(false);
+        psc.AnimationManager.SetCarrying(false);
     }
 
     public override void UpdateState(PlayerStateContext psc)

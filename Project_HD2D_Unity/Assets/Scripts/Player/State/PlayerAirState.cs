@@ -14,14 +14,14 @@ namespace Player.State
 
         public override void EnterState(PlayerStateContext psc)
         {
-            psc.AnimationManager.SetIsFalling(true);
+            psc.AnimationManager.SetFalling(true);
             timeInAir = 0f;
             psc.JumpReleased = false;
             
             if (psc.Controller.IsJumping) 
             {
                 isFalling = false;
-                psc.Rb.useGravity = false; 
+                psc.Controller.SetGravity(false);
                 jumpStartTime = Time.time;
                 jumpStartPosition = psc.PlayerTransform.position;
             }
@@ -36,9 +36,9 @@ namespace Player.State
         {
             timeInAir = 0f;
             psc.JumpReleased = false;
-            psc.Rb.useGravity = true; 
+            psc.Controller.SetGravity(true);
             psc.Controller.SetJumping(false);
-            psc.AnimationManager.SetIsFalling(false);
+            psc.AnimationManager.SetFalling(false);
         }
 
         public override void UpdateState(PlayerStateContext psc)
@@ -118,7 +118,7 @@ namespace Player.State
         private void StartFalling(PlayerStateContext psc)
         {
             isFalling = true;
-            psc.Rb.useGravity = true; 
+            psc.Controller.SetGravity(true);
             psc.Controller.SetJumping(false);
             psc.JumpReleased = false;
 

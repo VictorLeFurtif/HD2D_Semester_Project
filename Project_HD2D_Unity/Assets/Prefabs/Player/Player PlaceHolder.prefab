@@ -65,7 +65,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6725f34cbecd47869ee7e1647c008ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHitbox
-  damage: 10
+  damage: 1
   TagName: Enemy
 --- !u!1 &577445476143216256
 GameObject:
@@ -441,6 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AnimationManager
   animator: {fileID: 3109046576608672110}
   colliderAttack: {fileID: 376903304025245474}
+  dampTime: 0.1
 --- !u!95 &3109046576608672110
 Animator:
   serializedVersion: 7
@@ -533,7 +534,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7192816914402496739}
-  m_Material: {fileID: 13400000, guid: 80d371985d29814499a17b6aa0ef5775, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

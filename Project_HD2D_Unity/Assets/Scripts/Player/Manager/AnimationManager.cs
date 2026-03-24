@@ -2,137 +2,119 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
-    #region Variables
+    #region Animator Hashes
+    private static readonly int MoveXHash = Animator.StringToHash("moveX");
+    private static readonly int MoveYHash = Animator.StringToHash("moveY");
+    private static readonly int InputMagnitudeHash = Animator.StringToHash("InputMagnitude");
+    
+    private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
+    private static readonly int IsFallingHash = Animator.StringToHash("IsFalling");
+    private static readonly int DashingHash = Animator.StringToHash("Dashing");
+    private static readonly int IsCarryingHash = Animator.StringToHash("IsCarrying");
+    private static readonly int IsHitHash = Animator.StringToHash("IsHit");
+    
+    private static readonly int IsAttackingHash = Animator.StringToHash("IsAttacking");
+    private static readonly int ComboIndexHash = Animator.StringToHash("ComboIndex");
+    
+    private static readonly int JumpTriggerHash = Animator.StringToHash("Jump");
+    private static readonly int VelocityYHash = Animator.StringToHash("VelocityY");
+    #endregion
+
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject colliderAttack;
     
-    private static readonly int MoveXHash = Animator.StringToHash("moveX");
-    private static readonly int MoveYHash = Animator.StringToHash("moveY");
-    
-    private static readonly int JumpHash = Animator.StringToHash("Jump");
-    
-    private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
-    
-    private static readonly int IsAttackingHash = Animator.StringToHash("IsAttacking");
-    
-    private static readonly int ComboIndexHash = Animator.StringToHash("ComboIndex");
-    
-    private static readonly int InputMagnitudeHash = Animator.StringToHash("InputMagnitude");
-    
-    private static readonly int DashingHash = Animator.StringToHash("Dashing");
-    
-    private static readonly int IsCarryingHash = Animator.StringToHash("IsCarrying");
-    private static readonly int IsHitHash = Animator.StringToHash("IsHit");
-    private static readonly int VelocityY = Animator.StringToHash("VelocityY");
-    private static readonly int IsFallingHash = Animator.StringToHash("IsFalling");
+    [Header("Settings")]
+    [SerializeField] private float dampTime = 0.1f; 
 
-    #endregion
-
-    #region Public Methods
-
-    public void HandleAnimation(float inputRawMagnitude, Vector2 inputBlendTree, bool isGrounded,Vector3 vel)
+    #region Core Update logic
+    
+    public void HandleAnimation(float inputRawMagnitude, Vector2 inputBlendTree, bool isGrounded, Vector3 velocity)
     {
         UpdateMovement(inputBlendTree);
-        GroundedParameters(isGrounded);
-        UpdateInputMagnitude(inputRawMagnitude);
-        UpdateVelocityHash(vel.y);
-    }
-    
-    public bool IsLandingFinished()
-    {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-        return !info.IsName("Land");
-    }
-
-    public bool IsInAttackAnimation()
-    {
-        return animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
-    }
-
-    public bool IsInHitAnimation()
-    {
-        return animator.GetCurrentAnimatorStateInfo(0).IsTag("Hit");
+        
+        animator.SetFloat(InputMagnitudeHash, inputRawMagnitude);
+        
+        animator.SetBool(IsGroundedHash, isGrounded);
+        
+        animator.SetFloat(VelocityYHash, velocity.y);
+        
+        bool isFalling = !isGrounded && velocity.y < -0.1f;
+        animator.SetBool(IsFallingHash, isFalling);
     }
 
     private void UpdateMovement(Vector2 input)
     {
-        if (input.magnitude > 0.1f)
-        {
-            animator.SetFloat(
-                MoveXHash, 
-                Mathf.Lerp(animator.GetFloat(MoveXHash), input.x, 15f * Time.deltaTime));
-            animator.SetFloat(
-                MoveYHash, 
-                Mathf.Lerp(animator.GetFloat(MoveYHash), input.y, 15f * Time.deltaTime));
-        }
+        animator.SetFloat(MoveXHash, input.x, dampTime, Time.deltaTime);
+        animator.SetFloat(MoveYHash, input.y, dampTime, Time.deltaTime);
     }
 
-    public void UpdateInputMagnitude(float magnitude)
+    #endregion
+
+    #region Actions & States
+
+    public void TriggerJump()
     {
-        animator.SetFloat(InputMagnitudeHash, magnitude);
+        animator.SetTrigger(JumpTriggerHash);
     }
 
-    public void Jump()
-    {
-        animator.SetTrigger(JumpHash);
-    }
-
-    private void GroundedParameters(bool isGrounded)
-    {
-        animator.SetBool(IsGroundedHash, isGrounded);
-    }
-    
-    public void ExitAttack()
-    {
-        animator.SetBool(IsAttackingHash, false);
-        animator.SetInteger(ComboIndexHash, 0);
-    }
-    
-    public void SetComboIndex(int index)
-    {
-        animator.SetInteger(ComboIndexHash, index);
-        animator.SetBool(IsAttackingHash, true);
-    }
-
-    public void SetDash(bool isDashing)
+    public void SetDashing(bool isDashing)
     {
         animator.SetBool(DashingHash, isDashing);
     }
 
-    public void SetIsCarrying(bool isCarrying)
+    public void SetFalling(bool isFalling)
+    {
+        animator.SetBool(IsFallingHash, isFalling);
+    }
+
+    public void SetCarrying(bool isCarrying)
     {
         animator.SetBool(IsCarryingHash, isCarrying);
     }
 
-    public void SetIsHit(bool isHit)
+    public void SetHit(bool isHit)
     {
         animator.SetBool(IsHitHash, isHit);
-        if(isHit) animator.Update(0);
     }
 
-    public void SetIsFalling(bool isFalling)
+    #endregion
+
+    #region Combat Logic
+
+    public void SetAttackState(bool isAttacking, int comboIndex = 0)
     {
-        animator.SetBool(IsFallingHash, isFalling);
-        animator.Update(0);
+        animator.SetBool(IsAttackingHash, isAttacking);
+        animator.SetInteger(ComboIndexHash, comboIndex);
     }
 
-    public AnimatorStateInfo GetCurrentAnimatorStateInfo(int layerIndex)
+    public void ExitAttack()
     {
-        return animator.GetCurrentAnimatorStateInfo(layerIndex);
+        animator.SetBool(IsAttackingHash, false);
+        animator.SetInteger(ComboIndexHash, 0);
+        ToggleAttackCollider(false);
     }
 
-    private void ToggleAttackCollider(bool toggle)
-    {
-        colliderAttack.SetActive(toggle);
-    }
-    
     public void AttackOn() => ToggleAttackCollider(true);
     public void AttackOff() => ToggleAttackCollider(false);
 
-    public void UpdateVelocityHash(float velY)
+    private void ToggleAttackCollider(bool active)
     {
-        animator.SetFloat(VelocityY,velY);
+        if (colliderAttack != null)
+            colliderAttack.SetActive(active);
     }
+
+    #endregion
+
+    #region Queries
+
+    public bool IsInAttackAnimation() => animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
+    public bool IsInHitAnimation() => animator.GetCurrentAnimatorStateInfo(0).IsTag("Hit");
     
+    public bool IsLandingFinished()
+    {
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return !stateInfo.IsName("Land") || stateInfo.normalizedTime >= 1.0f;
+    }
+
     #endregion
 }

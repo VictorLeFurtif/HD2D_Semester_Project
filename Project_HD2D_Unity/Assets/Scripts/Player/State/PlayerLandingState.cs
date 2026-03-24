@@ -6,7 +6,7 @@
         
         public override void EnterState(PlayerStateContext psc)
         {
-         
+            psc.Controller.SetGravity(true);
         }
 
         public override void ExitState(PlayerStateContext psc)

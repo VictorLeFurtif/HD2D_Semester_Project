@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
         CheckGround();
         HandleRotation(cam, moveInput);
 
-        rb.useGravity = !IsGrounded || isJumping;
+        /*rb.useGravity = !IsGrounded || isJumping;*/
     }
 
     public void UpdatePlayerControllerPhysics(Vector3 targetDirection, Vector2 moveInput, float speedMultiplier)
@@ -158,6 +158,11 @@ public class PlayerController : MonoBehaviour
     public void InitData(PlayerDataInstance data) => playerData = data;
     public void SetLockMode(bool locked) => isInLockMode = locked;
     public Coroutine RunRoutine(IEnumerator routine) => StartCoroutine(routine);
+    
+    public void SetGravity(bool useGravity)
+    {
+        rb.useGravity = useGravity;
+    }
     
     #endregion
 }

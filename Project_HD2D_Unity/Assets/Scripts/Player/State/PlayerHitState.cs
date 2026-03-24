@@ -10,13 +10,16 @@ namespace Player.State
         public override void EnterState(PlayerStateContext psc)
         {
             timer = hitDuration;
-            psc.AnimationManager.SetIsHit(true);
+            
+            psc.Controller.SetGravity(true);
+            
+            psc.AnimationManager.SetHit(true);
             Hit(psc);
         }
 
         public override void ExitState(PlayerStateContext psc)
         {
-            psc.AnimationManager.SetIsHit(false);
+            psc.AnimationManager.SetHit(false);
         }
 
         public override void UpdateState(PlayerStateContext psc)

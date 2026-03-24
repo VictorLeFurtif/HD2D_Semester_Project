@@ -22,15 +22,22 @@ namespace Player.State
                 psc.HasDash = true;
             }
             
-            psc.AnimationManager.SetDash(true);
+            psc.Controller.SetGravity(false);
+            
+            psc.AnimationManager.SetDashing(true);
+            
             velocityStock = psc.Rb.linearVelocity;
+            
             HandleAnimation(psc);
+            
             psc.Controller.RunRoutine(DashRoutine(psc));
         }
 
         public override void ExitState(PlayerStateContext psc)
         {
-            psc.AnimationManager.SetDash(false);
+            psc.AnimationManager.SetDashing(false);
+            
+            psc.Controller.SetGravity(true);
         }
 
         public override void UpdateState(PlayerStateContext psc)
