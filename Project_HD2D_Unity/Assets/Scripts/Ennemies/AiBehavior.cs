@@ -243,7 +243,8 @@ public class AiBehavior : MonoBehaviour, IDamageable, ICarryable
             KoSlider.maxValue = data.MaxKo;
             this.UpdateSlider(KoSlider, data.CurrentKo);
         }
-
+        
+        
         context.HitDirection = direction;
         ChangeState(AiTakeDamage);
     }
