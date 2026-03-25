@@ -10,4 +10,5 @@ public class AiDataFeedBack : ScriptableObject
     [field: SerializeField] public Sprite SpriteKo { get; set; }
     [field: SerializeField] public Sprite SpriteFall { get; set; }
     [field: SerializeField] public Sprite SpriteTakeDamage { get; set; }
+    [field: SerializeField] public Sprite SpriteExposed { get; set; }
 }

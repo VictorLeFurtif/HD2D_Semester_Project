@@ -9,6 +9,7 @@ public class EnemyData : ScriptableObject
     [field: SerializeField] public AiSearchData AiSearchData { get; private set; }
     [field: SerializeField] public AiTakeDamageData AiTakeDamageData { get; private set; }
     [field: SerializeField] public AiDataFeedBack AiDataFeedBack { get; private set; }
+    [field: SerializeField] public AiExposedData AiExposedData { get; private set; }
     
     public EnemyDataInstance Init() => new EnemyDataInstance(this);
 }
@@ -46,6 +47,9 @@ public class EnemyDataInstance
     public Sprite SpriteKo;
     public Sprite SpriteFall;
     public Sprite SpriteTakeDamage;
+    public Sprite SpriteExposed;
+    
+    public float ExposedTime;
 
     public EnemyDataInstance(EnemyData data)
     {
@@ -79,6 +83,9 @@ public class EnemyDataInstance
         SpriteKo =  data.AiDataFeedBack.SpriteKo;
         SpriteFall = data.AiDataFeedBack.SpriteFall;
         SpriteTakeDamage = data.AiDataFeedBack.SpriteTakeDamage;
+        SpriteExposed = data.AiDataFeedBack.SpriteExposed;
+        
+        ExposedTime = data.AiExposedData.ExposedTime;
     }
     
     public bool IsKoFull() => CurrentKo >= MaxKo;
@@ -103,6 +110,8 @@ public class EnemyDataInstance
                 return SpriteFall;
             case "Taking Damage":
                 return SpriteTakeDamage;
+            case "Exposed":
+                return SpriteExposed;
             default:
                 return null;
         }

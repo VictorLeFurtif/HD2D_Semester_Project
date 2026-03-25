@@ -11,6 +11,7 @@ public class PlayerData : ScriptableObject
     [field: SerializeField] public JumpData JumpData   { get; private set; }
     [field: SerializeField] public PlayerResourcesData PlayerResourcesData   { get; private set; }
     [field: SerializeField] public CarryData CarryData   { get; private set; }
+    [field: SerializeField] public ParryData ParryData   { get; private set; }
 
     public PlayerDataInstance Init() => new PlayerDataInstance(this);
 }
@@ -67,6 +68,11 @@ public class PlayerDataInstance
     public float CarryAngle;
     public LayerMask CarryLayer;
 
+    public AnimationClip ParryAnimationClip;
+    public float ParryHitboxStartOffset;
+    public float ParryActiveDuration;
+    public float HitStopDuration;
+
     public PlayerDataInstance(PlayerData data)
     {
         MoveSpeedWalking = data.Movement.MoveSpeedWalking;
@@ -114,10 +120,16 @@ public class PlayerDataInstance
         CarryRange = data.CarryData.CarryRange;
         CarryAngle = data.CarryData.CarryAngle;
         CarryLayer = data.CarryData.CarryLayer;
+        
+        ParryAnimationClip = data.ParryData.ParryAnimationClip;
+        ParryHitboxStartOffset = data.ParryData.ParryHitboxStartOffset;
+        ParryActiveDuration = data.ParryData.ParryActiveDuration;
+        HitStopDuration = data.ParryData.HitStopDuration;
     }
 
     public float GetAttackClipLength(int index) => ComboHits[index].Clip != null ? ComboHits[index].Clip.length : 0f;
-
+    public float GetClipLength(AnimationClip clip) => clip != null ? clip.length : 0f; 
+    
     public bool IsPlayerDead() => Life <= 0;
     
     public bool IsEnergyEmpty() => Energy <= 0;
