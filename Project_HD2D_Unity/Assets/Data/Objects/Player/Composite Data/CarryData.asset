@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d029d5ba768d43a4a9180f0237507e7f, type: 3}
-  m_Name: CarryData 1
+  m_Name: CarryData
   m_EditorClassIdentifier: Assembly-CSharp::CarryData
   <CarryRange>k__BackingField: 2
   <CarryAngle>k__BackingField: 90

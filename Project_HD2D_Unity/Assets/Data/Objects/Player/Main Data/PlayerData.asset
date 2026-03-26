@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b075f1959f1262429105bdd193deedc, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::Character.Data.PlayerData
-  <Movement>k__BackingField: {fileID: 11400000, guid: c9e9976116b85c24c94159e41d2d5e96, type: 2}
-  <Combat>k__BackingField: {fileID: 11400000, guid: 2a6df9a8c215d1a4aa324976baf2faba, type: 2}
-  <Shooting>k__BackingField: {fileID: 11400000, guid: 5a62bab769328384f98fd910bcbaf26a, type: 2}
-  <LockOn>k__BackingField: {fileID: 11400000, guid: 349ae9e64338998439987a94686b16fa, type: 2}
-  <DashData>k__BackingField: {fileID: 11400000, guid: 99c632c8bcbee614aaf0916b5e12c323, type: 2}
-  <JumpData>k__BackingField: {fileID: 11400000, guid: 3843dd100a05258479c6c156e1d8a9b1, type: 2}
-  <PlayerResourcesData>k__BackingField: {fileID: 11400000, guid: a804bf7a24a961648b8b2c266ab93d0e, type: 2}
-  <CarryData>k__BackingField: {fileID: 11400000, guid: 398e520c0b45c6d4d8e9efe8553fd895, type: 2}
-  <ParryData>k__BackingField: {fileID: 11400000, guid: 9f672c38e79d2c94aad97195a7c400fa, type: 2}
+  <Movement>k__BackingField: {fileID: 11400000, guid: d48bf0474f5ce7e4aaf60003d2430d6c, type: 2}
+  <Combat>k__BackingField: {fileID: 11400000, guid: 7b35e96186e84c344a846f15ab86000f, type: 2}
+  <Shooting>k__BackingField: {fileID: 11400000, guid: 65e0f3b6853c0614a8b5523af358e2ce, type: 2}
+  <LockOn>k__BackingField: {fileID: 11400000, guid: 3ee818b7941f5dd44adc82b59bc8774e, type: 2}
+  <DashData>k__BackingField: {fileID: 11400000, guid: 72bef63c51ca63d4c8eb48c9d9759c70, type: 2}
+  <JumpData>k__BackingField: {fileID: 11400000, guid: 0955d34849e8d124f9cfee8bffba3248, type: 2}
+  <PlayerResourcesData>k__BackingField: {fileID: 11400000, guid: ae8f4f81b82a9ab4d8b5cbec725c0776, type: 2}
+  <CarryData>k__BackingField: {fileID: 11400000, guid: cff5b425c43f83d4fa7aa60364a4e28d, type: 2}
+  <ParryData>k__BackingField: {fileID: 11400000, guid: 509d76bbc963acf4795677930243083f, type: 2}
