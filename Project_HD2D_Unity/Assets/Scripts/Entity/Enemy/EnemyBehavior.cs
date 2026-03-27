@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class EnemyBehavior : MonoBehaviour, IDamageableEnemy, ICarryable
 {
     #region Variables
-    //public AiStatic StaticState { get; private set; }
     public EnemyPatrolState PatrolState { get; private set; }
     public EnemyChaseState ChaseState { get; private set; }
     public EnemyAttackState AttackState { get; private set; }
@@ -262,11 +261,6 @@ public class EnemyBehavior : MonoBehaviour, IDamageableEnemy, ICarryable
 
     }
 
-    public void ResetKo()
-    {
-        data.CurrentKo = 0;
-        if (KoSlider != null) KoSlider.value = 0f;
-    }
     #endregion
 
     #region ICarryable Implementation

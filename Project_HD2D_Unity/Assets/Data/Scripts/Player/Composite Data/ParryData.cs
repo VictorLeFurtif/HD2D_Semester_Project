@@ -11,7 +11,6 @@ public class ParryData : ScriptableObject
     [field: SerializeField] public float ParryHitboxStartOffset { get; private set; } = 0.1f;
     
     [field: SerializeField] public float ParryActiveDuration { get; private set; } = 0.2f;
+    [field: SerializeField] public float ParryCoolDown { get; private set; } = 0.2f;
 
-    [field: Header("Paramètres de succès")]
-    [field: SerializeField] public float HitStopDuration { get; private set; } = 0.1f;
 }

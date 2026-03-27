@@ -6,7 +6,9 @@ namespace Player.State
     {
         private float hitDuration = 0.5f;
         private float timer;
-        
+
+        public override string Name => "Hit";
+
         public override void EnterState(PlayerStateContext psc)
         {
             timer = hitDuration;

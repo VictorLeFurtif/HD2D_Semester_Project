@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716eebe8f1544c39b3530350cba4349a, type: 3}
   m_Name: AiExposedData
   m_EditorClassIdentifier: Assembly-CSharp::AiExposedData
-  <ExposedTime>k__BackingField: 1
+  <ExposedTime>k__BackingField: 10

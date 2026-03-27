@@ -5546,6 +5546,7 @@ Transform:
   - {fileID: 899132703}
   - {fileID: 1573479664}
   - {fileID: 2145058594}
+  - {fileID: 1863195114}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1207716607
@@ -8842,11 +8843,11 @@ Transform:
   m_GameObject: {fileID: 1863195108}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 51.860657, y: -0.21500105, z: 13.284398}
-  m_LocalScale: {x: 1.6914, y: 1.1837, z: 1}
+  m_LocalPosition: {x: -4.436475, y: 2.3203108, z: 12.475622}
+  m_LocalScale: {x: 2.642813, y: 1.8495312, z: 1.5625001}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1187208317}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!1 &1884336675
 GameObject:
@@ -9422,10 +9423,6 @@ PrefabInstance:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 961739753}
-    - target: {fileID: 3639011257540391852, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3949979862434755701, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -9469,10 +9466,6 @@ PrefabInstance:
     - target: {fileID: 5059742062778784755, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6052978935030615225, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6945632285107405488, guid: baf497efa9cabcd48b64614a968899f6, type: 3}
       propertyPath: cam
@@ -9581,4 +9574,3 @@ SceneRoots:
   - {fileID: 512413390}
   - {fileID: 1826172797}
   - {fileID: 135366351}
-  - {fileID: 1863195114}

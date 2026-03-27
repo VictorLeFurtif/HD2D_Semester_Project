@@ -71,7 +71,7 @@ public class PlayerDataInstance
     public AnimationClip ParryAnimationClip;
     public float ParryHitboxStartOffset;
     public float ParryActiveDuration;
-    public float HitStopDuration;
+    public float ParryCooldown;
 
     public PlayerDataInstance(PlayerData data)
     {
@@ -124,7 +124,7 @@ public class PlayerDataInstance
         ParryAnimationClip = data.ParryData.ParryAnimationClip;
         ParryHitboxStartOffset = data.ParryData.ParryHitboxStartOffset;
         ParryActiveDuration = data.ParryData.ParryActiveDuration;
-        HitStopDuration = data.ParryData.HitStopDuration;
+        ParryCooldown = data.ParryData.ParryCoolDown;
     }
 
     public float GetAttackClipLength(int index) => ComboHits[index].Clip != null ? ComboHits[index].Clip.length : 0f;

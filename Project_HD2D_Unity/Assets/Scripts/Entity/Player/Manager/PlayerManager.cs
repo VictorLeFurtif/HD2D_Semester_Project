@@ -39,6 +39,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
     private float dashCooldownTimer = 0f;
     private float jumpCooldownTimer = 0f;
+    private float parryCooldownTimer = 0f;
 
     public Vector3 TargetDirection { get; private set; } = Vector3.zero;
 
@@ -134,7 +135,6 @@ public class PlayerManager : MonoBehaviour, IDamageable
     {
         DebugState();
         
-        Time.timeScale = 0.3f;
     }
 
     private void Update()
@@ -142,6 +142,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
         CurrentPlayerState.UpdateState(Context);
         TickDashTimer();
         TickJumpTimer();
+        TickParryTimer();
         
         playerController.SetJumping(jumpCooldownTimer > 0);
     }
@@ -344,6 +345,12 @@ public class PlayerManager : MonoBehaviour, IDamageable
             jumpCooldownTimer -= Time.deltaTime;
     }
 
+    private void TickParryTimer()
+    {
+        if (parryCooldownTimer > 0f)
+            parryCooldownTimer -= Time.deltaTime;
+    }
+
     #endregion
 
     #region Lock On
@@ -379,10 +386,12 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
     private void HandleParry()
     {
+        if (parryCooldownTimer > 0f) return;
         if (lockOnSystem.IsLocked) return;
         if (CurrentPlayerState is PlayerParryState) return; 
         if (!CurrentPlayerState.CanParry) return;
     
+        parryCooldownTimer = playerData.ParryCooldown;
         TransitionTo(ParryState);
     }
 
