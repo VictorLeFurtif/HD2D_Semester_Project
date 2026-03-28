@@ -18,6 +18,7 @@ public class PlayerLocomotionState : PlayerBaseState
 
     public override void UpdateState(PlayerStateContext psc)
     {
+        if (psc.StateMachine.CurrentPlayerState is PlayerBumpState) return;
         
         if (!psc.Controller.IsGrounded)
         {

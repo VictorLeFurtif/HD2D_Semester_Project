@@ -10493,25 +10493,6 @@ MonoBehaviour:
   lockX: 0
   lockY: 0
   lockZ: 0
---- !u!114 &1885665370502046864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2126513596310557748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6725f34cbecd47869ee7e1647c008ffa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponHitbox
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 1033
-  originTransform: {fileID: 6813440249104009445}
-  manager: {fileID: 0}
-  damage: 1
-  targetTag: Enemy
 --- !u!222 &1971101971554936458
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10551,7 +10532,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7052345016748115075}
-  - component: {fileID: 1885665370502046864}
   - component: {fileID: 607158265170698199}
   m_Layer: 0
   m_Name: AttackCollider

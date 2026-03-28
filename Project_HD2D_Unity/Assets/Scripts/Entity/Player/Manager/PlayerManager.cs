@@ -33,8 +33,10 @@ public class PlayerManager : MonoBehaviour, IDamageable
     public PlayerParryState ParryState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
+    public PlayerBumpState BumpState { get; private set; }
 
     public PlayerStateContext Context { get; private set; }
+    
     private PlayerDataInstance playerData;
 
     private float dashCooldownTimer = 0f;
@@ -58,6 +60,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
         ParryState = new PlayerParryState();
         JumpState = new PlayerJumpState();
         FallState = new PlayerFallState();
+        BumpState = new PlayerBumpState();
 
         playerData = playerDataRaw.Init();
 
@@ -183,7 +186,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
     private void TryJumpReleased()
     {
-        if (CurrentPlayerState is PlayerInAirBase)
+        if (CurrentPlayerState is PlayerJumpState)
             JumpReleased();
     }
 

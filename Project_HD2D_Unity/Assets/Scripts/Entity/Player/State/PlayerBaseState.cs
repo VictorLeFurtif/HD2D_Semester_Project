@@ -115,6 +115,8 @@ public abstract class PlayerBaseState
     
     public virtual void DetermineState(PlayerStateContext psc)
     {
+        if (psc.StateMachine.CurrentPlayerState is PlayerBumpState) return;
+        
         if (psc.Controller.IsGrounded)
         {
             
@@ -132,7 +134,7 @@ public abstract class PlayerBaseState
         if (psc.Rb.linearVelocity.y > 0.1f)
         {
             psc.StateMachine.TransitionTo(psc.StateMachine.JumpState);
-            Debug.Log("Entered Jump State");
+            Debug.Log($"current state : {Name}");
         }
         else
         {
