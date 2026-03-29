@@ -1,14 +1,18 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SaveExample : MonoBehaviour,IDataPersistence
+public class SaveExample : MonoBehaviour, IDataPersistence
 {
-
     #region Variables
 
+    [SerializeField] private int ParasiteID = 0;
+    
     private int MagicPoint = 10;
     private int MagicPointLimit = 10;
+    
+    private List<bool> ParasiteAliveStates = new List<bool>();
 
     #endregion
 
@@ -36,10 +40,16 @@ public class SaveExample : MonoBehaviour,IDataPersistence
         {
             RemovePoint();
         }
+        
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            KillParasite(ParasiteID);
+        }
     }
 
     #endregion
 
+    #region TestingFunctions
 
     private void AddPoint()
     {
@@ -59,20 +69,34 @@ public class SaveExample : MonoBehaviour,IDataPersistence
         UpdateText();
     }
 
+    public void KillParasite(int parasiteIndex)
+    {
+        if (parasiteIndex >= 0 && parasiteIndex < ParasiteAliveStates.Count)
+        {
+            ParasiteAliveStates[parasiteIndex] = false;
+        }
+    }
+
+    #endregion
+
     private void UpdateText()
     {
-
         TestText.text = "" + MagicPoint;
-
     }
-    
+
+    #region SaveThing
+
     public void LoadData(GameData data)
     {
         this.MagicPoint = data.EnergyPoint;
+        this.ParasiteAliveStates = new List<bool>(data.ParasitesAlive);
     }
 
     public void SaveData(ref GameData data)
     {
         data.EnergyPoint = this.MagicPoint;
+        data.ParasitesAlive = new List<bool>(this.ParasiteAliveStates);
     }
+
+    #endregion
 }
