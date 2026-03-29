@@ -134,7 +134,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
     {
         DebugState();
         
-        Time.timeScale = 0.3f;
+        //Time.timeScale = 0.3f;
     }
 
     private void Update()
