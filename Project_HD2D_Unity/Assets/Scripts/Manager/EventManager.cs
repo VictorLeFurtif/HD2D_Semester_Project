@@ -6,15 +6,12 @@ namespace Manager
 {
     public static class EventManager
     {
-        public static event Action OnEject;
         
         public static event Action<GridObject, Vector3Int> OnObjectRegister;
         
         public static event Action<GridObject, Vector3Int> OnObjectUnregister;
 
         public static event Action<CameraSettings> OnCameraTrigger;
-
-        public static event Action<bool> OnEnergyInteract;
         
         public static event Action OnCameraShake;
         /// <summary>

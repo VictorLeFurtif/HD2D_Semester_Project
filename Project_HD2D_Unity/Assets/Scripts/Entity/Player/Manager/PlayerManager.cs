@@ -106,7 +106,6 @@ public class PlayerManager : MonoBehaviour, IDamageable
         inputManager.OnEnergyTake += TryTakeEnergy;
 
         inputManager.OnCarry += TryCarry;
-        EventManager.OnEject += HandleEject;
 
         inputManager.OnParry += HandleParry;
     }
@@ -128,7 +127,6 @@ public class PlayerManager : MonoBehaviour, IDamageable
         inputManager.OnEnergyTake -= TryTakeEnergy;
 
         inputManager.OnCarry -= TryCarry;
-        EventManager.OnEject -= HandleEject;
 
         inputManager.OnParry -= HandleParry;
     }

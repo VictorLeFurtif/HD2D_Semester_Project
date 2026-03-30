@@ -38,6 +38,10 @@ namespace Player.State
             psc.AnimationManager.SetDashing(false);
             
             psc.Controller.SetGravity(true);
+            
+            Vector3 dashVelocityExit = new Vector3(psc.Rb.linearVelocity.x, 0, psc.Rb.linearVelocity.z);
+            
+            psc.Rb.linearVelocity = dashVelocityExit;
         }
 
         public override void UpdateState(PlayerStateContext psc)
