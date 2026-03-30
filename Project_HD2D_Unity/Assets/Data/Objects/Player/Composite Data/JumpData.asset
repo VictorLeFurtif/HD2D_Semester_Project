@@ -16,4 +16,4 @@ MonoBehaviour:
   <JumpHeight>k__BackingField: 1.85
   <JumpDuration>k__BackingField: 0.3
   <GravityMultiplier>k__BackingField: 2
-  <MaxGravityTime>k__BackingField: 0.1
+  <MaxGravityTime>k__BackingField: 0.4
