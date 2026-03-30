@@ -41,7 +41,7 @@ public class Flaw : MonoBehaviour, IEnergyLockable, IRootLink
             fontStyle = FontStyle.Bold
         };
 
-        Handles.Label(transform.position,"ROOT",style);
+        Handles.Label(transform.position,"Flaw",style);
     }
 #endif
     

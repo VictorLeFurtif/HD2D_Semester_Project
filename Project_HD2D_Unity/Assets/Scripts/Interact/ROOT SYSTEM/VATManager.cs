@@ -15,7 +15,7 @@ public class VATManager : MonoBehaviour, IRootLink
     protected MaterialPropertyBlock propBlock;
     protected Root root;
 
-    protected int CurrentEnergy => root != null ? root.currentEnergy : 0;
+    protected int CurrentEnergy => root != null ? root.CurrentEnergy : 0;
     protected int MaxEnergyIndex => animationSteps.Count - 1;
 
     protected virtual void Awake() => propBlock = new MaterialPropertyBlock();

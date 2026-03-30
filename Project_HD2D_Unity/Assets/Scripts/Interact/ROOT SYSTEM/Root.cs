@@ -13,8 +13,10 @@ public class Root : MonoBehaviour
     public List<Flaw> flaws;
     
     [Header("Current State")]
-    public int currentEnergy { get; private set; } = 0;
+    [SerializeField] private int currentEnergy = 0;
     [SerializeField] private int maxEnergy = 0;
+    
+    public int CurrentEnergy => currentEnergy;
 
     #endregion
     
@@ -56,8 +58,6 @@ public class Root : MonoBehaviour
         foreach (var vatManager in vatManagers)
         {
             if (vatManager.IsAtMaximumEnergy()) continue;
-            
-            //vatManager.AddEnergy();    
         }
     }
 
@@ -68,8 +68,7 @@ public class Root : MonoBehaviour
         foreach (var vatManager in vatManagers)
         {
             if (!vatManager.IsContainingEnergy()) continue;
-            
-            //vatManager.RemoveEnergy();    
+              
         }
     }
 
@@ -82,4 +81,46 @@ public class Root : MonoBehaviour
 
     #endregion
     
+    
+    #region Debug Gizmos
+
+    private void OnDrawGizmos()
+    {
+        if (flaws != null)
+        {
+            Gizmos.color = Color.yellow;
+            foreach (Flaw flaw in flaws)
+            {
+                if (flaw != null)
+                {
+                    Gizmos.DrawLine(transform.position, flaw.transform.position);
+                    Gizmos.DrawWireSphere(flaw.transform.position, 0.3f);
+                }
+            }
+        }
+
+        if (vatManagers != null)
+        {
+            Gizmos.color = Color.cyan;
+            foreach (VATManager vatManager in vatManagers)
+            {
+                if (vatManager != null)
+                {
+                    Gizmos.DrawLine(transform.position, vatManager.transform.position);
+                    Gizmos.DrawWireCube(vatManager.transform.position, Vector3.one * 0.5f);
+                }
+            }
+        }
+        
+        Gizmos.color = Color.white;
+        Gizmos.DrawSphere(transform.position, 0.5f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 0.6f);
+    }
+
+    #endregion
 }
