@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VATManager
   targetRenderer: {fileID: 834072599444975772}
+  targetMeshFilter: {fileID: 4689691090496058116}
   shaderPropertyName: _frame
   maxFrames: 24
   animationSteps:

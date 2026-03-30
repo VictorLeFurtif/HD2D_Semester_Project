@@ -5,6 +5,7 @@ public class VATManager : MonoBehaviour, IRootLink
 {
     [Header("VAT Settings")]
     [SerializeField] protected Renderer targetRenderer;
+    [SerializeField] protected MeshFilter targetMeshFilter;
     [SerializeField] protected string shaderPropertyName = "_frame";
     [SerializeField] protected int maxFrames = 24;
     [SerializeField] protected List<float> animationSteps = new List<float> { 0f, 0.3f, 0.7f, 1f };
@@ -18,7 +19,21 @@ public class VATManager : MonoBehaviour, IRootLink
     protected int CurrentEnergy => root != null ? root.CurrentEnergy : 0;
     protected int MaxEnergyIndex => animationSteps.Count - 1;
 
-    protected virtual void Awake() => propBlock = new MaterialPropertyBlock();
+    protected virtual void Awake()
+    {
+        propBlock = new MaterialPropertyBlock();
+        
+        Vector3 min = targetRenderer.sharedMaterial.GetVector("_minValues");
+        Vector3 max = targetRenderer.sharedMaterial.GetVector("_maxValues");
+        
+        Vector3 center = (min + max) * 0.5f;
+        Vector3 size = (max - min); 
+
+        Mesh meshInstance = targetMeshFilter.mesh; 
+        meshInstance.bounds = new Bounds(center, size);
+    
+        targetRenderer.staticShadowCaster = false; 
+    }
 
     protected virtual void Update() => UpdateVAT();
 
