@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 public class Root : MonoBehaviour
@@ -86,6 +89,23 @@ public class Root : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+#if UNITY_EDITOR
+        
+        GUIStyle debugStyle = new GUIStyle
+        {
+            normal =
+            {
+                textColor = Color.red
+            },
+            fontSize = 30,
+            fontStyle = FontStyle.Bold,
+            alignment = TextAnchor.MiddleCenter
+        };
+
+        Handles.zTest = UnityEngine.Rendering.CompareFunction.Always;
+        Handles.Label(transform.position, "ENERGY: " + currentEnergy, debugStyle);
+#endif
+        
         if (flaws != null)
         {
             Gizmos.color = Color.yellow;
@@ -112,15 +132,8 @@ public class Root : MonoBehaviour
             }
         }
         
-        Gizmos.color = Color.white;
-        Gizmos.DrawSphere(transform.position, 0.5f);
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, 0.6f);
-    }
+    
 
     #endregion
 }
