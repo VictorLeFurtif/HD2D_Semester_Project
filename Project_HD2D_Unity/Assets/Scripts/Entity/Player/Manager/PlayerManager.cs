@@ -450,5 +450,13 @@ public class PlayerManager : MonoBehaviour, IDamageable
         return false;
     }
 
+    public bool IsInParryWindowPerfect()
+    {
+        if (CurrentPlayerState is PlayerParryState parryState)
+            return parryState.IsPerfectWindowActive;
+
+        return false;
+    }
+
     #endregion
 }

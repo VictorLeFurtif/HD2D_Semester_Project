@@ -30,7 +30,7 @@ public class PlayerJumpState : PlayerInAirBase
 
     public override void ExitState(PlayerStateContext psc)
     {
-        
+        psc.AnimationManager.ResetJump();
     }
 
     public override void UpdateState(PlayerStateContext psc)

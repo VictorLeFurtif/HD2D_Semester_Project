@@ -21,9 +21,14 @@ public class EnemyWeaponHitbox : BaseHitbox
 
         if (!HasClearLineTo(other)) return;
 
-        if (target.IsInParryWindow())
+        if (target.IsInParryWindowPerfect())
         {
-            manager.HandleParry();
+            manager.HandlePerfectParry();
+        }
+        else if (target.IsInParryWindow())
+        {
+            manager.TakeDamage(damage, -transform.forward);
+            alreadyHitTargets.Add(target);
         }
         else
         {

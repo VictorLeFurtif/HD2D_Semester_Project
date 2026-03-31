@@ -50,18 +50,29 @@ public class CombatSettings
     public float ComboWindow = 0.5f;
     public CombatHitData[] ComboHits;
 
+    [Space(3)]
+    
     [Header("Parry")]
     public AnimationClip ParryAnimationClip;
     public float ParryHitboxStartOffset = 0.1f;
     public float ParryActiveDuration = 0.2f;
+    
+    [Header("Perfect Parry (Must be inside Normal Parry)")]
+    public float PerfectParryStartOffset = 0.12f;
+    public float PerfectParryDuration = 0.05f;
+    
     public float ParryCooldown = 0.5f;
 
+    [Space(3)]
+    
     [Header("Lock On")]
     public float LockRange = 15f;
     public float LockAngle = 90f;
     public LayerMask LockableLayer;
     public float LockRotationSpeed = 10f;
 
+    [Space(3)]
+    
     [Header("Take Damage")] 
     public float HitDuration = 0.5f;
     public float HitForceTaken = 5f;
@@ -80,11 +91,15 @@ public class AbilitySettings
     public float AirControlForce = 0.2f;
     public float FallAndJumpThreshold = 0.1f;
 
+    [Space(3)]
+    
     [Header("Dash")]
     public float DashSpeed = 20f;
     public float DashDuration = 0.4f;
     public float DashCooldown = 0.6f;
 
+    [Space(3)]
+    
     [Header("Carry")]
     public float CarryRange = 3f;
     public float CarryAngle = 90f;
@@ -106,11 +121,15 @@ public class CombatHitData
     [Header("Animation")]
     public AnimationClip Clip;
     
+    [Space(3)]
+    
     [Header("Mouvement")]
     public float DashSpeed;
     public float DashStartOffset;
     public float DashDuration;
 
+    [Space(3)]
+    
     [Header("Timings Hitbox")]
     [Tooltip("Temps avant l'activation du collider")]
     public float HitboxStartOffset; 
@@ -142,6 +161,8 @@ public class PlayerDataInstance
     public float ParryHitboxStartOffset;
     public float ParryActiveDuration;
     public float ParryCooldown;
+    public float PerfectParryStartOffset;
+    public float PerfectParryDuration;
     public float LockRange;
     public float LockAngle;
     public LayerMask LockableLayer;
@@ -188,6 +209,8 @@ public class PlayerDataInstance
         ParryHitboxStartOffset = data.Combat.ParryHitboxStartOffset;
         ParryActiveDuration = data.Combat.ParryActiveDuration;
         ParryCooldown = data.Combat.ParryCooldown;
+        PerfectParryStartOffset = data.Combat.PerfectParryStartOffset;
+        PerfectParryDuration = data.Combat.PerfectParryDuration;
         LockRange = data.Combat.LockRange;
         LockAngle = data.Combat.LockAngle;
         LockableLayer = data.Combat.LockableLayer;

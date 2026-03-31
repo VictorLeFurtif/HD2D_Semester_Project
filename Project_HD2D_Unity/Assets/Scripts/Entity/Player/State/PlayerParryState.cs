@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class PlayerParryState : PlayerBaseState
 {
-    public override string Name              => "Parry";
-    public override bool   CanMove          => false;
-    public override bool   CanParry         => false;
+    public override string Name               => "Parry";
+    public override bool   CanMove            => false;
+    public override bool   CanParry           => false;
     public override bool   IsParryWindowActive => isWindowActive;
+    public bool            IsPerfectWindowActive => isPerfectWindowActive;
 
-    private bool      isWindowActive;
+    private bool isWindowActive;
+    private bool isPerfectWindowActive;
+
     private Coroutine parryRoutine;
+    private Coroutine perfectParryRoutine;
 
     public override void EnterState(PlayerStateContext psc)
     {
@@ -17,8 +21,11 @@ public class PlayerParryState : PlayerBaseState
         psc.Controller.SetGravity(false);
         psc.Rb.linearVelocity = Vector3.zero;
 
-        isWindowActive = false;
-        parryRoutine   = psc.Controller.RunRoutine(ParrySequence(psc));
+        isWindowActive        = false;
+        isPerfectWindowActive = false;
+
+        if (parryRoutine != null) psc.Controller.StopCoroutine(parryRoutine);
+        parryRoutine = psc.Controller.RunRoutine(ParrySequence(psc));
     }
 
     public override void ExitState(PlayerStateContext psc)
@@ -29,37 +36,52 @@ public class PlayerParryState : PlayerBaseState
             parryRoutine = null;
         }
 
-        isWindowActive = false;
+        if (perfectParryRoutine != null)
+        {
+            psc.Controller.StopCoroutine(perfectParryRoutine);
+            perfectParryRoutine = null;
+        }
+
+        isWindowActive        = false;
+        isPerfectWindowActive = false;
+
         psc.AnimationManager.SetParry(false);
         psc.Controller.SetGravity(true);
     }
 
-    public override void UpdateState(PlayerStateContext psc)
-    {
-        HandleAnimation(psc);
-    }
+    public override void UpdateState(PlayerStateContext psc) { }
 
     public override void FixedUpdateState(PlayerStateContext psc) { }
 
     private IEnumerator ParrySequence(PlayerStateContext psc)
     {
-        float animDuration = psc.PlayerData.ParryAnimationClip.length;
+        var   data          = psc.PlayerData;
+        float animDuration  = data.ParryAnimationClip.length;
 
-        yield return new WaitForSeconds(psc.PlayerData.ParryHitboxStartOffset);
+        perfectParryRoutine = psc.Controller.RunRoutine(PerfectParryRoutine(data));
+
+        yield return new WaitForSeconds(data.ParryHitboxStartOffset);
 
         isWindowActive = true;
-
-        yield return new WaitForSeconds(psc.PlayerData.ParryActiveDuration);
-
+        yield return new WaitForSeconds(data.ParryActiveDuration);
         isWindowActive = false;
 
-        float remainingTime = animDuration -
-                              (psc.PlayerData.ParryHitboxStartOffset + psc.PlayerData.ParryActiveDuration);
+        float elapsed       = data.ParryHitboxStartOffset + data.ParryActiveDuration;
+        float remainingTime = Mathf.Max(0, animDuration - elapsed);
 
-        if (remainingTime > 0.01f)
+        if (remainingTime > 0)
             yield return new WaitForSeconds(remainingTime);
 
         if (psc.StateMachine.CurrentPlayerState == this)
             DetermineState(psc);
+    }
+
+    private IEnumerator PerfectParryRoutine(PlayerDataInstance data)
+    {
+        isPerfectWindowActive = false;
+        yield return new WaitForSeconds(data.PerfectParryStartOffset);
+        isPerfectWindowActive = true;
+        yield return new WaitForSeconds(data.PerfectParryDuration);
+        isPerfectWindowActive = false;
     }
 }

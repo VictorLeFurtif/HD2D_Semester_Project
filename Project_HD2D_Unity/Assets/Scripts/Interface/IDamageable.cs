@@ -7,5 +7,6 @@ public interface IDamageable
     Transform GetTransform();
 
     bool IsInParryWindow();
+    bool IsInParryWindowPerfect();
 
 }

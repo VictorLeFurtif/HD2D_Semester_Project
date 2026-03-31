@@ -13,7 +13,10 @@ public class PlayerBumpState : PlayerInAirBase
         psc.AnimationManager.SetFalling(false);
     }
 
-    public override void ExitState(PlayerStateContext psc) { }
+    public override void ExitState(PlayerStateContext psc)
+    {
+        
+    }
 
     public override void UpdateState(PlayerStateContext psc)
     {

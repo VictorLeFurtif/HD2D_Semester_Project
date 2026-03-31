@@ -279,12 +279,13 @@ public class EnemyManager : MonoBehaviour, IDamageable, ICarryable
 
     public Transform GetTransform()    => transform;
     public bool      IsInParryWindow() => false;
-
+    
+    public bool IsInParryWindowPerfect() => false;
     #endregion
 
     #region Parry
-
-    public void HandleParry()
+    
+    public void HandlePerfectParry()
     {
         ChangeState(ExposedState);
     }

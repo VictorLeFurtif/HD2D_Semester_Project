@@ -23,21 +23,22 @@ public class PlayerDataEditor : Editor
 
     private void DrawParryTimeline(CombatSettings combat)
     {
-        if (combat.ParryAnimationClip == null)
-        {
-            EditorGUILayout.HelpBox("Parry : Assignez un Animation Clip pour voir la timeline.", MessageType.None);
-            return;
-        }
+        if (combat.ParryAnimationClip == null) return;
 
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         float animLen = combat.ParryAnimationClip.length;
-        EditorGUILayout.LabelField($"PARADE : {combat.ParryAnimationClip.name} ({animLen:F2}s)", EditorStyles.miniBoldLabel);
-        
-        DrawTimelineRow("Fenêtre", animLen, combat.ParryHitboxStartOffset, combat.ParryActiveDuration, new Color(1f, 0.8f, 0f));
-        
-        if (combat.ParryHitboxStartOffset + combat.ParryActiveDuration > animLen)
-            EditorGUILayout.HelpBox("ERREUR : La fenêtre de parade dépasse l'animation !", MessageType.Error);
-        
+        EditorGUILayout.LabelField($"PARADE : {combat.ParryAnimationClip.name}", EditorStyles.miniBoldLabel);
+    
+        DrawTimelineRow("Normale", animLen, combat.ParryHitboxStartOffset, combat.ParryActiveDuration, new Color(1f, 0.8f, 0f));
+    
+        DrawTimelineRow("Parfaite", animLen, combat.PerfectParryStartOffset, combat.PerfectParryDuration, Color.white);
+    
+        if (combat.PerfectParryStartOffset < combat.ParryHitboxStartOffset || 
+            (combat.PerfectParryStartOffset + combat.PerfectParryDuration) > (combat.ParryHitboxStartOffset + combat.ParryActiveDuration))
+        {
+            EditorGUILayout.HelpBox("Attention : La fenêtre parfaite est hors des limites de la parade normale !", MessageType.Warning);
+        }
+    
         EditorGUILayout.EndVertical();
     }
 
