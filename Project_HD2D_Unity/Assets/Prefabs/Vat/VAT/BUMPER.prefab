@@ -52,8 +52,6 @@ MonoBehaviour:
   maxFrames: 24
   animationSteps:
   - 0
-  - 0.3
-  - 0.7
   - 1
   transitionSpeed: 2
   animator: {fileID: 4297452812126356652}
@@ -155,7 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5543a5a717310284b8bbcb70b57e83d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BumperLogic
-  bounceForce: 15
+  bounceForce: 10
+  parentTransform: {fileID: 1482939097989818199}
 --- !u!65 &6869966717103950533
 BoxCollider:
   m_ObjectHideFlags: 0
