@@ -87,6 +87,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
         playerController.InitData(playerData);
 
         uiManager.SetupEnergyBar(playerData.MaxEnergy);
+        uiManager.SetupSapBar(playerData.MaxSap);
     }
 
     private void OnEnable()
@@ -135,6 +136,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
     {
         DebugState();
         uiManager.UpdateEnergyDisplay(playerData.Energy);
+        uiManager.UpdateSapDisplay(Context.PlayerData.Sap);
     }
 
     private void Update()
@@ -354,6 +356,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
     private void OnLockToggle()
     {
         lockOnSystem.TryLock();
+        HandleSap();
     }
 
     private void OnLockRelease()
@@ -378,6 +381,30 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
     #endregion
 
+    #region Sap
+
+    private void HandleSap()
+    {
+        var targets = DetectionHelper.FindVisibleTargets<ISapLockable>(
+            transform,
+            playerData.CarryRange,
+            playerData.CarryAngle,
+            playerData.CarryLayer
+        );
+
+        targets.RemoveAll(t => !t.IsLockable());
+
+        ISapLockable sap = DetectionHelper.GetBestTarget(transform, targets);
+
+        if (sap == null) return;
+        
+        sap.GiveSap();
+        Context.PlayerData.AddSap();
+        uiManager.UpdateSapDisplay(Context.PlayerData.Sap);
+    }
+
+    #endregion
+    
     #region Gizmos & Debugging
     
     private void DebugState()

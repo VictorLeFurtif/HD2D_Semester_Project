@@ -113,6 +113,8 @@ public class ResourceSettings
     public int MaxEnergy = 5;
     public int StartingLife = 3;
     public int StartingEnergy = 0;
+    public int StartingSap = 0;
+    public int MaxSap = 3;
 }
 
 [System.Serializable]
@@ -188,6 +190,8 @@ public class PlayerDataInstance
     public int MaxLife;
     public int Energy;
     public int MaxEnergy;
+    public int Sap;
+    public int MaxSap;
 
     public PlayerDataInstance(PlayerData data)
     {
@@ -237,8 +241,12 @@ public class PlayerDataInstance
         MaxEnergy = data.Resources.MaxEnergy;
         Life = data.Resources.StartingLife;
         Energy = data.Resources.StartingEnergy;
+        Sap = data.Resources.StartingSap;
+        MaxSap = data.Resources.MaxSap;
     }
 
+    public void AddSap() => Sap = Mathf.Min(MaxSap, Sap + 1);
+    public void RemoveSap() => Sap = Mathf.Max(0, Sap - 1);
     public float GetAttackClipLength(int index) => (ComboHits != null && index < ComboHits.Length && ComboHits[index].Clip != null) ? ComboHits[index].Clip.length : 0f;
     public bool IsPlayerDead() => Life <= 0;
     public bool IsEnergyEmpty() => Energy <= 0;
